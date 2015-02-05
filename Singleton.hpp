@@ -1,0 +1,34 @@
+#ifndef SINGLETON_H_
+#define SINGLETON_H_
+
+// source: http://www.yolinux.com/TUTORIALS/C++Singleton.html
+
+#include <cstddef>
+
+template <class T>
+class Singleton
+{
+public:
+    static T *instance() {
+        if(_instance == NULL) {
+            _instance = new T;
+        }
+
+        return _instance;
+    }
+
+protected:
+    Singleton();
+    ~Singleton();
+
+private:
+    Singleton(Singleton const&);
+    Singleton& operator=(Singleton const&);
+
+private:
+    static T* _instance;
+};
+
+template <class T> T* Singleton<T>::_instance = NULL;
+
+#endif // SINGLETON_H
