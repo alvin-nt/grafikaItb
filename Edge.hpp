@@ -82,16 +82,24 @@ namespace Graphics {
 		 **/
 		inline int getDeltaY() const;
 		
+		/**
+		 * Gets the gradient of the line
+		 * 
+		 * @return line gradient
+		 **/
 		inline double getGradient() const;
 		
 		inline double getLength() const;
 		inline float getLengthFloat() const;
 		
+		/**
+		 * Swaps the first and the second point
+		 **/
 		void swapPoints();
 		
 		Point getMidpoint() const;
 		
-		void rotate(const Point &center, int degree);
+		//void rotate(const Point &center, int degree);
 		
 		inline void move(int dx, int dy);
 	

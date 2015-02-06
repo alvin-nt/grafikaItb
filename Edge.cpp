@@ -94,6 +94,11 @@ void Edge::swapPoints() {
 	p1 = temp;
 }
 
+Point Edge::getMidpoint() const {
+	// stub
+	return Point();
+}
+
 void Edge::draw() const {
 	Rasterizer *raster = Screen::instance();
 	
