@@ -18,6 +18,6 @@ typedef uint32_t Pixel;
 typedef struct fb_fix_screeninfo ScreenInfoFix;
 typedef struct fb_var_screeninfo ScreenInfoVar;
 
-typedef struct input_event[64] KeyboardEvent;
+typedef struct input_event KeyboardEvent[64];
 
 #endif

@@ -28,7 +28,11 @@ Edge& Edge::operator=(const Edge &rhs) {
 	weight = rhs.weight;
 }
 
-bool operator==(const Edge &lhs, const Edge &rhs) {
+bool Graphics::operator!=(const Edge &lhs, const Edge &rhs) {
+	return !(lhs == rhs);
+}
+
+bool Graphics::operator==(const Edge &lhs, const Edge &rhs) {
 	return (lhs.p1 == rhs.p1 &&
 			lhs.p2 == rhs.p2 &&
 			lhs.weight == rhs.weight);
@@ -106,32 +110,33 @@ void Edge::draw() const {
 	// check for flat line
 	float ed = dx + dy == 0 ? 1 : getLengthFloat();
 	
-	for(auto weightDraw = ((weight+1) >> 1); ;) {
+	for(auto weightDraw = ((weight+1) * 2); ;) {
 		// initialization: draw the first pixel
 		// NOTE: 255 is the 'intensity bit, a.k.a. the color in 256 palette
 		// TODO: map the float to this bit
 		raster->setPixel(x0, y0, 
-						std::max(0, 255 *
+						std::max(.0f, 255 *
 									(abs(err - dx + dy)/ed - weightDraw + 1)));
 									
 		err2 = err;
-		x2 = x0;
+		auto x2 = x0;
+		int y2;
 		
 		if(err2 << 1 >= -dx) { // x steps
-			for(err2 += dy, auto y2 = y0; 
+			for(err2 += dy, y2 = y0; 
 				err2 < ed * weightDraw && (y1 != y2 || dx > dy);
 				err2 += dx) 
 			{
-				raster->setPixel(x0, y2 += sy, 
-								std::max(0, 255 * (abs(err2)/ed - weightDraw + 1)));
+				raster->setPixel(x0, y2 += signY, 
+								(Pixel)std::max(.0f, 255 * (abs(err2)/ed - weightDraw + 1)));
 			}
 			
 			if(x0 == x1)
 				break;
 			
-			e2 = err;
+			err2 = err;
 			err -= dy;
-			x0 += sx;
+			x0 += signX;
 		}
 		
 		if(err2 << 1 <= dy) {
@@ -139,19 +144,19 @@ void Edge::draw() const {
 				err2 < ed * weightDraw && (x1 != x2 || dx < dy);
 				err2 += dy)
 			{
-				raster->setPixel(x2 += sx, y0, 
-								std::max(0, 255 * (abs(err2)/ed - weightDraw + 1)));
+				raster->setPixel(x2 += signX, y0, 
+								(Pixel)std::max(.0f, 255 * (abs(err2)/ed - weightDraw + 1)));
 			}
 			
 			if(y0 == y1)
 				break;
 			err += dx;
-			y0 += sy
+			y0 += signY;
 		}
 	}
 }
 
-void Edge::move(int dx, int dy) const {
+void Edge::move(int dx, int dy) {
 	p1.move(dx, dy);
 	p2.move(dx, dy);
 }

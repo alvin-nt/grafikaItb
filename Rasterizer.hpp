@@ -9,7 +9,6 @@
 #include "Color.hpp"
 
 #include <vector>
-#include <pair>
 
 namespace Graphics {
 	enum Mode {TEXT, GRAPHICS};
@@ -89,7 +88,7 @@ namespace Graphics {
 		 * 
 		 * @return vinfo
 		 */
-		inline const ScreenVarInfo& getVarInfo() const;
+		inline const ScreenInfoVar& getVarInfo() const;
 		
 		/**
 		 * Gets the fixed screen information struct, such as
@@ -97,7 +96,7 @@ namespace Graphics {
 		 * 
 		 * @return finfo
 		 */
-		inline const ScreenFixInfo& getFixInfo() const;
+		inline const ScreenInfoFix& getFixInfo() const;
 		
 		/**
 		 * Gets the memory offset for the framebuffer at a certain coordinate
@@ -113,10 +112,26 @@ namespace Graphics {
 		 * Draws a drawable object onto the screen
 		 * 
 		 * @param shape drawable object
-		 */
+		 **/
 		inline void draw(const Drawable *shape);
 		
+		/**
+		 * Put a color in the (x, y) coordinate
+		 * 
+		 * @param x the horizontal coordinate
+		 * @param y the vertical coordinate
+		 * @param pixel the pixel number
+		 **/
 		inline void setPixel(int x, int y, Pixel pixel);
+		
+		/**
+		 * Put a color in the (x, y) coordinate
+		 * 
+		 * @param x the horizontal coordinate
+		 * @param y the vertical coordinate
+		 * @param color the color object
+		 **/
+		inline void setPixel(int x, int y, const Color& color);
 		
 		/**
 		 * Draws a shape onto the screen, with the apropriate fill mode.

@@ -85,11 +85,11 @@ void Rasterizer::setBackground(const Color &color) {
 	background = color;
 }
 
-const ScreenVarInfo& Rasterizer::getVarInfo() const {
+const ScreenInfoVar& Rasterizer::getVarInfo() const {
 	return vinfo;
 }
 
-const ScreenFixInfo& Rasterizer::getFixInfo() const {
+const ScreenInfoFix& Rasterizer::getFixInfo() const {
 	return finfo;
 }
 
@@ -183,7 +183,7 @@ long Rasterizer::getDrawLocation(int x, int y) {
 void Rasterizer::drawBackground() {
 	for(int y = 0; y < vinfo.yres; y++) {
 		for(int x = 0; x < vinfo.xres; x++) {
-			long location = getLocation(x, y);
+			long location = getDrawLocation(x, y);
 			
 			if(vinfo.bits_per_pixel == 32) {
 				Pixel pixel = background.toPixel();

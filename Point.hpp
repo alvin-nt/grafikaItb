@@ -6,24 +6,27 @@
 
 namespace Graphics {
 	class Point : public Drawable {
+	friend class Rasterizer;
+		
 	protected:
 		int x;
 		int y;
 		
 		Color color;
 	public:
-		Point(int x = 0, int y = 0);
+		Point(int x = 0, int y = 0, const Color& color = Color::BLACK);
 		Point(const Point&);
 		
 		Point& operator=(const Point&);
 		
+		friend bool operator!=(const Point&, const Point&);
 		friend bool operator==(const Point&, const Point&);
 		
 		friend Point operator+(const Point&, const Point&);
 		friend Point operator-(const Point&, const Point&);
 		
-		friend Point& operator+=(const Point&, const Point&);
-		friend Point& operator-=(const Point&, const Point&);
+		friend Point& operator+=(Point&, const Point&);
+		friend Point& operator-=(Point&, const Point&);
 		
 		void setX(int x);
 		void setY(int y);
@@ -32,12 +35,11 @@ namespace Graphics {
 		int getY() const;
 		
 		const Color& getColor() const;
-		
 		void setColor(const Color &color);
 		
-		inline void draw() const;
-		
-		inline void move(int dx, int dy) const;
+		inline void move(int dx, int dy);
+	protected:
+		inline void draw() const;		
 	};
 };
 

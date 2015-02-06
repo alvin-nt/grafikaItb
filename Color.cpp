@@ -4,11 +4,11 @@
 
 using namespace Graphics;
 
-const Color Color::RED = Color(0xff, 0x00, 0x00, 0x00);
-const Color Color::GREEN = Color(0x00, 0xff, 0x00, 0x00);
-const Color Color::BLUE = Color(0x00, 0x00, 0xff, 0x00);
-const Color Color::WHITE = Color(0xff, 0xff, 0xff, 0x00);
-const Color Color::BLACK = Color(0x00, 0x00, 0x00, 0x00);
+const Color Color::RED = { 0xff, 0x00, 0x00, 0x00 };
+const Color Color::GREEN = { 0x00, 0xff, 0x00, 0x00 };
+const Color Color::BLUE = { 0x00, 0x00, 0xff, 0x00 };
+const Color Color::WHITE = { 0xff, 0xff, 0xff, 0x00 };
+const Color Color::BLACK = { 0x00, 0x00, 0x00, 0x00 };
 
 Color::Color(byte red, byte green, byte blue, byte alpha)
 	: red(red), green(green), blue(blue), alpha(alpha)
@@ -34,32 +34,32 @@ Color& Color::operator=(const Color& rhs) {
 	return *this;
 }
 
-bool operator!=(const Color& lhs, const Color& rhs) {
+bool Graphics::operator!=(const Color& lhs, const Color& rhs) {
 	return !(lhs == rhs);
 }
 
-bool operator==(const Color& lhs, const Color& rhs) {
+bool Graphics::operator==(const Color& lhs, const Color& rhs) {
 	return (lhs.red == rhs.red &&
 			lhs.green == rhs.green &&
 			lhs.blue == rhs.blue &&
 			lhs.alpha == rhs.alpha);
 }
 
-Color operator+(const Color& lhs, const Color& rhs) {
+Color Graphics::operator+(const Color& lhs, const Color& rhs) {
 	return Color(lhs.red + rhs.red,
 				lhs.green + rhs.green,
 				lhs.blue + rhs.blue,
 				lhs.alpha + rhs.alpha);
 }
 
-Color operator-(const Color& lhs, const Color& rhs) {
+Color Graphics::operator-(const Color& lhs, const Color& rhs) {
 	return Color(lhs.red - rhs.red,
 				lhs.green - rhs.green,
 				lhs.blue - rhs.blue,
 				lhs.alpha - rhs.alpha);
 }
 
-Color& operator+=(const Color& lhs, const Color& rhs) {
+Color& Graphics::operator+=(Color& lhs, const Color& rhs) {
 	lhs.red += rhs.red;
 	lhs.green += rhs.green;
 	lhs.blue += rhs.blue;
@@ -68,7 +68,7 @@ Color& operator+=(const Color& lhs, const Color& rhs) {
 	return lhs;
 }
 
-Color& operator+=(const Color& lhs, const Color& rhs) {
+Color& Graphics::operator-=(Color& lhs, const Color& rhs) {
 	lhs.red -= rhs.red;
 	lhs.green -= rhs.green;
 	lhs.blue -= rhs.blue;
@@ -84,10 +84,10 @@ Pixel Color::toPixel() const {
 Pixel Color::toPixel(const Color& color) {
 	ScreenInfoVar vinfo = Screen::instance()->getVarInfo();
 	
-	return (red << vinfo.red.offset) |
-		(green << vinfo.green.offset) |
-		(blue << vinfo.blue.offset) |
-		(alpha << vinfo.transp.offset);
+	return (color.red << vinfo.red.offset) |
+		(color.green << vinfo.green.offset) |
+		(color.blue << vinfo.blue.offset) |
+		(color.alpha << vinfo.transp.offset);
 }
 
 Color Color::fromPixel(Pixel pixel) {

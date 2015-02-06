@@ -22,16 +22,16 @@ namespace Graphics {
 		Color(Pixel pix);
 		Color(const Color&);
 		
-		Color& operator=(const Color& rhs);
-		
 		friend bool operator!=(const Color& lhs, const Color& rhs);
 		friend bool operator==(const Color& lhs, const Color& rhs);
-		
+			
 		friend Color operator+(const Color& lhs, const Color& rhs);
 		friend Color operator-(const Color& lhs, const Color& rhs);
+			
+		friend Color& operator+=(Color& lhs, const Color& rhs);
+		friend Color& operator-=(Color& lhs, const Color& rhs);
 		
-		friend Color& operator+=(const Color& lhs, const Color& rhs);
-		friend Color& operator-=(const Color& lhs, const Color& rhs);
+		Color& operator=(const Color& rhs);
 		
 		Pixel toPixel() const;
 		

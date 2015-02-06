@@ -13,11 +13,6 @@ namespace Graphics {
 		bool hide = false;
 	public:
 		/**
-		 * Draws the object
-		 **/
-		virtual inline void draw() const = 0;
-		
-		/**
 		 * Moves the object
 		 * 
 		 * @param dx movement along the horizonal line
@@ -32,6 +27,12 @@ namespace Graphics {
 		bool setHidden(bool hide) {
 			this->hide = hide;
 		}
+		
+	protected:
+		/**
+		 * Draws the object
+		 **/
+		virtual inline void draw() const = 0;
 	};
 }
 
