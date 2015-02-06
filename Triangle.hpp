@@ -12,12 +12,11 @@ namespace Graphics {
 class Triangle : public ShapeFillable {
 protected:
 	Point p1, p2, p3;
-
-	Color c;
 public:
-	Triangle(const Point&, const Point&, const Point&, const Color& color);
-	Triangle(int x1, int y1, int x2, int y2, 
-				int x3, int y3, const Color& color);
+	Triangle(const Point&, const Point&, const Point&);
+	Triangle(int x1, int y1, const Color& color1,
+				int x2, int y2, const Color& color2,
+				int x3, int y3, const Color& color3);
 	
 	Triangle& operator=(const Triangle&);
 	
@@ -31,9 +30,9 @@ public:
 	inline void move(int dx, int dy);
 
 protected:
-	inline void drawFill(const Rasterizer&);
+	inline void drawFill() const;
 	
-	inline void drawOutline(const Rasterizer&);
+	inline void drawOutline() const;
 };
 
 #endif

@@ -1,13 +1,11 @@
 #ifndef SHAPE_FILLABLE_H_
 #define SHAPE_FILLABLE_H_
 
-#include "Rasterizer.hpp"
 #include "Point.hpp"
 #include "Shape.hpp"
 
 namespace Graphics {
 	class Shape;
-	class Rasterizer;
 	
 	class ShapeFillable : public Shape {
 	public:
@@ -27,22 +25,22 @@ namespace Graphics {
 		 * @param fill the fill mode; false only draws the shape's outline, true draws the outline + the filler
 		 */
 		virtual inline void draw(bool fill) const {
+			if(fill)
+				drawFill();
+			else
+				drawOutline();
 		}
 		
 	protected:
 		/**
 		 * Algorirthm to draw the filled shape
-		 * 
-		 * @param raster the rasterizer object
 		 */
-		virtual inline void drawFill(const Rasterizer& raster) const = 0;
+		virtual inline void drawFill() const = 0;
 		
 		/**
 		 * Algorirthm to draw the outline of the shape
-		 * 
-		 * @param raster the rasterizer object
 		 */
-		virtual inline void drawOutline(const Rasterizer& raster) const = 0;
+		virtual inline void drawOutline() const = 0;
 	};
 }
 

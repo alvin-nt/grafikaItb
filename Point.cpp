@@ -1,5 +1,9 @@
 #include "Point.hpp"
 
+#include "Rasterizer.hpp"
+
+using namespace Graphics;
+
 Point::Point(int x, int y)
 	: x(x), y(y);
 {
@@ -69,21 +73,34 @@ int Point::getY() const {
 	return y;
 }
 
-int Point::quadrant(const Point& point) {
-	int ret;
+const Color &Point::getColor() {
+	return color;
+}
+
+void Point::setColor(const Color& color) {
+	this->color = color;
+}
+
+const Color& getColor() const {
+	return color;
+}
+
+void Point::draw() const {
+	Rasterizer *raster = Screen::instance();
 	
-	if(point.x == 0 || point.y == 0) {
-		ret = -1;
+	if(raster->getVarInfo().bytes_per_pixel == 32) {
+		byte *ptrFramebuffer = raster->getFramebuffer();
+		long location = raster->getLocation(x, y);
+		
+		Pixel pixel = color.toPixel();
+		
+		((Pixel*)ptrFrameBuffer)[location] = pixel;
 	} else {
-		if(point.x > 0 && point.y > 0)
-			ret = 1;
-		else if(point.x > 0 && point.y < 0)
-			ret = 2;
-		else if(point.x < 0 && point.y < 0)
-			ret = 3;
-		else if(point.x < 0 && point.y > 0)
-			ret = 4;
+		// do something for other color mode
 	}
-	
-	return ret;
+}
+
+void Point::move(int dx, int dy) {
+	x += dx;
+	y += dy;
 }

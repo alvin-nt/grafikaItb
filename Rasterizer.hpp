@@ -3,11 +3,13 @@
 
 #include "Singleton.hpp"
 #include "Types.hpp"
+#include "Drawable.hpp"
 #include "ShapeFillable.hpp"
 
 #include "Color.hpp"
 
 #include <vector>
+#include <pair>
 
 namespace Graphics {
 	enum Mode {TEXT, GRAPHICS};
@@ -17,7 +19,7 @@ namespace Graphics {
 	/**
 	 * Class that represents the screen drawer
 	 * 
-	 * Handles the terminal, the framebuffer, and the {@link Shape}s that
+	 * Handles the terminal, the framebuffer, and the {@link Drawable}s that
 	 * are on the screen
 	 */ 
 	class Rasterizer {
@@ -48,7 +50,7 @@ namespace Graphics {
 		// would be drawn
 		FbMapMode mapMode;
 	public:
-		//std::vector<Shape*> shapes; ... need to handle or not?
+		std::vector<Drawable*> drawObject; // for Z-index
 	public:
 		Rasterizer();
 		~Rasterizer();
@@ -56,34 +58,120 @@ namespace Graphics {
 		/**
 		 * Changes the terminal mode
 		 * 
-		 * @param mode the terminal mode, defined in {@link Mode}
+		 * @param mode the terminal mode, defined in {@link Graphics::Mode}
 		 */
 		void setMode(Mode mode);
 		
+		/**
+		 * Gets the current terminal mode
+		 * 
+		 * @return {@link Graphics::mode}
+		 */
 		Mode getMode() const;
 		
+		/**
+		 * Sets the background color of the screen
+		 * 
+		 * @return background
+		 */
 		const Color &getBackground() const;
+		
+		/**
+		 * Sets the background color of the screen
+		 * 
+		 * @param color new screen color
+		 */
 		void setBackground(const Color &color);
 		
-		inline void draw(const Shape *shape);
+		/**
+		 * Gets the variable screen information struct, such as 
+		 * current size of the screen, bits per pixel, and color offsets
+		 * 
+		 * @return vinfo
+		 */
+		inline const ScreenVarInfo& getVarInfo() const;
+		
+		/**
+		 * Gets the fixed screen information struct, such as
+		 * screen clocks and refresh rate
+		 * 
+		 * @return finfo
+		 */
+		inline const ScreenFixInfo& getFixInfo() const;
+		
+		/**
+		 * Gets the memory offset for the framebuffer at a certain coordinate
+		 * 
+		 * @param x the horizontal coordinate
+		 * @param y the vertical coordinate
+		 * 
+		 * @return framebuffer offset for coordinate(x, y)
+		 */
+		inline long getDrawLocation(int x, int y);
+		
+		/**
+		 * Draws a drawable object onto the screen
+		 * 
+		 * @param shape drawable object
+		 */
+		inline void draw(const Drawable *shape);
+		
+		inline void setPixel(int x, int y, Pixel pixel);
+		
+		/**
+		 * Draws a shape onto the screen, with the apropriate fill mode.
+		 * 
+		 * @param shape fillable object
+		 * @param fill draws the filled shape (true) or only the outline (false). Defaults to false.
+		 */
 		inline void draw(const ShapeFillable *shape, bool fill = false);
 		
-		inline void destroy(Shape *shape);
+		/**
+		 * Deletes the drawable object from the screen and from the memory
+		 */
+		inline void destroy(Drawable *drawable);
 		
+		/**
+		 * Refreshes the screen:
+		 * 
+		 * repaints all elements onto the backBuffer, then
+		 * draws them to the screen
+		 **/
+		inline void refresh();
+		
+		/**
+		 * Gets the current screen size
+		 * 
+		 * @return current screen size
+		 */
 		long getScreenSize() const;
 		
+		/**
+		 * Updates the screen. Used for swapping the buffers
+		 * 
+		 * Wraps the call to swapBuffers()
+		 * 
+		 * if MapMode is set to SINGLE, this function does nothing.
+		 */
 		inline void update();
 		
+		/**
+		 * Gets the apropriate pointer to framebuffer
+		 * 
+		 * @return pointer to framebuffer
+		 */
 		inline const byte *getFramebuffer() const;
 		
-		
 	protected:
-		long getLocation(int x, int y);
-		
 		inline void swapBuffers();
 		
 	private:
+		/**
+		 * Initializes the framebuffer
+		 **/
 		void initFramebuffer();
+		
+		inline void drawBackground();
 	};
 
 	typedef Singleton<Rasterizer> Screen; // call Screen when needed

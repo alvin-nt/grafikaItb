@@ -4,11 +4,34 @@
 namespace Graphics {
 	
 	/**
-	 * Interface for drawable objects
+	 * Abstract class for drawable objects
+	 * 
+	 * Also implicitly declares movable
 	 */
 	class Drawable {
+	protected:
+		bool hide = false;
 	public:
-		virtual void draw() const = 0;
+		/**
+		 * Draws the object
+		 **/
+		virtual inline void draw() const = 0;
+		
+		/**
+		 * Moves the object
+		 * 
+		 * @param dx movement along the horizonal line
+		 * @param dy movement along the vertical line
+		 **/
+		virtual inline void move(int dx, int dy) = 0;
+		
+		bool isHidden() const {
+			return hide;
+		}
+		
+		bool setHidden(bool hide) {
+			this->hide = hide;
+		}
 	};
 }
 

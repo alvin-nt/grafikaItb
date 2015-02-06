@@ -11,6 +11,12 @@ namespace Graphics {
 		byte blue;
 		byte alpha; // for transparency
 		
+		// some default colors
+		static const Color RED;
+		static const Color GREEN;
+		static const Color BLUE;
+		static const Color WHITE;
+		static const Color BLACK;
 	public:
 		Color(byte red = 0, byte green = 0, byte blue = 0, byte alpha = 0);
 		Color(Pixel pix);
@@ -18,6 +24,7 @@ namespace Graphics {
 		
 		Color& operator=(const Color& rhs);
 		
+		friend bool operator!=(const Color& lhs, const Color& rhs);
 		friend bool operator==(const Color& lhs, const Color& rhs);
 		
 		friend Color operator+(const Color& lhs, const Color& rhs);

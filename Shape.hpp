@@ -14,14 +14,6 @@ namespace Graphics {
 		virtual ~Shape() = 0;
 		
 		/**
-		 * Moves the shape
-		 * 
-		 * @param dx movement along the horizonal line
-		 * @param dy movement along the vertical line
-		 **/
-		virtual inline void move(int dx, int dy) = 0;
-		
-		/**
 		 * Rotates a shape
 		 * 
 		 * @param degree the degree of rotation

@@ -17,13 +17,18 @@ void Graphics::clearScreen() {
 	printf("\033[H\033[J");
 }
 
-Rasterizer::Rasterizer() {
+Rasterizer::Rasterizer() 
+	: background(Color::BLACK)
+{
 	if(!instantiated) {
+		memset(&finfo, 0, sizeof(finfo));
+		memset(&vinfo, 0, sizeof(vinfo));
+		
 		initFramebuffer();
 
 		// setup the terminal
 		fdTty = open("/dev/tty1", O_RDWR | O_NOCTTY);
-		if(fdTty < 0) {
+		if(fdTty == -1) {
 			perror("Cannot open terminal");
 			exit(1);
 		}
@@ -80,16 +85,36 @@ void Rasterizer::setBackground(const Color &color) {
 	background = color;
 }
 
-void Rasterizer::draw(const Shape *shape) {
+const ScreenVarInfo& Rasterizer::getVarInfo() const {
+	return vinfo;
+}
+
+const ScreenFixInfo& Rasterizer::getFixInfo() const {
+	return finfo;
+}
+
+void Rasterizer::draw(const Drawable *shape) {
+	drawBackground();
+	
 	shape->draw();
+	// TODO: put the object in the drawObject vector
+}
+
+void Rasterizer::setPixel(int x, int y, Pixel pixel) {
+	long location = getDrawLocation(x, y);
+	
+	((Pixel*)ptrBackbuffer)[location] = pixel;
 }
 
 void Rasterizer::draw(const ShapeFillable *shape, bool fill) {
+	drawBackground();
+	
 	shape->draw(fill);
+	// TODO: put the object in the drawObject vector
 }
 
-void Rasterizer::destroy(Shape *shape) {
-	
+void Rasterizer::destroy(Drawable *drawable) {
+	(void)(drawable);
 }
 
 const byte *Rasterizer::getFramebuffer() const {
@@ -123,6 +148,9 @@ void Rasterizer::swapBuffers() {
 		// "Pan" to the backbuffer
 		if(ioctl(fdFramebuffer, FBIOPAN_DISPLAY, &vinfo) == -1) {
 			perror("Cannot pan the framebuffer.");
+			// this is somewhat fatal, since the screen cannot be updated.
+			// need some work to make the screen still drawable, without crashing the program
+			// maybe revert to SINGLE map mode?
 		}
 
 		// update the pointer to the back buffer
@@ -146,15 +174,29 @@ void Rasterizer::swapBuffers() {
 	}
 }
 
-long Rasterizer::getLocation(int x, int y) {
-	return (x + vinfo.xoffset) * (vinfo.bits_per_pixel >> 3)
+// TODO: refactor to getDrawOffset
+long Rasterizer::getDrawLocation(int x, int y) {
+	return (x + vinfo.xoffset) * (vinfo.bits_per_pixel >> 3) // classy way to say "something / 8"
 		+ (y + vinfo.yoffset) * finfo.line_length;
 }
 
+void Rasterizer::drawBackground() {
+	for(int y = 0; y < vinfo.yres; y++) {
+		for(int x = 0; x < vinfo.xres; x++) {
+			long location = getLocation(x, y);
+			
+			if(vinfo.bits_per_pixel == 32) {
+				Pixel pixel = background.toPixel();
+				
+				((Pixel*)ptrBackbuffer)[location] = pixel;
+			} else {
+				// for other color mode
+			}
+		}
+	}
+}
+
 void Rasterizer::initFramebuffer() {
-	memset(&finfo, 0, sizeof(finfo));
-	memset(&vinfo, 0, sizeof(vinfo));
-	
 	fdFramebuffer = open("/dev/fb0", O_RDWR);
 	if(fdFramebuffer == -1) {
 		perror("Cannot open framebuffer device");

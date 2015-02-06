@@ -2,12 +2,15 @@
 #define POINT_H_
 
 #include "Drawable.hpp"
+#include "Color.hpp"
 
 namespace Graphics {
 	class Point : public Drawable {
 	protected:
 		int x;
 		int y;
+		
+		Color color;
 	public:
 		Point(int x = 0, int y = 0);
 		Point(const Point&);
@@ -28,11 +31,13 @@ namespace Graphics {
 		int getX() const;
 		int getY() const;
 		
-		int getQuadrant() const;
+		const Color& getColor() const;
 		
-		static int quadrant(const Graphics::Point& point);
+		void setColor(const Color &color);
 		
 		inline void draw() const;
+		
+		inline void move(int dx, int dy) const;
 	};
 };
 
