@@ -42,6 +42,9 @@ Keyboard::Keyboard(const char* device)
 }
 
 Keyboard::~Keyboard() {
+	if(ioctl(fd, EVIOCGRAB, false) == -1) {
+		perror("Cannot release keyboard");
+	}
 	close(fd);
 }
 
@@ -72,7 +75,14 @@ void Keyboard::initKeyboard() {
 			perror("Cannot initialize keyboard device");
 			exit(1);
 		} else {
-			
+			/**
+			 * 'Hijacks' the keyboard from the terminal
+			 * 
+			 * Disables CTRL-C. Therefore, you need to define an 'exit key'
+			 **/
+			if(ioctl(fd, EVIOCGRAB, true) == -1) {
+				perror("Cannot grab keyboard");
+			}
 		}
 	} else {
 		printf("Keyboard device undefined\n");

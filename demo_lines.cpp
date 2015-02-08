@@ -18,6 +18,7 @@ using std::cerr;
 using std::endl;
 
 // handles ctrl-c
+// temporarily not used
 void INTHandler(int dummy);
 
 void cleanup();
@@ -45,7 +46,6 @@ int main()
 	// the main program loop
 	ScreenInfoVar vinfo = screen->getVarInfo();
 	
-	/*
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
 
@@ -74,7 +74,7 @@ int main()
 
 		// sleep
 		usleep(50);
-	}*/
+	}
 	cleanup();
 
 	return 0;
@@ -88,5 +88,6 @@ void INTHandler(int dummy) {
 
 void cleanup() {
 	screen->setMode(TEXT);
+	Screen::destroy();
 	delete keyboard;
 }

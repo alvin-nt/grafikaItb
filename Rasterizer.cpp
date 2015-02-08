@@ -175,7 +175,7 @@ void Rasterizer::swapBuffers() {
 		ptrBackbuffer = (byte*)tmp;
 		break;
 	case DOUBLE:
-		for (int i = 0; i < screenSize / 4; i++) {
+		for (int i = 0; i < screenSize; i++) {
 			*((Pixel*)(ptrFramebuffer + i)) = ptrBackbuffer[i];
 		}
 

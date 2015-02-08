@@ -1,8 +1,6 @@
 #ifndef SINGLETON_H_
 #define SINGLETON_H_
 
-// source: http://www.yolinux.com/TUTORIALS/C++Singleton.html
-
 #include <cstddef>
 
 template <class T>
@@ -17,6 +15,10 @@ public:
         return _instance;
     }
 
+	// call this when program is finished
+	static void destroy() {
+		delete _instance;
+	}
 protected:
     Singleton();
     ~Singleton();
