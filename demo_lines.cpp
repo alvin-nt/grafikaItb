@@ -13,6 +13,11 @@
 
 using namespace Graphics;
 
+using std::cout;
+using std::cerr;
+using std::endl;
+
+// handles ctrl-c
 void INTHandler(int dummy);
 
 void cleanup();
@@ -38,12 +43,13 @@ int main()
 	bool exit = false;
 
 	// the main program loop
+	ScreenInfoVar vinfo = screen->getVarInfo();
+	
+	/*
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
 
-		printf("Code [%d]\n", key);
-
-		if(key != Keyboard::NO_INPUT) {
+		if(key == Keyboard::NO_INPUT) {
 			key = 0;
 		} else {
 			if(key == KEY_BACKSPACE)
@@ -51,7 +57,6 @@ int main()
 		}
 
 		// blit the screen
-		ScreenInfoVar vinfo = screen->getVarInfo();
 		for(auto y = 0u; y < vinfo.yres; y++) {
 			for(auto x = 0u; x < vinfo.xres; x++) {
 				Color color(0xFF, 0X00, 0xFF, 0x00);
@@ -67,9 +72,9 @@ int main()
 		}
 		screen->update();
 
-		// sleep for 50ms
+		// sleep
 		usleep(50);
-	}
+	}*/
 	cleanup();
 
 	return 0;
@@ -77,11 +82,11 @@ int main()
 
 void INTHandler(int dummy) {
 	cleanup();
-	std::cerr << "Interrupted: SIGINT invoked" << std::endl;
+	cerr << "Interrupted: SIGINT invoked" << endl;
 	exit(1);
 }
 
 void cleanup() {
-	delete keyboard;
 	screen->setMode(TEXT);
+	delete keyboard;
 }

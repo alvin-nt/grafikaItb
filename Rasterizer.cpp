@@ -19,13 +19,13 @@ void Graphics::clearScreen() {
 	printf("\033[H\033[J");
 }
 
-Rasterizer::Rasterizer() 
+Rasterizer::Rasterizer()
 	: background(Color::BLACK)
 {
 	if(!instantiated) {
 		memset(&finfo, 0, sizeof(finfo));
 		memset(&vinfo, 0, sizeof(vinfo));
-		
+
 		initFramebuffer();
 
 		// setup the terminal
@@ -45,7 +45,7 @@ Rasterizer::Rasterizer()
 
 Rasterizer::~Rasterizer() {
 	close(fdTty);
-	
+
 	switch (mapMode) {
 	case PAN:
 		munmap(ptrFramebuffer, screenSize << 1);
@@ -59,13 +59,15 @@ Rasterizer::~Rasterizer() {
 		ptrBackbuffer = null;
 		break;
 	}
-	
+
+	if(mode == GRAPHICS)
+		setMode(TEXT);
 	close(fdFramebuffer);
 }
 
 void Rasterizer::setMode(Graphics::Mode mode) {
 	this->mode = mode;
-	
+
 	switch(this->mode) {
 	case GRAPHICS:
 		if(ioctl(fdTty, KDSETMODE, KD_GRAPHICS) == -1) {
@@ -102,15 +104,15 @@ const ScreenInfoFix& Rasterizer::getFixInfo() const {
 
 void Rasterizer::draw(const Drawable *shape) {
 	drawBackground();
-	
+
 	shape->draw();
 	// TODO: put the object in the drawObject vector
 }
 
 void Rasterizer::setPixel(int x, int y, Pixel pixel) {
 	long location = getDrawLocation(x, y);
-	
-	((Pixel*)ptrBackbuffer)[location] = pixel;
+
+	*((Pixel*)(ptrBackbuffer + location)) = pixel;
 }
 
 void Rasterizer::setPixel(int x, int y, const Color& color) {
@@ -119,7 +121,7 @@ void Rasterizer::setPixel(int x, int y, const Color& color) {
 
 void Rasterizer::draw(const ShapeFillable *shape, bool fill) {
 	drawBackground();
-	
+
 	shape->draw(fill);
 	// TODO: put the object in the drawObject vector
 }
@@ -131,7 +133,7 @@ void Rasterizer::destroy(Drawable *drawable) {
 
 const byte *Rasterizer::getFramebuffer() const {
 	byte *ret;
-	
+
 	switch(mapMode) {
 	case PAN:
 	case DOUBLE:
@@ -144,7 +146,7 @@ const byte *Rasterizer::getFramebuffer() const {
 		printf("Oops: invalid map mode\n");
 		exit(10);
 	}
-	
+
 	return ret;
 }
 
@@ -173,9 +175,11 @@ void Rasterizer::swapBuffers() {
 		ptrBackbuffer = (byte*)tmp;
 		break;
 	case DOUBLE:
-		for (int i = 0; i < (screenSize >> 2); i++) {
-			((Pixel*)(ptrFramebuffer))[i] = ptrBackbuffer[i];
+		for (int i = 0; i < screenSize / 4; i++) {
+			*((Pixel*)(ptrFramebuffer + i)) = ptrBackbuffer[i];
 		}
+
+		// IMBA mode: write this in assembly, using SSE stuff~~~~
 		break;
 	case SINGLE:
 		// nothing
@@ -188,22 +192,16 @@ void Rasterizer::swapBuffers() {
 
 // TODO: refactor to getDrawOffset
 long Rasterizer::getDrawLocation(int x, int y) {
-	return (x + vinfo.xoffset) * (vinfo.bits_per_pixel >> 3) // classy way to say "something / 8"
+	return (x + vinfo.xoffset) * (vinfo.bits_per_pixel / 8)
 		+ (y + vinfo.yoffset) * finfo.line_length;
 }
 
 void Rasterizer::drawBackground() {
 	Pixel pixel = background.toPixel();
-	
+
 	for(auto y = 0u; y < vinfo.yres; y++) {
 		for(auto x = 0u; x < vinfo.xres; x++) {
-			long location = getDrawLocation(x, y);
-			
-			if(vinfo.bits_per_pixel == 32) {
-				((Pixel*)ptrBackbuffer)[location] = pixel;
-			} else {
-				// for other color mode
-			}
+			setPixel(x, y, pixel);
 		}
 	}
 }
@@ -214,7 +212,7 @@ void Rasterizer::initFramebuffer() {
 		perror("Cannot open framebuffer device");
 		exit(1);
 	}
-	
+
 	// get and set screen to 32-bit mode
 	if(ioctl(fdFramebuffer, FBIOGET_VSCREENINFO, &vinfo) == -1) {
 		perror("Cannot get variable screen info.");
@@ -222,8 +220,8 @@ void Rasterizer::initFramebuffer() {
 	}
 
 	// switch to 32-bit mode
-	vinfo.grayscale = 0;
-	vinfo.bits_per_pixel = 32;
+	vinfo.grayscale = 0; // 0 == color, 1 == grayscale
+	vinfo.bits_per_pixel = 32; // guess what :p
 
 	if(ioctl(fdFramebuffer, FBIOPUT_VSCREENINFO, &vinfo) == -1) {
 		perror("Cannot set variable screen info.");
@@ -240,30 +238,31 @@ void Rasterizer::initFramebuffer() {
 	}
 
 	screenSize = vinfo.yres_virtual * finfo.line_length;
-	
+
 	// trial #1: map the framebuffer, 2x the size (PAN)
+	// TODO: guess from the vinfo
 	ptrFramebuffer = (byte*) mmap(0, screenSize << 1,
 								PROT_READ | PROT_WRITE,
 								MAP_SHARED, fdFramebuffer, (off_t) 0);
-	
+
 	// double buffer initialization
 	if((int) ptrFramebuffer == -1) {
 		perror("Framebuffer device does not support PAN mode");
 		printf("Trying DOUBLE mode\n");
-		
+
 		// Trial #2: map the framebuffer
 		ptrFramebuffer = (byte*) mmap(0, screenSize,
 								PROT_READ | PROT_WRITE,
 								MAP_SHARED, fdFramebuffer, (off_t) 0);
-				
+
 		if((int) ptrFramebuffer == -1) {
 			perror("Cannot map FB device");
 			exit(4);
 		} else {
 			// try to map the backbuffer
 			ptrBackbuffer = (byte*) mmap(0, screenSize, PROT_READ | PROT_WRITE,
-									MAP_PRIVATE | MAP_ANONYMOUS, fdFramebuffer, (off_t) 0);
-			
+									MAP_PRIVATE | MAP_ANONYMOUS, -1, (off_t) 0);
+
 			// fallback to single buffer	 
 			if((int) ptrBackbuffer == -1) {
 				perror("Cannot map second buffer");

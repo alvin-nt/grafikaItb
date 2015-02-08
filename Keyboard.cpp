@@ -28,32 +28,28 @@
 #include <cstring>
 #include <fcntl.h>
 #include <unistd.h>
-#include <algorithm>
 
 using namespace Graphics;
 
 const char* Keyboard::DEFAULT_DEVICE = "/dev/input/event0";
 
 Keyboard::Keyboard(const char* device)
-{
-	size_t deviceLength = strnlen(device, 24);
-	
-	this->device = new char[deviceLength];
-	
-	std::copy(device, device + deviceLength, this->device);
-	
+	: deviceName(device)
+{	
 	memset(event, 0, sizeof(event));
 	
 	initKeyboard();
 }
 
 Keyboard::~Keyboard() {
-	delete device;
-	
 	close(fd);
 }
 
-int Keyboard::getPressedKeyCode() const {
+const string& Keyboard::getDeviceName() const {
+	return deviceName;
+}
+
+int Keyboard::getPressedKeyCode() {
 	::read(fd, (void*)event, sizeof(event));
 	
 	int ret;
@@ -70,13 +66,13 @@ int Keyboard::getPressedKeyCode() const {
 }
 
 void Keyboard::initKeyboard() {
-	if(device != null) {
-		fd = open(device, O_RDONLY | O_NONBLOCK);
+	if(!deviceName.empty()) {
+		fd = open(deviceName.c_str(), O_RDONLY | O_NONBLOCK);
 		if(fd == -1) {
 			perror("Cannot initialize keyboard device");
 			exit(1);
 		} else {
-			printf("Keyboard initialized. Device: %s\n", device);
+			
 		}
 	} else {
 		printf("Keyboard device undefined\n");

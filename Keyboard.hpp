@@ -27,6 +27,10 @@
 
 #include "Types.hpp"
 
+#include <string>
+
+using std::string;
+
 namespace Graphics {
 	class Keyboard
 	{
@@ -34,7 +38,7 @@ namespace Graphics {
 		static const char* DEFAULT_DEVICE;
 		
 		int fd;
-		char *device;
+		string deviceName;
 	public:
 		// handles the input event
 		// made public, since there's still no idea about how this works
@@ -46,12 +50,14 @@ namespace Graphics {
 		Keyboard(const char* device = DEFAULT_DEVICE);
 		virtual ~Keyboard();		
 		
+		const string& getDeviceName() const;
+		
 		/**
 		 * Gets the code pressed by the keyboard
 		 * 
 		 * @return key code when input is detected, else -1
 		 */
-		int getPressedKeyCode() const;
+		int getPressedKeyCode();
 	private:
 		void initKeyboard();
 	};

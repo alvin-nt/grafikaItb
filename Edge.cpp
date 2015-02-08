@@ -23,13 +23,16 @@ Edge::Edge(const Edge &edge) {
 }
 
 Edge::~Edge() {
-	
+
 }
 
 Edge& Edge::operator=(const Edge &rhs) {
-	p1 = rhs.p1;
-	p2 = rhs.p2;
-	weight = rhs.weight;
+	if(this != &rhs) {
+		p1 = rhs.p1;
+		p2 = rhs.p2;
+		weight = rhs.weight;
+	}
+	return *this;
 }
 
 bool Graphics::operator!=(const Edge &lhs, const Edge &rhs) {
