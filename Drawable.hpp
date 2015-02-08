@@ -1,6 +1,7 @@
 #ifndef DRAWABLE_H_
 #define DRAWABLE_H_
 
+#include "Rasterizer.hpp"
 namespace Graphics {
 	
 	/**
@@ -9,6 +10,7 @@ namespace Graphics {
 	 * Also implicitly declares movable
 	 */
 	class Drawable {
+		friend class Rasterizer;
 	protected:
 		bool hide = false;
 	public:
@@ -18,13 +20,13 @@ namespace Graphics {
 		 * @param dx movement along the horizonal line
 		 * @param dy movement along the vertical line
 		 **/
-		virtual inline void move(int dx, int dy) = 0;
+		virtual void move(int dx, int dy) = 0;
 		
 		bool isHidden() const {
 			return hide;
 		}
 		
-		bool setHidden(bool hide) {
+		void setHidden(bool hide) {
 			this->hide = hide;
 		}
 		
@@ -32,7 +34,7 @@ namespace Graphics {
 		/**
 		 * Draws the object
 		 **/
-		virtual inline void draw() const = 0;
+		virtual void draw() const = 0;
 	};
 }
 

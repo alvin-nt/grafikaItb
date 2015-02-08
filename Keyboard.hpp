@@ -40,25 +40,18 @@ namespace Graphics {
 		// made public, since there's still no idea about how this works
 		// e.g., why the size must be struct input_event[64]?
 		KeyboardEvent event;
+		
+		const static int NO_INPUT = -1;
 	public:
 		Keyboard(const char* device = DEFAULT_DEVICE);
 		virtual ~Keyboard();		
-
-		/**
-		 * Read for input from the keyboard
-		 * 
-		 * -1 indicates no input, else indicates something is pressed on the keyboard.
-		 * 
-		 * @return value from read()
-		 **/
-		ssize_t read();
 		
 		/**
 		 * Gets the code pressed by the keyboard
 		 * 
 		 * @return key code when input is detected, else -1
 		 */
-		inline int getPressedKeyCode() const;
+		int getPressedKeyCode() const;
 	private:
 		void initKeyboard();
 	};

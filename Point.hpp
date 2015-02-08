@@ -37,9 +37,9 @@ namespace Graphics {
 		const Color& getColor() const;
 		void setColor(const Color &color);
 		
-		inline void move(int dx, int dy);
+		void move(int dx, int dy);
 	protected:
-		inline void draw() const;		
+		void draw() const;		
 	};
 };
 

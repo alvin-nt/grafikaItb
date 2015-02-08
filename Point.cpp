@@ -14,16 +14,6 @@ Point::Point(const Point& point)
 	*this = point;
 }
 
-bool Graphics::operator!=(const Point& p1, const Point& p2)
-{
-	return !(p1 == p2);
-}
-
-bool Graphics::operator==(const Point& p1, const Point& p2)
-{
-	return (p1.x == p2.x && p1.y == p2.y);
-}
-	
 Point& Point::operator=(const Point& point)
 {
 	if(this != &point) {
@@ -33,6 +23,16 @@ Point& Point::operator=(const Point& point)
 	}
 	
 	return *this;
+}
+
+bool Graphics::operator!=(const Point& p1, const Point& p2)
+{
+	return !(p1 == p2);
+}
+
+bool Graphics::operator==(const Point& p1, const Point& p2)
+{
+	return (p1.x == p2.x && p1.y == p2.y);
 }
 
 Point Graphics::operator+(const Point& p1, const Point& p2)
@@ -97,3 +97,4 @@ void Point::move(int dx, int dy) {
 	x += dx;
 	y += dy;
 }
+

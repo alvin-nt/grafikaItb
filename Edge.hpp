@@ -73,24 +73,24 @@ namespace Graphics {
 		 * 
 		 * @return p2.x - p1.x
 		 **/
-		inline int getDeltaX() const;
+		int getDeltaX() const;
 		
 		/**
 		 * Gets the vertical differences between point 2 and point 1
 		 * 
 		 * @return p2.y - p1.y
 		 **/
-		inline int getDeltaY() const;
+		int getDeltaY() const;
 		
 		/**
 		 * Gets the gradient of the line
 		 * 
 		 * @return line gradient
 		 **/
-		inline double getGradient() const;
+		double getGradient() const;
 		
-		inline double getLength() const;
-		inline float getLengthFloat() const;
+		double getLength() const;
+		float getLengthFloat() const;
 		
 		/**
 		 * Swaps the first and the second point
@@ -101,10 +101,10 @@ namespace Graphics {
 		
 		//void rotate(const Point &center, int degree);
 		
-		inline void move(int dx, int dy);
+		void move(int dx, int dy);
 	
 	protected:
-		inline void draw() const;
+		void draw() const;
 	};
 
 	typedef Edge Line; // handy naming convention

@@ -1,4 +1,6 @@
 #include "Rasterizer.hpp"
+#include "Drawable.hpp"
+#include "ShapeFillable.hpp"
 
 #include <sys/mman.h>
 #include <sys/ioctl.h>
@@ -33,6 +35,10 @@ Rasterizer::Rasterizer()
 			exit(1);
 		}
 		instantiated = true;
+	} else {
+		printf("Double instantiation detected!\n");
+		Screen::instance()->setMode(TEXT);
+		exit(11);
 	}
 
 }
@@ -50,6 +56,7 @@ Rasterizer::~Rasterizer() {
 		break;
 	case SINGLE:
 		munmap(ptrFramebuffer, screenSize);
+		ptrBackbuffer = null;
 		break;
 	}
 	
@@ -61,12 +68,12 @@ void Rasterizer::setMode(Graphics::Mode mode) {
 	
 	switch(this->mode) {
 	case GRAPHICS:
-		if(ioctl(fdFramebuffer, KDSETMODE, KD_GRAPHICS) == -1) {
+		if(ioctl(fdTty, KDSETMODE, KD_GRAPHICS) == -1) {
 			perror("Cannot change terminal to GRAPHICS mode");
 		}
 		break;
 	case TEXT:
-		if(ioctl(fdFramebuffer, KDSETMODE, KD_TEXT) == -1) {
+		if(ioctl(fdTty, KDSETMODE, KD_TEXT) == -1) {
 			perror("Cannot change terminal to TEXT mode");
 		}
 		break;
@@ -106,6 +113,10 @@ void Rasterizer::setPixel(int x, int y, Pixel pixel) {
 	((Pixel*)ptrBackbuffer)[location] = pixel;
 }
 
+void Rasterizer::setPixel(int x, int y, const Color& color) {
+	setPixel(x, y, color.toPixel());
+}
+
 void Rasterizer::draw(const ShapeFillable *shape, bool fill) {
 	drawBackground();
 	
@@ -114,6 +125,7 @@ void Rasterizer::draw(const ShapeFillable *shape, bool fill) {
 }
 
 void Rasterizer::destroy(Drawable *drawable) {
+	// stub
 	(void)(drawable);
 }
 
@@ -181,13 +193,13 @@ long Rasterizer::getDrawLocation(int x, int y) {
 }
 
 void Rasterizer::drawBackground() {
-	for(int y = 0; y < vinfo.yres; y++) {
-		for(int x = 0; x < vinfo.xres; x++) {
+	Pixel pixel = background.toPixel();
+	
+	for(auto y = 0u; y < vinfo.yres; y++) {
+		for(auto x = 0u; x < vinfo.xres; x++) {
 			long location = getDrawLocation(x, y);
 			
 			if(vinfo.bits_per_pixel == 32) {
-				Pixel pixel = background.toPixel();
-				
 				((Pixel*)ptrBackbuffer)[location] = pixel;
 			} else {
 				// for other color mode
@@ -209,6 +221,7 @@ void Rasterizer::initFramebuffer() {
 		exit(2);
 	}
 
+	// switch to 32-bit mode
 	vinfo.grayscale = 0;
 	vinfo.bits_per_pixel = 32;
 
@@ -233,6 +246,7 @@ void Rasterizer::initFramebuffer() {
 								PROT_READ | PROT_WRITE,
 								MAP_SHARED, fdFramebuffer, (off_t) 0);
 	
+	// double buffer initialization
 	if((int) ptrFramebuffer == -1) {
 		perror("Framebuffer device does not support PAN mode");
 		printf("Trying DOUBLE mode\n");
@@ -249,20 +263,24 @@ void Rasterizer::initFramebuffer() {
 			// try to map the backbuffer
 			ptrBackbuffer = (byte*) mmap(0, screenSize, PROT_READ | PROT_WRITE,
 									MAP_PRIVATE | MAP_ANONYMOUS, fdFramebuffer, (off_t) 0);
-				 
 			
+			// fallback to single buffer	 
 			if((int) ptrBackbuffer == -1) {
 				perror("Cannot map second buffer");
 				printf("Reverting to SINGLE mode\n");
 				ptrBackbuffer = ptrFramebuffer;
 				
 				mapMode = SINGLE;
+				printf("Framebuffer initialized as SINGLE mode\n");
 			} else {
 				mapMode = DOUBLE;
+				printf("Framebuffer initialized as DOUBLE mode\n");
 			}
 		}
 	} else {
 		ptrBackbuffer = ptrFramebuffer + screenSize;
 		mapMode = PAN;
+		
+		printf("Framebuffer initialized as PAN mode\n");
 	}
 }

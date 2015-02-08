@@ -5,8 +5,6 @@
 #include "Shape.hpp"
 
 namespace Graphics {
-	class Shape;
-	
 	class ShapeFillable : public Shape {
 	public:
 		virtual ~ShapeFillable() = 0;
@@ -14,9 +12,7 @@ namespace Graphics {
 		/**
 		 * Wraps the call to draw(false)
 		 */
-		inline void draw() const {
-			draw(false);
-		}
+		void draw() const;
 		
 		/**
 		 * Function that stores the call to the apropriate drawing algorithm
@@ -24,23 +20,19 @@ namespace Graphics {
 		 *
 		 * @param fill the fill mode; false only draws the shape's outline, true draws the outline + the filler
 		 */
-		virtual inline void draw(bool fill) const {
-			if(fill)
-				drawFill();
-			else
-				drawOutline();
-		}
+		virtual void draw(bool fill) const;
 		
 	protected:
 		/**
 		 * Algorirthm to draw the filled shape
 		 */
-		virtual inline void drawFill() const = 0;
+		virtual void drawFill() const;
+		
 		
 		/**
 		 * Algorirthm to draw the outline of the shape
 		 */
-		virtual inline void drawOutline() const = 0;
+		virtual void drawOutline() const;
 	};
 }
 

@@ -2,10 +2,11 @@
 #define SHAPE_H_
 
 #include "Point.hpp"
-#include "Drawable.hpp"
 #include "Types.hpp"
 
 namespace Graphics {
+	class Drawable;
+	
 	class Shape : public Drawable {
 	protected:
 		// future implementation of anchor point?

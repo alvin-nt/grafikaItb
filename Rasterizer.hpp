@@ -3,8 +3,6 @@
 
 #include "Singleton.hpp"
 #include "Types.hpp"
-#include "Drawable.hpp"
-#include "ShapeFillable.hpp"
 
 #include "Color.hpp"
 
@@ -14,6 +12,9 @@ namespace Graphics {
 	enum Mode {TEXT, GRAPHICS};
 	
 	void clearScreen();
+	
+	class Drawable;
+	class ShapeFillable;
 	
 	/**
 	 * Class that represents the screen drawer
@@ -32,6 +33,7 @@ namespace Graphics {
 		int fdTty;
 		int fdFramebuffer;
 		
+		// framebuffer pointers
 		byte *ptrFramebuffer;
 		byte *ptrBackbuffer;
 		
@@ -88,7 +90,7 @@ namespace Graphics {
 		 * 
 		 * @return vinfo
 		 */
-		inline const ScreenInfoVar& getVarInfo() const;
+		const ScreenInfoVar& getVarInfo() const;
 		
 		/**
 		 * Gets the fixed screen information struct, such as
@@ -96,7 +98,7 @@ namespace Graphics {
 		 * 
 		 * @return finfo
 		 */
-		inline const ScreenInfoFix& getFixInfo() const;
+		const ScreenInfoFix& getFixInfo() const;
 		
 		/**
 		 * Gets the memory offset for the framebuffer at a certain coordinate
@@ -106,14 +108,14 @@ namespace Graphics {
 		 * 
 		 * @return framebuffer offset for coordinate(x, y)
 		 */
-		inline long getDrawLocation(int x, int y);
+		long getDrawLocation(int x, int y);
 		
 		/**
 		 * Draws a drawable object onto the screen
 		 * 
 		 * @param shape drawable object
 		 **/
-		inline void draw(const Drawable *shape);
+		void draw(const Drawable *shape);
 		
 		/**
 		 * Put a color in the (x, y) coordinate
@@ -122,7 +124,7 @@ namespace Graphics {
 		 * @param y the vertical coordinate
 		 * @param pixel the pixel number
 		 **/
-		inline void setPixel(int x, int y, Pixel pixel);
+		void setPixel(int x, int y, Pixel pixel);
 		
 		/**
 		 * Put a color in the (x, y) coordinate
@@ -131,7 +133,7 @@ namespace Graphics {
 		 * @param y the vertical coordinate
 		 * @param color the color object
 		 **/
-		inline void setPixel(int x, int y, const Color& color);
+		void setPixel(int x, int y, const Color& color);
 		
 		/**
 		 * Draws a shape onto the screen, with the apropriate fill mode.
@@ -139,12 +141,12 @@ namespace Graphics {
 		 * @param shape fillable object
 		 * @param fill draws the filled shape (true) or only the outline (false). Defaults to false.
 		 */
-		inline void draw(const ShapeFillable *shape, bool fill = false);
+		void draw(const ShapeFillable *shape, bool fill = false);
 		
 		/**
 		 * Deletes the drawable object from the screen and from the memory
 		 */
-		inline void destroy(Drawable *drawable);
+		void destroy(Drawable *drawable);
 		
 		/**
 		 * Refreshes the screen:
@@ -152,7 +154,7 @@ namespace Graphics {
 		 * repaints all elements onto the backBuffer, then
 		 * draws them to the screen
 		 **/
-		inline void refresh();
+		void refresh();
 		
 		/**
 		 * Gets the current screen size
@@ -168,17 +170,17 @@ namespace Graphics {
 		 * 
 		 * if MapMode is set to SINGLE, this function does nothing.
 		 */
-		inline void update();
+		void update();
 		
 		/**
 		 * Gets the apropriate pointer to framebuffer
 		 * 
 		 * @return pointer to framebuffer
 		 */
-		inline const byte *getFramebuffer() const;
+		const byte *getFramebuffer() const;
 		
 	protected:
-		inline void swapBuffers();
+		void swapBuffers();
 		
 	private:
 		/**
@@ -186,7 +188,7 @@ namespace Graphics {
 		 **/
 		void initFramebuffer();
 		
-		inline void drawBackground();
+		void drawBackground();
 	};
 
 	typedef Singleton<Rasterizer> Screen; // call Screen when needed

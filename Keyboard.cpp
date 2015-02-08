@@ -32,7 +32,7 @@
 
 using namespace Graphics;
 
-char* Keyboard::DEFAULT_DEVICE = "/dev/input/event0";
+const char* Keyboard::DEFAULT_DEVICE = "/dev/input/event0";
 
 Keyboard::Keyboard(const char* device)
 {
@@ -50,21 +50,13 @@ Keyboard::Keyboard(const char* device)
 Keyboard::~Keyboard() {
 	delete device;
 	
-	// 'release' the keyboard
-	if(ioctl(fd, EVIOCGRAB, (void*)0) == -1) {
-		perror("Cannot release keyboard to evdev");
-	}
-	
 	close(fd);
 }
 
-ssize_t Keyboard::read() {
-	return read(fd, event, sizeof(event));
-}
-
 int Keyboard::getPressedKeyCode() const {
-	int ret;
+	::read(fd, (void*)event, sizeof(event));
 	
+	int ret;
 	if(event[0].value != ' ' &&
 		event[1].value == 1 &&
 		event[1].type == 1)
@@ -83,11 +75,8 @@ void Keyboard::initKeyboard() {
 		if(fd == -1) {
 			perror("Cannot initialize keyboard device");
 			exit(1);
-		}
-		
-		// 'hijack' the keyboard
-		if(ioctl(fd, EVIOCGRAB, (void*)1) == -1) {
-			perror("Cannot grab keyboard from evdev");
+		} else {
+			printf("Keyboard initialized. Device: %s\n", device);
 		}
 	} else {
 		printf("Keyboard device undefined\n");

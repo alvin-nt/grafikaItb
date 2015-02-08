@@ -22,6 +22,10 @@ Edge::Edge(const Edge &edge) {
 	*this = edge;
 }
 
+Edge::~Edge() {
+	
+}
+
 Edge& Edge::operator=(const Edge &rhs) {
 	p1 = rhs.p1;
 	p2 = rhs.p2;
