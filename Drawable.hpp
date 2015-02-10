@@ -12,6 +12,11 @@ namespace Graphics {
 	class Drawable {
 		friend class Rasterizer;
 	protected:
+		const static int SCREEN_X_MIN;
+		static int SCREEN_X_MAX;
+		const static int SCREEN_Y_MIN;
+		static int SCREEN_Y_MAX;
+	
 		bool hide = false;
 	public:
 		/**

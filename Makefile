@@ -1,13 +1,21 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
-DEMOS = demo_lines
+DEMOS = demo_lines demo_movingLine
+
+demo_all: $(DEMOS)
 
 # ---Demos---
 #
 # all demos should be prefixed with "demo_"
 
-demo_lines : demo_lines.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o
+demo_movingLine : demo_movingLine.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+demo_movingLine.o : demo_movingLine.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+demo_lines : demo_lines.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o
 	$(CC) $(CFLAGS) -o $@  $^
 
 demo_lines.o : demo_lines.cpp
@@ -36,6 +44,9 @@ Rasterizer.o : Rasterizer.cpp Types.hpp Rasterizer.hpp Drawable.hpp ShapeFillabl
 # Shape bases
 
 Color.o : Color.cpp Color.hpp Types.hpp Rasterizer.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+Drawable.o: Drawable.cpp Drawable.hpp Rasterizer.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Shape.o : Shape.cpp Shape.hpp Types.hpp Point.hpp Drawable.hpp

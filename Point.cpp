@@ -94,7 +94,14 @@ void Point::draw() const {
 }
 
 void Point::move(int dx, int dy) {
-	x += dx;
-	y += dy;
+	int resX = x + dx;
+	int resY = y + dy;
+	
+	if(resX >= SCREEN_X_MIN && resX <= SCREEN_X_MAX) {
+		if(resY >= SCREEN_Y_MIN && resY <= SCREEN_Y_MAX) {
+			x = resX;
+			y = resY;
+		}
+	}
 }
 

@@ -101,6 +101,10 @@ void Edge::swapPoints() {
 	p1 = temp;
 }
 
+void Edge::rotate(int degree) {
+	
+}
+
 Point Edge::getMidpoint() const {
 	// stub
 	return Point();
@@ -169,6 +173,18 @@ void Edge::draw() const {
 }
 
 void Edge::move(int dx, int dy) {
-	p1.move(dx, dy);
-	p2.move(dx, dy);
+	int resultX1 = p1.getX() + dx;
+	int resultY1 = p1.getY() + dy;
+	int resultX2 = p2.getX() + dx;
+	int resultY2 = p2.getY() + dy;
+	
+	bool move =(resultX1 >= SCREEN_X_MIN && resultX1 <= SCREEN_X_MAX &&
+				resultY1 >= SCREEN_Y_MIN && resultY1 <= SCREEN_Y_MAX &&
+				resultX2 >= SCREEN_X_MIN && resultX2 <= SCREEN_X_MAX &&
+				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX);
+	
+	if(move) {
+		p1.move(dx, dy);
+		p2.move(dx, dy);
+	}
 }

@@ -99,7 +99,7 @@ namespace Graphics {
 		
 		Point getMidpoint() const;
 		
-		//void rotate(const Point &center, int degree);
+		void rotate(int degree);
 		
 		void move(int dx, int dy);
 	
