@@ -9,6 +9,7 @@ namespace Graphics {
 	 * Class that represents a line
 	 **/
 	class Edge : public Shape {
+		friend class Rectangle;
 	private:
 		Point p1, p2;
 		

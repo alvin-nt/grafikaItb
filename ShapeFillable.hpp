@@ -12,7 +12,7 @@ namespace Graphics {
 		/**
 		 * Wraps the call to draw(false)
 		 */
-		void draw() const;
+		virtual void draw() const;
 		
 		/**
 		 * Function that stores the call to the apropriate drawing algorithm

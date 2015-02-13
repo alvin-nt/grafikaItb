@@ -4,6 +4,9 @@
 
 using namespace Graphics;
 
+ShapeFillable::~ShapeFillable() {
+}
+
 void ShapeFillable::draw() const {
 	draw(false);
 }
@@ -23,3 +26,4 @@ void ShapeFillable::drawFill() const {
 void ShapeFillable::drawOutline() const {
 	
 }
+

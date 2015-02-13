@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
-DEMOS = demo_lines demo_movingLine
+DEMOS = demo_lines demo_movingLine demo_rectangle
 
 demo_all: $(DEMOS)
 
@@ -20,6 +20,12 @@ demo_lines : demo_lines.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o
 
 demo_lines.o : demo_lines.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
+	
+demo_rectangle : demo_rectangle.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+demo_rectangle.o : demo_rectangle.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
 	
 # ---Dependencies---
 # Naming convention:
@@ -63,5 +69,8 @@ Point.o : Point.cpp Point.hpp Types.hpp Rasterizer.hpp Color.hpp Drawable.hpp
 Edge.o : Edge.cpp Edge.hpp Shape.hpp Point.hpp Rasterizer.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+Rectangle.o : Rectangle.cpp Rectangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
 clean :
 	rm -rf $(DEMOS) *.o
