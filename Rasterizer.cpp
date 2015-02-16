@@ -239,16 +239,16 @@ void Rasterizer::initFramebuffer() {
 
 	screenSize = vinfo.yres_virtual * finfo.line_length;
 
-	// trial #1: map the framebuffer, 2x the size (PAN)
+	// trial #1: map the framebuffer, 2x the size (PAN): still buggy, therefore not implemented yet
 	// TODO: guess from the vinfo
-	ptrFramebuffer = (byte*) mmap(0, screenSize << 1,
+	/*ptrFramebuffer = (byte*) mmap(0, screenSize << 1,
 								PROT_READ | PROT_WRITE,
-								MAP_SHARED, fdFramebuffer, (off_t) 0);
+								MAP_SHARED, fdFramebuffer, (off_t) 0);*/
 
 	// double buffer initialization
-	if((int) ptrFramebuffer == -1) {
-		perror("Framebuffer device does not support PAN mode");
-		printf("Trying DOUBLE mode\n");
+	/*if((int) ptrFramebuffer == -1) */{
+		/*perror("Framebuffer device does not support PAN mode");
+		printf("Trying DOUBLE mode\n");*/
 
 		// Trial #2: map the framebuffer
 		ptrFramebuffer = (byte*) mmap(0, screenSize,
@@ -276,10 +276,10 @@ void Rasterizer::initFramebuffer() {
 				printf("Framebuffer initialized as DOUBLE mode\n");
 			}
 		}
-	} else {
+	} /*else {
 		ptrBackbuffer = ptrFramebuffer + screenSize;
 		mapMode = PAN;
 		
 		printf("Framebuffer initialized as PAN mode\n");
-	}
+	}*/
 }

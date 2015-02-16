@@ -46,7 +46,7 @@ int main()
 	// the main program loop
 	
 	// initialize the line
-	Edge *line = new Edge(200, 200, Color::GREEN, 600, 600, Color::GREEN, 3.0f);
+	Edge *line = new Edge(200, 200, Color::GREEN, 600, 600, Color::GREEN, 10.f);
 	
 	int movHorizontal = 5, movVertical = 5;
 	

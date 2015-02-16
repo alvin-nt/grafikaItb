@@ -40,7 +40,7 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	screen->setMode(GRAPHICS);
+//	screen->setMode(GRAPHICS);
 
 	bool exit = false;
 

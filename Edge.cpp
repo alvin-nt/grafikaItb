@@ -125,7 +125,7 @@ void Edge::draw() const {
 	// check for flat line
 	float ed = dx + dy == 0 ? 1 : getLengthFloat();
 	
-	for(auto weightDraw = ((weight+1) * 2); ;) {
+	for(auto weightDraw = ((weight+1)); ;) {
 		// draw initial point
 		byte alpha = (byte)roundf(std::max(.0f, BYTE_MAX * (abs(err - dx + dy)/ed - weightDraw + 1)));
 		Pixel drPixel = basePixel | (alpha << raster->getVarInfo().transp.offset);
@@ -143,7 +143,6 @@ void Edge::draw() const {
 			{
 				byte alpha = (byte)roundf(std::max(.0f, BYTE_MAX * (abs(err2)/ed - weightDraw + 1)));
 				Pixel drPixel = basePixel | (alpha << raster->getVarInfo().transp.offset);
-				drPixel |= (alpha << raster->getVarInfo().transp.offset);
 				
 				raster->setPixel(x0, y2 += signY, drPixel);
 			}
