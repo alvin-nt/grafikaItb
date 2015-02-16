@@ -113,9 +113,6 @@ Point Edge::getMidpoint() const {
 void Edge::draw() const {
 	Rasterizer *raster = Screen::instance();
 	
-	// uses the xiaolin wu's algorithm
-	// source: http://members.chello.at/~easyfilter/bresenham.html
-	
 	int dx = abs(getDeltaX()), signX = p1.getX() < p2.getX() ? 1 : -1;
 	int dy = abs(getDeltaY()), signY = p1.getY() < p2.getY() ? 1 : -1;
 	int err = dx - dy, err2;
@@ -123,16 +120,17 @@ void Edge::draw() const {
 	int x0 = p1.getX(), x1 = p2.getX();
 	int y0 = p1.getY(), y1 = p2.getY();
 	
+	Pixel basePixel = p1.getColor().toPixel();
+	
 	// check for flat line
 	float ed = dx + dy == 0 ? 1 : getLengthFloat();
 	
 	for(auto weightDraw = ((weight+1) * 2); ;) {
-		// initialization: draw the first pixel
-		// NOTE: 255 is the 'intensity bit, a.k.a. the color in 256 palette
-		// TODO: map the float to this bit
-		raster->setPixel(x0, y0, 
-						std::max(.0f, 255 *
-									(abs(err - dx + dy)/ed - weightDraw + 1)));
+		// draw initial point
+		byte alpha = (byte)roundf(std::max(.0f, BYTE_MAX * (abs(err - dx + dy)/ed - weightDraw + 1)));
+		Pixel drPixel = basePixel | (alpha << raster->getVarInfo().transp.offset);
+		
+		raster->setPixel(x0, y0, drPixel);
 									
 		err2 = err;
 		auto x2 = x0;
@@ -143,8 +141,11 @@ void Edge::draw() const {
 				err2 < ed * weightDraw && (y1 != y2 || dx > dy);
 				err2 += dx) 
 			{
-				raster->setPixel(x0, y2 += signY, 
-								(Pixel)std::max(.0f, 255 * (abs(err2)/ed - weightDraw + 1)));
+				byte alpha = (byte)roundf(std::max(.0f, BYTE_MAX * (abs(err2)/ed - weightDraw + 1)));
+				Pixel drPixel = basePixel | (alpha << raster->getVarInfo().transp.offset);
+				drPixel |= (alpha << raster->getVarInfo().transp.offset);
+				
+				raster->setPixel(x0, y2 += signY, drPixel);
 			}
 			
 			if(x0 == x1)
@@ -155,13 +156,15 @@ void Edge::draw() const {
 			x0 += signX;
 		}
 		
-		if(err2 << 1 <= dy) {
+		if(err2 << 1 <= dy) { // y steps
 			for(err2 = dx - err2;
 				err2 < ed * weightDraw && (x1 != x2 || dx < dy);
 				err2 += dy)
 			{
-				raster->setPixel(x2 += signX, y0, 
-								(Pixel)std::max(.0f, 255 * (abs(err2)/ed - weightDraw + 1)));
+				byte alpha = (byte)roundf(std::max(.0f, BYTE_MAX * (abs(err2)/ed - weightDraw + 1)));
+				Pixel drPixel = basePixel | (alpha << raster->getVarInfo().transp.offset);
+				
+				raster->setPixel(x2 += signX, y0, drPixel);
 			}
 			
 			if(y0 == y1)

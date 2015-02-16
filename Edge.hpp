@@ -90,7 +90,18 @@ namespace Graphics {
 		 **/
 		double getGradient() const;
 		
+		/**
+		 * Gets the length of the line
+		 * 
+		 * @return line length, as double
+		 **/
 		double getLength() const;
+		
+		/**
+		 * Gets the length of the line
+		 * 
+		 * @return line length, as float
+		 **/
 		float getLengthFloat() const;
 		
 		/**
@@ -98,10 +109,26 @@ namespace Graphics {
 		 **/
 		void swapPoints();
 		
+		/**
+		 * Gets the midpoint of the line
+		 * 
+		 * @return midpoint
+		 **/
 		Point getMidpoint() const;
 		
+		/**
+		 * Rotates the line
+		 * 
+		 * @param degree 
+		 **/
 		void rotate(int degree);
 		
+		/**
+		 * Moves the line
+		 * 
+		 * @param dx movement in x coordinate
+		 * @param dy movement in y coordinate
+		 **/
 		void move(int dx, int dy);
 	
 	protected:

@@ -11,6 +11,8 @@
  */
 
 #define null NULL
+#define BYTE_MIN 0
+#define BYTE_MAX 255
 
 typedef uint8_t byte;
 typedef uint32_t Pixel;

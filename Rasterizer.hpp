@@ -188,6 +188,9 @@ namespace Graphics {
 		 **/
 		void initFramebuffer();
 		
+		/**
+		 * Draws the background
+		 **/
 		void drawBackground();
 	};
 
