@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
-DEMOS = demo_lines demo_movingLine demo_rectangle
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse
 
 demo_all: $(DEMOS)
 
@@ -25,6 +25,12 @@ demo_rectangle : demo_rectangle.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 demo_rectangle.o : demo_rectangle.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+
+demo_ellipse : demo_ellipse.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Ellipse.o
+	$(CC) $(CFLAGS) -o $@ $^	
+
+demo_ellipse.o : demo_ellipse.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
 # ---Dependencies---
@@ -71,6 +77,9 @@ Edge.o : Edge.cpp Edge.hpp Shape.hpp Point.hpp Rasterizer.hpp
 
 Rectangle.o : Rectangle.cpp Rectangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
-	
+
+Ellipse.o : Ellipse.cpp Ellipse.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
 clean :
 	rm -rf $(DEMOS) *.o
