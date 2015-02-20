@@ -113,67 +113,6 @@ void Rectangle::drawOutline() const {
 	drawer2.draw();
 	drawer3.draw();
 	drawer4.draw();
-	/*
-	Rasterizer *raster = Screen::instance();
-	
-	// uses the xiaolin wu's algorithm
-	// source: http://members.chello.at/~easyfilter/bresenham.html
-	
-	int dx = abs(getDeltaX()), signX = p1.getX() < p2.getX() ? 1 : -1;
-	int dy = abs(getDeltaY()), signY = p1.getY() < p2.getY() ? 1 : -1;
-	int err = dx - dy, err2;
-	
-	int x0 = p1.getX(), x1 = p2.getX();
-	int y0 = p1.getY(), y1 = p2.getY();
-	
-	// check for flat line
-	float ed = dx + dy == 0 ? 1 : getLengthFloat();
-	
-	for(auto weightDraw = ((weight+1) * 2); ;) {
-		// initialization: draw the first pixel
-		// NOTE: 255 is the 'intensity bit, a.k.a. the color in 256 palette
-		// TODO: map the float to this bit
-		raster->setPixel(x0, y0, 
-						std::max(.0f, 255 *
-									(abs(err - dx + dy)/ed - weightDraw + 1)));
-									
-		err2 = err;
-		auto x2 = x0;
-		int y2;
-		
-		if(err2 << 1 >= -dx) { // x steps
-			for(err2 += dy, y2 = y0; 
-				err2 < ed * weightDraw && (y1 != y2 || dx > dy);
-				err2 += dx) 
-			{
-				raster->setPixel(x0, y2 += signY, 
-								(Pixel)std::max(.0f, 255 * (abs(err2)/ed - weightDraw + 1)));
-			}
-			
-			if(x0 == x1)
-				break;
-			
-			err2 = err;
-			err -= dy;
-			x0 += signX;
-		}
-		
-		if(err2 << 1 <= dy) {
-			for(err2 = dx - err2;
-				err2 < ed * weightDraw && (x1 != x2 || dx < dy);
-				err2 += dy)
-			{
-				raster->setPixel(x2 += signX, y0, 
-								(Pixel)std::max(.0f, 255 * (abs(err2)/ed - weightDraw + 1)));
-			}
-			
-			if(y0 == y1)
-				break;
-			err += dx;
-			y0 += signY;
-		}
-	}
-	*/
 }
 
 void Rectangle::drawFill() const {
@@ -186,14 +125,24 @@ void Rectangle::move(int dx, int dy) {
 	int resultY1 = p1.getY() + dy;
 	int resultX2 = p2.getX() + dx;
 	int resultY2 = p2.getY() + dy;
+	int resultX3 = p3.getX() + dx;
+	int resultY3 = p3.getY() + dy;
+	int resultX4 = p4.getX() + dx;
+	int resultY4 = p4.getY() + dy;
 	
 	bool move =(resultX1 >= SCREEN_X_MIN && resultX1 <= SCREEN_X_MAX &&
 				resultY1 >= SCREEN_Y_MIN && resultY1 <= SCREEN_Y_MAX &&
 				resultX2 >= SCREEN_X_MIN && resultX2 <= SCREEN_X_MAX &&
-				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX);
+				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX &&
+				resultX3 >= SCREEN_X_MIN && resultX3 <= SCREEN_X_MAX &&
+				resultY3 >= SCREEN_Y_MIN && resultY3 <= SCREEN_Y_MAX &&
+				resultX4 >= SCREEN_X_MIN && resultX4 <= SCREEN_X_MAX &&
+				resultY4 >= SCREEN_Y_MIN && resultY4 <= SCREEN_Y_MAX);
 	
 	if(move) {
 		p1.move(dx, dy);
 		p2.move(dx, dy);
+		p3.move(dx, dy);
+		p4.move(dx, dy);
 	}
 }

@@ -46,11 +46,11 @@ int main()
 
 	// the main program loop
 	
-	// initialize the line
-	Rectangle *rect = new Rectangle(200, 200, Color::BLACK,
-									200, 600, Color::BLACK,
-									600, 600, Color::BLACK,
-									600, 200, Color::BLACK,
+	// initialize the rectangle
+	Rectangle *rect = new Rectangle(200, 200, Color::WHITE,
+									200, 600, Color::WHITE,
+									600, 600, Color::WHITE,
+									600, 200, Color::WHITE,
 									10.0f);
 	
 	int movHorizontal = 5, movVertical = 5;
