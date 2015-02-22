@@ -17,6 +17,7 @@ namespace Graphics {
 		static const Color BLUE;
 		static const Color WHITE;
 		static const Color BLACK;
+		static const Color TRANSPARENT;
 	public:
 		Color(byte red = 0, byte green = 0, byte blue = 0, byte alpha = 0);
 		Color(Pixel pix);

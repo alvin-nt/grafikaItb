@@ -19,6 +19,10 @@ namespace Graphics {
 	
 		bool hide = false;
 	public:
+		virtual ~Drawable() {
+			
+		}
+	
 		/**
 		 * Moves the object
 		 * 

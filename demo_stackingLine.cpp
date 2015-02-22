@@ -48,6 +48,7 @@ int main()
 	
 	// initialize the line
 	Edge *line = new Edge(200, 200, Color::GREEN, 600, 600, Color::GREEN, 30.5f);
+	Edge *stackedLine = new Edge(200, 600, Color::RED, 600, 200, Color::RED, 10.5f);
 	
 	int movHorizontal = 5, movVertical = 5;
 	
@@ -77,6 +78,7 @@ int main()
 		}
 
 		screen->drawBackground();
+		screen->draw(stackedLine);
 		screen->draw(line);
 		screen->update();
 
@@ -84,6 +86,7 @@ int main()
 		usleep(50);
 	}
 	delete line;
+	delete stackedLine;
 	cleanup();
 
 	return 0;

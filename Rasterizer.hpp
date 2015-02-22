@@ -51,7 +51,7 @@ namespace Graphics {
 		// would be drawn
 		FbMapMode mapMode;
 	public:
-		std::vector<Drawable*> drawObject; // for Z-index -- temporarily not set
+		
 	public:
 		Rasterizer();
 		~Rasterizer();
@@ -115,7 +115,7 @@ namespace Graphics {
 		 * 
 		 * @param shape drawable object
 		 **/
-		void draw(const Drawable *shape);
+		void draw(Drawable *shape);
 		
 		/**
 		 * Draws a shape onto the screen, with the apropriate fill mode.
@@ -123,7 +123,12 @@ namespace Graphics {
 		 * @param shape fillable object
 		 * @param fill draws the filled shape (true) or only the outline (false). Defaults to false.
 		 */
-		void draw(const ShapeFillable *shape, bool fill = false);
+		void draw(ShapeFillable *shape, bool fill = false);
+		
+		/**
+		 * Draws the background
+		 **/
+		void drawBackground();
 		
 		/**
 		 * Put a color in the (x, y) coordinate
@@ -188,10 +193,6 @@ namespace Graphics {
 		 **/
 		void initFramebuffer();
 		
-		/**
-		 * Draws the background
-		 **/
-		void drawBackground();
 	};
 
 	typedef Singleton<Rasterizer> Screen; // call Screen when needed

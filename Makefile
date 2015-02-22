@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
-DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_stackingLine
 
 demo_all: $(DEMOS)
 
@@ -13,6 +13,12 @@ demo_movingLine : demo_movingLine.o Keyboard.o Rasterizer.o Edge.o Point.o Color
 	$(CC) $(CFLAGS) -o $@ $^
 
 demo_movingLine.o : demo_movingLine.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
+demo_stackingLine : demo_stackingLine.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+demo_stackingLine.o : demo_stackingLine.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 demo_lines : demo_lines.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o

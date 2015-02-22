@@ -14,6 +14,9 @@ Point::Point(const Point& point)
 	*this = point;
 }
 
+Point::~Point() {
+}
+
 Point& Point::operator=(const Point& point)
 {
 	if(this != &point) {

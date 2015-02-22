@@ -16,6 +16,7 @@ namespace Graphics {
 	public:
 		Point(int x = 0, int y = 0, const Color& color = Color::BLACK);
 		Point(const Point&);
+		~Point();
 		
 		Point& operator=(const Point&);
 		

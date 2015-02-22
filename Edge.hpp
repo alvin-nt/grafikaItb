@@ -119,9 +119,16 @@ namespace Graphics {
 		/**
 		 * Rotates the line
 		 * 
-		 * @param degree 
+		 * @param degree the degree
 		 **/
 		void rotate(int degree);
+		
+		/**
+		 * Scales the line
+		 * 
+		 * @param ds the scale number
+		 **/
+		void scale(int ds);
 		
 		/**
 		 * Moves the line
