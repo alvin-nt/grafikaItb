@@ -8,7 +8,8 @@ namespace Graphics {
 	/**
 	 * Class that represents a line
 	 **/
-	class Edge : public Shape {
+	class Edge : public Shape {	
+		friend class Triangle;
 		friend class Rectangle;
 	private:
 		Point p1, p2;
@@ -140,6 +141,10 @@ namespace Graphics {
 	
 	protected:
 		void draw() const;
+	/*
+	public :
+		void draw1();
+	*/
 	};
 
 	typedef Edge Line; // handy naming convention
