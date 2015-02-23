@@ -5,6 +5,7 @@
 #include "Point.hpp"
 #include "Types.hpp"
 #include "Rectangle.hpp"
+#include "Ellipse.hpp"
 
 #include <cstdlib>
 #include <signal.h>
@@ -47,10 +48,11 @@ int main()
 	// the main program loop
 	
 	// initialize the rectangle
-	Rectangle *rect = new Rectangle(200, 200, Color::WHITE,
-									200, 600, Color::WHITE,
-									600, 600, Color::WHITE,
-									600, 200, Color::WHITE,10.0f);
+	Rectangle *body = new Rectangle(300, 600, Color::WHITE, //lower left point
+									225, 550, Color::WHITE, //upper left point
+									525, 550, Color::WHITE, //upper right point
+									500, 600, Color::WHITE, //lower right point
+									5.0f);
 	
 	int movHorizontal = 5, movVertical = 5;
 	
@@ -65,29 +67,29 @@ int main()
 				exit = true;
 				break;
 			case KEY_LEFT:
-				rect->move(0-movHorizontal, 0);
+				body->move(0-movHorizontal, 0);
 				break;
 			case KEY_RIGHT:
-				rect->move(movHorizontal, 0);
+				body->move(movHorizontal, 0);
 				break;
 			case KEY_UP:
-				rect->move(0, 0-movVertical);
+				body->move(0, 0-movVertical);
 				break;
 			case KEY_DOWN:
-				rect->move(0, movVertical);
+				body->move(0, movVertical);
 				break;
 			}
 		}
 
-		rect->move(0-movHorizontal, 0);
+		//body->move(0-movHorizontal, 0);
 		screen->drawBackground();
-		screen->draw(rect);
+		screen->draw(body);
 		screen->update();
 
 		// sleep
 		usleep(50);
 	}
-	delete rect;
+	delete body;
 	cleanup();
 	
 	return 0;

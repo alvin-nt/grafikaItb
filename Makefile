@@ -39,7 +39,7 @@ demo_ellipse : demo_ellipse.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Sha
 demo_ellipse.o : demo_ellipse.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
-demo_cruiser : demo_cruiser.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o
+demo_cruiser : demo_cruiser.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 demo_cruiser.o : demo_cruiser.cpp
