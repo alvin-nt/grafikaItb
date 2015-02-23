@@ -133,3 +133,9 @@ void Ellipse::drawOutline() const{
 		Ptemp.setY(round(center.getY() - 0.5*jari*sin(fullrotate)));
 	}
 }
+
+void Ellipse::move(int dx,int dy)
+{
+	center.setX(center.getX() + dx);
+	center.setY(center.getY() + dy);
+}
