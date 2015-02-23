@@ -44,13 +44,10 @@ int main()
 
 	bool exit = false;
 
-	// the main program loop
-	
-	// initialize the line
-//	Ellipse::Ellipse(int x1, int y1, const Color& c1,int x2, int y2, const Color& c2,int cx3, int cy3, const Color& c3,float weight)
+	// initialize the ellipse
 	Ellipse *elips = new Ellipse(200, 200, Color::BLACK,0.00,200.00,10.f);
 	
-	//int movHorizontal = 5, movVertical = 5;
+	int movHorizontal = 5, movVertical = 5;
 	
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
@@ -63,16 +60,16 @@ int main()
 				exit = true;
 				break;
 			case KEY_LEFT:
-				//line->move(0-movHorizontal, 0);
+				elips->move(0-movHorizontal, 0);
 				break;
 			case KEY_RIGHT:
-				//line->move(movHorizontal, 0);
+				elips->move(movHorizontal, 0);
 				break;
 			case KEY_UP:
-				//line->move(0, 0-movVertical);
+				elips->move(0, 0-movVertical);
 				break;
 			case KEY_DOWN:
-				//line->move(0, movVertical);
+				elips->move(0, movVertical);
 				break;
 			}
 		}
