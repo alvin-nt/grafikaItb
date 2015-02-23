@@ -89,6 +89,8 @@ namespace Graphics {
 		void rotate(int degree);
 		
 		void move(int dx, int dy);
+		
+		void scale(int scale);
 	
 	protected:
 		void drawFill() const;

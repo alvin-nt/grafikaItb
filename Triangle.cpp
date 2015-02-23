@@ -129,3 +129,7 @@ void Triangle::move(int dx, int dy) {
 		p3.move(dx, dy);
 	}
 }
+
+void Triangle::scale(int scale) {
+	//TBD
+}

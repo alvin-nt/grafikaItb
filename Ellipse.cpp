@@ -97,23 +97,6 @@ void Ellipse::drawFill() const {
 
 }
 
-void Ellipse::move(int dx, int dy) {
-	/*int resultX1 = p1.getX() + dx;
-	int resultY1 = p1.getY() + dy;
-	int resultX2 = p2.getX() + dx;
-	int resultY2 = p2.getY() + dy;
-	
-	bool move =(resultX1 >= SCREEN_X_MIN && resultX1 <= SCREEN_X_MAX &&
-				resultY1 >= SCREEN_Y_MIN && resultY1 <= SCREEN_Y_MAX &&
-				resultX2 >= SCREEN_X_MIN && resultX2 <= SCREEN_X_MAX &&
-				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX);
-	
-	if(move) {
-		p1.move(dx, dy);
-		p2.move(dx, dy);
-	}*/
-}
-
 void Ellipse::drawOutline() const{
 	Rasterizer *raster = Screen::instance();
 	Point Ptemp;
@@ -138,4 +121,8 @@ void Ellipse::move(int dx,int dy)
 {
 	center.setX(center.getX() + dx);
 	center.setY(center.getY() + dy);
+}
+
+void Ellipse::scale(int scale) {
+	//TBD
 }
