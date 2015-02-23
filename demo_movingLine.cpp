@@ -40,13 +40,14 @@ int main()
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
 	screen->setMode(GRAPHICS);
+	screen->setBackground(Color::WHITE);
 
 	bool exit = false;
 
 	// the main program loop
 	
 	// initialize the line
-	Edge *line = new Edge(200, 200, Color::GREEN, 600, 600, Color::GREEN, 10.f);
+	Edge *line = new Edge(200, 200, Color::GREEN, 600, 600, Color::GREEN, 30.5f);
 	
 	int movHorizontal = 5, movVertical = 5;
 	
@@ -75,6 +76,7 @@ int main()
 			}
 		}
 
+		screen->drawBackground();
 		screen->draw(line);
 		screen->update();
 

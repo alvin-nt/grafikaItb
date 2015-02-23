@@ -11,6 +11,9 @@
 #include <cstring>
 #include <cstdlib>
 
+#include <exception>
+#include <stdexcept>
+
 using namespace Graphics;
 
 bool Rasterizer::instantiated = false;
@@ -102,13 +105,6 @@ const ScreenInfoFix& Rasterizer::getFixInfo() const {
 	return finfo;
 }
 
-void Rasterizer::draw(const Drawable *shape) {
-	drawBackground();
-
-	shape->draw();
-	// TODO: put the object in the drawObject vector
-}
-
 void Rasterizer::setPixel(int x, int y, Pixel pixel) {
 	long location = getDrawLocation(x, y);
 
@@ -119,16 +115,22 @@ void Rasterizer::setPixel(int x, int y, const Color& color) {
 	setPixel(x, y, color.toPixel());
 }
 
-void Rasterizer::draw(const ShapeFillable *shape, bool fill) {
-	drawBackground();
+void Rasterizer::draw(Drawable *shape) {
+	shape->draw();
+}
 
-	shape->draw(fill);
-	// TODO: put the object in the drawObject vector
+void Rasterizer::draw(ShapeFillable *shape, bool fill) {
+	shape->setFill(fill);
+	
+	shape->draw();
 }
 
 void Rasterizer::destroy(Drawable *drawable) {
-	// stub
-	(void)(drawable);
+	// STUB
+}
+
+void Rasterizer::refresh() {
+		
 }
 
 const byte *Rasterizer::getFramebuffer() const {
@@ -151,6 +153,7 @@ const byte *Rasterizer::getFramebuffer() const {
 }
 
 void Rasterizer::update() {
+	refresh();
 	swapBuffers();
 }
 

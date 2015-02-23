@@ -8,6 +8,7 @@ namespace Graphics {
 	const Color Color::BLUE = { 0x00, 0x00, 0xff, 0x00 };
 	const Color Color::WHITE = { 0xff, 0xff, 0xff, 0x00 };
 	const Color Color::BLACK = { 0x00, 0x00, 0x00, 0x00 };
+	const Color Color::TRANSPARENT = { 0x00, 0x00, 0x00, 0xff };
 
 	Color::Color(byte red, byte green, byte blue, byte alpha)
 		: red(red), green(green), blue(blue), alpha(alpha)

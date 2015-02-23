@@ -6,6 +6,9 @@
 
 namespace Graphics {
 	class ShapeFillable : public Shape {
+	protected:
+		bool fill;
+		
 	public:
 		virtual ~ShapeFillable() = 0;
 		
@@ -20,8 +23,11 @@ namespace Graphics {
 		 *
 		 * @param fill the fill mode; false only draws the shape's outline, true draws the outline + the filler
 		 */
-		virtual void draw(bool fill) const;
+		virtual void draw(bool fill);
 		
+		void setFill(bool fill);
+		
+		bool getFill() const;
 	protected:
 		/**
 		 * Algorirthm to draw the filled shape

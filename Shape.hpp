@@ -9,7 +9,6 @@ namespace Graphics {
 	
 	class Shape : public Drawable {
 	protected:
-		// future implementation of anchor point?
 		Point anchor;
 	public:
 		virtual ~Shape() = 0;
@@ -20,6 +19,13 @@ namespace Graphics {
 		 * @param degree the degree of rotation
 		 */
 		virtual void rotate(int degree) = 0;
+		
+		/**
+		 * Scales the shape
+		 * 
+		 * @param scale the scale factor
+		 **/
+		virtual void scale(int scale) = 0;
 		
 		/**
 		 * get the anchor point

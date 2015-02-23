@@ -4,7 +4,6 @@
 #include "Edge.hpp"
 #include "Point.hpp"
 #include "Types.hpp"
-#include "Rectangle.hpp"
 
 #include <cstdlib>
 #include <signal.h>
@@ -40,18 +39,16 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-//	screen->setMode(GRAPHICS);
+	screen->setMode(GRAPHICS);
+	screen->setBackground(Color::WHITE);
 
 	bool exit = false;
 
 	// the main program loop
 	
-	// initialize the rectangle
-	Rectangle *rect = new Rectangle(200, 200, Color::WHITE,
-									200, 600, Color::WHITE,
-									600, 600, Color::WHITE,
-									600, 200, Color::WHITE,
-									10.0f);
+	// initialize the line
+	Edge *line = new Edge(200, 200, Color::GREEN, 600, 600, Color::GREEN, 30.5f);
+	Edge *stackedLine = new Edge(200, 600, Color::RED, 600, 200, Color::RED, 10.5f);
 	
 	int movHorizontal = 5, movVertical = 5;
 	
@@ -66,27 +63,30 @@ int main()
 				exit = true;
 				break;
 			case KEY_LEFT:
-				rect->move(0-movHorizontal, 0);
+				line->move(0-movHorizontal, 0);
 				break;
 			case KEY_RIGHT:
-				rect->move(movHorizontal, 0);
+				line->move(movHorizontal, 0);
 				break;
 			case KEY_UP:
-				rect->move(0, 0-movVertical);
+				line->move(0, 0-movVertical);
 				break;
 			case KEY_DOWN:
-				rect->move(0, movVertical);
+				line->move(0, movVertical);
 				break;
 			}
 		}
 
-		screen->draw(rect);
+		screen->drawBackground();
+		screen->draw(stackedLine);
+		screen->draw(line);
 		screen->update();
 
 		// sleep
 		usleep(50);
 	}
-	delete rect;
+	delete line;
+	delete stackedLine;
 	cleanup();
 
 	return 0;

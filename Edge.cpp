@@ -10,12 +10,14 @@ using namespace Graphics;
 Edge::Edge(const Point &p1, const Point &p2, float weight)
 	: p1(p1), p2(p2), weight(weight)
 {
+	anchor = getMidpoint();
 }
 
 Edge::Edge(int x1, int y1, const Color& c1,
 			int x2, int y2, const Color& c2, float weight)
 	: p1(x1, y1, c1), p2(x2, y2, c2), weight(weight)
 {
+	anchor = getMidpoint();
 }
 
 Edge::Edge(const Edge &edge) {
@@ -101,10 +103,6 @@ void Edge::swapPoints() {
 	p1 = temp;
 }
 
-void Edge::rotate(int degree) {
-	
-}
-
 Point Edge::getMidpoint() const {
 	// stub
 	return Point();
@@ -174,6 +172,14 @@ void Edge::draw() const {
 	}
 }
 
+void Edge::rotate(int degree) {
+	// stub
+}
+
+void Edge::scale(int ds) {
+	// stub
+}
+
 void Edge::move(int dx, int dy) {
 	int resultX1 = p1.getX() + dx;
 	int resultY1 = p1.getY() + dy;
@@ -188,5 +194,6 @@ void Edge::move(int dx, int dy) {
 	if(move) {
 		p1.move(dx, dy);
 		p2.move(dx, dy);
+		anchor.move(dx, dy);
 	}
 }
