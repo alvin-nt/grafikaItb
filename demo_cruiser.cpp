@@ -79,6 +79,7 @@ int main()
 			}
 		}
 
+		rect->move(0-movHorizontal, 0);
 		screen->drawBackground();
 		screen->draw(rect);
 		screen->update();
