@@ -38,7 +38,47 @@ void Parachute::move(int dx, int dy){
 	kiriParasut.move(dx,dy);
 	kananParasut.move(dx,dy);
 }
-	
+void Parachute::drawArc(const int h, const int k, const int r) const{
+       Color color=Color::WHITE;
+
+       int x=0;
+       int y=r;
+       int p=(3-(2*r));
+
+       do
+      {
+         //Point p1((h+x),(k+y),color);
+         //Point p2((h+y),(k+x),color);
+         Point p3((h+y),(k-x),color);
+         Point p4((h+x),(k-y),color);
+         Point p5((h-x),(k-y),color);
+         Point p6((h-y),(k-x),color);
+         //Point p7((h-y),(k+x),color);
+         //Point p8((h-x),(k+y),color);
+		 //p1.draw();
+		 //p2.draw();
+		 p3.draw();
+		 p4.draw();
+		 p5.draw();
+		 p6.draw();
+		 //p7.draw();
+		 //p8.draw();
+		 
+         x++;
+
+         if(p<0)
+        p+=((4*x)+6);
+
+         else
+        {
+           y--;
+           p+=((4*(x-y))+10);
+        }
+      }
+       while(x<=y);
+ 
+}
+
 void Parachute::draw() const{
 	Edge e1(kepala1,kepala2,weight);
 	Edge e2(kepala2,kepala3,weight);
@@ -50,6 +90,7 @@ void Parachute::draw() const{
 	Edge e8(anchor,kakiKanan,weight);
 	Edge e9(anchor,kiriParasut);
 	Edge e10(anchor,kananParasut);
+	Edge e11(kiriParasut,kananParasut);
 	e1.draw();
 	e2.draw();
 	e3.draw();
@@ -60,15 +101,9 @@ void Parachute::draw() const{
 	e8.draw();
 	e9.draw();
 	e10.draw();
+	e11.draw();
 	Point p1(kiriParasut);
-	int pusX = anchor.getX();
-	int pusY = anchor.getY()-50;
-	double PI = 3.1415926535897;	
-	for(int i=0;i<180;i++){
-		p1.draw();
-		int tmpX = p1.getX()-pusX;
-		int tmpY = p1.getY()-pusY;
-		p1.setX(tmpX*cos(180/PI)-tmpY*sin(180/PI)+pusX);
-		p1.setY(tmpX*sin(180/PI)+tmpY*cos(180/PI)+pusY);
-	}
+	int pusX = (kiriParasut.getX()+kananParasut.getX())/2;
+	int pusY = kiriParasut.getY();
+	drawArc(pusX,pusY,60);
 }

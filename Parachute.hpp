@@ -28,6 +28,7 @@ namespace Graphics {
 	
 	protected:
 		void draw() const;
+		void drawArc(const int h, const int k, const int r) const;
 	};
 
 }

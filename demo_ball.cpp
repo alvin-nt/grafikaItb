@@ -5,7 +5,7 @@
 #include "Point.hpp"
 #include "Types.hpp"
 #include "Triangle.hpp"
-#include "Parachute.hpp"
+#include "Ball.hpp"
 #include <cstdlib>
 #include <signal.h>
 #include <unistd.h> // usleep
@@ -42,14 +42,14 @@ int main()
 	screen = Screen::instance(); // singleton
 	printf("Screen Instance");
 	screen->setMode(GRAPHICS);
-	Parachute parasut(400,150);
+	Ball ball(150,200,30);
 	printf("Parasut Instansiasi");
 	bool exit = false;
 
 	// the main program loop
 	ScreenInfoVar vinfo = screen->getVarInfo();
 	int counter = 0;
-	while(!exit && counter<100) {
+	while(!exit && counter<10000) {
 		printf("While");
 		screen->drawBackground();
 		/*
@@ -61,8 +61,8 @@ int main()
 			if(key == KEY_BACKSPACE)
 				exit=true;
 		}*/
-		parasut.move(0,2);
-		screen->draw(&parasut);
+		screen->draw(&ball);
+		ball.animate();
 		screen->update();
 		counter++;
 		// sleep
