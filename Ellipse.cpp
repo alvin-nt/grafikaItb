@@ -109,7 +109,7 @@ void Ellipse::drawFill() const {
 
 void Ellipse::drawOutline() const{
 	Rasterizer *raster = Screen::instance();
-	float fullrotate = 0.0f;
+	float fullrotate = theta;
 	
 	int drawPixelX = (int)roundf(center.getX() + jari * cosf(fullrotate));
 	int drawPixelY = (int)roundf(center.getY() - (0.5 * jari * sinf(fullrotate)));
@@ -117,10 +117,10 @@ void Ellipse::drawOutline() const{
 	Pixel basePixel = Color::BLUE.toPixel();
 	byte alpha = (byte)roundf(std::max(.0f, 255 * (weight)));
 	Pixel drawPixel = basePixel | alpha;
-	while(fullrotate != 90)
+	while(fullrotate != theta+360.f)
 	{
 		raster->setPixel(drawPixelX, drawPixelY, drawPixel);
-		fullrotate += 0.7f;
+		fullrotate += 1.0f;
 		drawPixelX = (int)roundf(center.getX() + jari * cosf(fullrotate));
 		drawPixelY = (int)roundf(center.getY() - 0.5 * jari * sinf(fullrotate));
 	}
@@ -132,7 +132,7 @@ void Ellipse::move(int dx,int dy)
 	int newY = center.getY() + dy;
 	
 	bool move =(newX-(int)jari*cosf(theta) >= SCREEN_X_MIN && newX+(int)jari*cosf(theta) <= SCREEN_X_MAX &&
-				newY-(int)jari*smash*sinf(theta) >= SCREEN_Y_MIN && newY+(int)jari*sinf(theta) <= SCREEN_Y_MAX);
+				newY-(int)jari*sinf(theta) >= SCREEN_Y_MIN && newY+(int)jari*sinf(theta) <= SCREEN_Y_MAX);
 	
 	if(move) {
 		center.setX(newX);
@@ -142,8 +142,4 @@ void Ellipse::move(int dx,int dy)
 
 void Ellipse::scale(int x){
 	
-}
-
-void Ellipse::scale(int scale) {
-	//TBD
 }

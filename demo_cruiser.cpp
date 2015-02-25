@@ -53,12 +53,12 @@ int main()
 									525, 550, Color::WHITE, //upper right point
 									500, 600, Color::WHITE, //lower right point
 									5.0f);
-	Ellipse *turret = new Ellipse(375,550, Color::WHITE,1.0f,30.0f,5.0f);
+	Ellipse *turret = new Ellipse(375,550, Color::WHITE,1.0f,30.0f,5.0f,1.f);
 	Edge *gun = new Edge(375,550, Color::WHITE,
 						 350,525, Color::WHITE,
 						 5.0f);
 						 
-	Ellipse *bullet = new Ellipse(350,525, Color::WHITE, 1.0f, 5.0f, 5.0f);
+	Ellipse *bullet = new Ellipse(350,525, Color::WHITE, 1.0f, 5.0f, 5.0f,1.f);
 	
 	int movHorizontal = 5, movVertical = 5;
 	

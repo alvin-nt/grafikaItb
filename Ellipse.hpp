@@ -110,7 +110,6 @@ namespace Graphics {
 		void scale(int scale);
 	
 	protected:
-		void scale(int x);
 		void drawFill() const;
 		void drawOutline() const;
 	};
