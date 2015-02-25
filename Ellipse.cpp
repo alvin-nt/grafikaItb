@@ -6,14 +6,14 @@
 
 using namespace Graphics;
 
-Ellipse::Ellipse(const Point& center,float theta,float jari,float weight)
-	: center(center), theta(theta), jari(jari), weight(weight)
+Ellipse::Ellipse(const Point& center,float theta,float jari,float weight,float smash)
+	: center(center), theta(theta), jari(jari), weight(weight),smash(smash)
 {
 	
 }
 
-Ellipse::Ellipse(int x1, int y1, const Color& c1,float theta,float jari,float weight)
-	: center(x1, y1, c1),theta(theta),jari(jari),weight(weight)
+Ellipse::Ellipse(int x1, int y1, const Color& c1,float theta,float jari,float weight,float smash)
+	: center(x1, y1, c1),theta(theta),jari(jari),weight(weight),smash(smash)
 {
 	
 }
@@ -32,6 +32,7 @@ Ellipse& Ellipse::operator=(const Ellipse &rhs) {
 		theta= rhs.theta;
 		jari = rhs.jari;
 		weight = rhs.weight;
+		smash = rhs.smash;
 	}
 	return *this;
 }
@@ -44,7 +45,8 @@ bool Graphics::operator==(const Ellipse &lhs, const Ellipse &rhs) {
 	return (lhs.center == rhs.center &&
 			lhs.theta == rhs.theta &&
 			lhs.jari == rhs.jari &&
-			lhs.weight == rhs.weight);
+			lhs.weight == rhs.weight&&
+			lhs.smash == rhs.smash);
 }
 
 const Point &Ellipse::getCenter() const {
@@ -87,8 +89,16 @@ float Ellipse::getLengthFloat() const {
 	return 0.0;
 }
 
+float Ellipse::getSmash(){
+	return smash;
+}
+
+void Ellipse::setSmash(int smash){
+	this->smash = smash;
+}
+
 void Ellipse::rotate(int degree) {
-	
+	setTheta(theta + (float)degree);
 }
 
 
@@ -97,45 +107,39 @@ void Ellipse::drawFill() const {
 
 }
 
-void Ellipse::move(int dx, int dy) {
-	/*int resultX1 = p1.getX() + dx;
-	int resultY1 = p1.getY() + dy;
-	int resultX2 = p2.getX() + dx;
-	int resultY2 = p2.getY() + dy;
-	
-	bool move =(resultX1 >= SCREEN_X_MIN && resultX1 <= SCREEN_X_MAX &&
-				resultY1 >= SCREEN_Y_MIN && resultY1 <= SCREEN_Y_MAX &&
-				resultX2 >= SCREEN_X_MIN && resultX2 <= SCREEN_X_MAX &&
-				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX);
-	
-	if(move) {
-		p1.move(dx, dy);
-		p2.move(dx, dy);
-	}*/
-}
-
 void Ellipse::drawOutline() const{
 	Rasterizer *raster = Screen::instance();
-	Point Ptemp;
-	float fullrotate;
-	fullrotate = theta;
-	Ptemp.setX((int)roundf(center.getX() + jari*cos(fullrotate)));
-	Ptemp.setY((int)roundf(center.getY() - 0.5*jari*sin(fullrotate)));
+	float fullrotate = 0.0f;
+	
+	int drawPixelX = (int)roundf(center.getX() + jari * cosf(fullrotate));
+	int drawPixelY = (int)roundf(center.getY() - (0.5 * jari * sinf(fullrotate)));
+	
 	Pixel basePixel = Color::BLUE.toPixel();
-	while(fullrotate != theta+360.00)
+	byte alpha = (byte)roundf(std::max(.0f, 255 * (weight)));
+	Pixel drawPixel = basePixel | alpha;
+	while(fullrotate != 90)
 	{
-		byte alpha = (byte)roundf(std::max(.0f, 255 * (weight)));
-		Pixel drawPixel = basePixel | alpha;
-		
-		raster->setPixel(Ptemp.getX(),Ptemp.getY(), drawPixel);
-		fullrotate += 1.0f;
-		Ptemp.setX(round(center.getX() + jari*cos(fullrotate)));
-		Ptemp.setY(round(center.getY() - 0.5*jari*sin(fullrotate)));
+		raster->setPixel(drawPixelX, drawPixelY, drawPixel);
+		fullrotate += 0.7f;
+		drawPixelX = (int)roundf(center.getX() + jari * cosf(fullrotate));
+		drawPixelY = (int)roundf(center.getY() - 0.5 * jari * sinf(fullrotate));
 	}
 }
 
 void Ellipse::move(int dx,int dy)
 {
-	center.setX(center.getX() + dx);
-	center.setY(center.getY() + dy);
+	int newX = center.getX() + dx;
+	int newY = center.getY() + dy;
+	
+	bool move =(newX-(int)jari*cosf(theta) >= SCREEN_X_MIN && newX+(int)jari*cosf(theta) <= SCREEN_X_MAX &&
+				newY-(int)jari*smash*sinf(theta) >= SCREEN_Y_MIN && newY+(int)jari*sinf(theta) <= SCREEN_Y_MAX);
+	
+	if(move) {
+		center.setX(newX);
+		center.setY(newY);
+	}
+}
+
+void Ellipse::scale(int x){
+	
 }

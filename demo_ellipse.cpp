@@ -40,15 +40,15 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	screen->setMode(GRAPHICS);
+	//screen->setMode(GRAPHICS);
 
 	bool exit = false;
 
 	// initialize the ellipse
-	Ellipse *elips = new Ellipse(200, 200, Color::BLACK,0.00,200.00,10.f);
+	Ellipse *elips = new Ellipse(200, 200, Color::RED,45.00,200.00,10.f,0.5);
 	
 	int movHorizontal = 5, movVertical = 5;
-	
+	int rotatevalue = 10;
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
 
@@ -61,19 +61,23 @@ int main()
 				break;
 			case KEY_LEFT:
 				elips->move(0-movHorizontal, 0);
+				//elips->rotate(rotatevalue);
 				break;
 			case KEY_RIGHT:
 				elips->move(movHorizontal, 0);
+				//elips->rotate(rotatevalue);
 				break;
 			case KEY_UP:
 				elips->move(0, 0-movVertical);
+				//elips->rotate(rotatevalue);
 				break;
 			case KEY_DOWN:
 				elips->move(0, movVertical);
+				//elips->rotate(rotatevalue);
 				break;
 			}
 		}
-
+		screen->drawBackground();
 		screen->draw(elips);
 		screen->update();
 

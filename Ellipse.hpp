@@ -14,9 +14,10 @@ namespace Graphics {
 		float theta;
 		float jari;
 		float weight;
+		float smash;
 	public:
-		Ellipse(const Point& center,float theta,float jari,float weight);
-		Ellipse(int x1, int y1, const Color& c1,float theta,float jari,float weight);
+		Ellipse(const Point& center,float theta,float jari,float weight,float smash);
+		Ellipse(int x1, int y1, const Color& c1,float theta,float jari,float weight,float smash);
 		Ellipse(const Ellipse&);
 		~Ellipse();
 		
@@ -62,7 +63,7 @@ namespace Graphics {
 		float getJari();
 		
 		/**
-		 * Sets the center point of the Ellipse
+		 * Sets the radius point of the Ellipse
 		 * 
 		 * @param point the new point
 		 **/
@@ -83,6 +84,22 @@ namespace Graphics {
 		 **/
 		void setWeight(float weight);
 		
+			
+		/**
+		 * Gets the smash of the Ellipse
+		 * 
+		 * @return smash float
+		 **/
+		float getSmash();
+		
+		/**
+		 * Sets the smash value of the Ellipse
+		 * 
+		 * @param int new smash value
+		 **/
+		void setSmash(int smash);
+		
+		
 		double getLength() const;
 		float getLengthFloat() const;
 		
@@ -91,6 +108,7 @@ namespace Graphics {
 		void move(int dx, int dy);
 	
 	protected:
+		void scale(int x);
 		void drawFill() const;
 		void drawOutline() const;
 	};
