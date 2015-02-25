@@ -7,7 +7,7 @@
 namespace Graphics {
 	class Point : public Drawable {
 	friend class Rasterizer;
-		
+	friend class Parachute;
 	protected:
 		int x;
 		int y;

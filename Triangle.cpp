@@ -1,7 +1,6 @@
 #include "Triangle.hpp"
-
 #include "Rasterizer.hpp"
-
+#include <list>
 #include <cmath>
 #include <algorithm>
 
@@ -90,7 +89,16 @@ float Triangle::getLengthFloat() const {
 }
 
 void Triangle::rotate(int degree) {
-	//TBD
+	int tmp = p1.getX();
+	double rad = (double)degree*180/3.1415926535897;
+	p1.setX(anchor.getX() + p1.getX()*cos(rad) - p1.getY()*sin(rad));
+	p1.setY(anchor.getY() + p1.getY()*cos(rad) + tmp*sin(rad));
+	tmp = p2.getX();
+	p2.setX(anchor.getX() + p2.getX()*cos(rad) - p2.getY()*sin(rad));
+	p2.setY(anchor.getY() + p2.getY()*cos(rad) + tmp*sin(rad));
+	tmp = p3.getX();
+	p3.setX(anchor.getX() + p3.getX()*cos(rad) - p3.getY()*sin(rad));
+	p3.setY(anchor.getY() + p3.getY()*cos(rad) + tmp*sin(rad));
 }
 
 void Triangle::drawOutline() const {
@@ -104,7 +112,37 @@ void Triangle::drawOutline() const {
 }
 
 void Triangle::drawFill() const {
-	//TBD
+	int i,x1,x2,x3,y1,y2,y3,j1,j2;
+	std::list<Edge> L;
+	Color c(Color::RED);
+	x1 = p1.getX();
+	x2 = p2.getX();
+	x3 = p3.getX();
+	y1 = p1.getY();
+	y2 = p2.getY();
+	y3 = p3.getY();
+	for(i=x1;i<x2;i++){
+		j1 = (i-x1) * (y3-y1) / (x3-x1) + y1;
+		j2 = (i-x1) * (y2-y1) / (x2-x1) + y1;
+		Point t1(i,j1,c);
+		Point t2(i,j2,c);
+		Edge e(t1,t2);
+		L.push_back(e);
+	}
+	
+	for(i=x2;i<x3;i++){
+		j1 = (i-x1) * (y3-y1) / (x3-x1) + y1;
+		j2 = (i-x2) * (y3-y2) / (x3-x2) + y2;
+		Point t1(i,j1,c);
+		Point t2(i,j2,c);
+		Edge e(t1,t2);
+		L.push_back(e);
+	}
+	
+	std::list<Edge>::iterator p;
+	for(p = L.begin(); p!=L.end() ; ++p){
+		(*p).draw();
+	}
 
 }
 
@@ -130,6 +168,63 @@ void Triangle::move(int dx, int dy) {
 	}
 }
 
+<<<<<<< Updated upstream
 void Triangle::scale(int scale) {
 	//TBD
+=======
+void Triangle::sortX(){
+	Point p;
+	if(p1.getX() < p2.getX()){
+		//p1.getX() < p2.getX()
+		if(p2.getX() < p3.getX()){
+			//p1.getX() < p2.getX() < p3.getX()
+			//do nothing
+		}
+		else{
+			//p3.getX() < p2.getX() && p1.getX() < p2.getX()
+			if(p3.getX()<p1.getX()){
+				//p3.getX() < p1.getX() < p2.getX()
+				p=p3;
+				p3=p2;
+				p2=p1;
+				p1=p3;
+			}
+			else{
+				//p1.getX() < p3.getX() < p2.getX()
+				p=p3;
+				p3=p2;
+				p2=p;
+			}
+		}
+	}
+	else{
+		//p2.getX() < p1.getX()
+		if(p1.getX() < p3.getX()){
+			//p2.getX() < p1.getX() < p3.getX()
+			p=p2;
+			p2=p1;
+			p1=p;
+		}
+		else{
+			//p3.getX() < p1.getX() && p2.getX() < p1.getX()
+			if(p3.getX()<p2.getX()){
+				//p3.getX() < p2.getX() < p1.getX()
+				p=p3;
+				p3=p1;
+				p1=p;
+			}
+			else{
+				//p2.getX() < p3.getX() < p1.getX()
+				p=p1;
+				p1=p2;
+				p2=p3;
+				p3=p;
+			}
+		}
+	}
+}
+
+void Triangle::scale(int scale){
+	
+>>>>>>> Stashed changes
 }

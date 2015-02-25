@@ -25,7 +25,7 @@ namespace Graphics {
 		 * 
 		 * @param scale the scale factor
 		 **/
-		virtual void scale(int scale) = 0;
+		//virtual void scale(int scale) = 0;
 		
 		/**
 		 * get the anchor point

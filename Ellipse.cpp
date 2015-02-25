@@ -97,6 +97,10 @@ void Ellipse::drawFill() const {
 
 }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 void Ellipse::drawOutline() const{
 	Rasterizer *raster = Screen::instance();
 	Point Ptemp;

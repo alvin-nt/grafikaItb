@@ -94,6 +94,7 @@ namespace Graphics {
 	protected:
 		void drawOutline() const;
 		void drawFill() const;
+		void sortX();
 	};
 
 }

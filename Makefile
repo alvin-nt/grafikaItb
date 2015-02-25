@@ -1,7 +1,11 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
+<<<<<<< Updated upstream
 DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser
+=======
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_parachute
+>>>>>>> Stashed changes
 
 demo_all: $(DEMOS)
 
@@ -38,6 +42,14 @@ demo_ellipse : demo_ellipse.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Sha
 
 demo_ellipse.o : demo_ellipse.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
+
+demo_parachute : demo_parachute.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Parachute.o
+	$(CC) $(CFLAGS) -o $@ $^	
+
+demo_parachute.o : demo_parachute.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+
+
 	
 demo_cruiser : demo_cruiser.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
@@ -96,5 +108,7 @@ Ellipse.o : Ellipse.cpp Ellipse.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Po
 Triangle.o : Triangle.cpp Triangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
+Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
 clean :
 	rm -rf $(DEMOS) *.o

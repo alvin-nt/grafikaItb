@@ -5,7 +5,7 @@
 #include "Point.hpp"
 #include "Types.hpp"
 #include "Triangle.hpp"
-
+#include "Parachute.hpp"
 #include <cstdlib>
 #include <signal.h>
 #include <unistd.h> // usleep
@@ -41,20 +41,13 @@ int main()
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
 	screen->setMode(GRAPHICS);
-	Point p1(200,300,Color::WHITE);
-	Point p2(30,40,Color::WHITE);
-	Point p3(90,100,Color::WHITE);
-	Triangle segitiga(p1,p2,p3,10.0f);
-	Point p4(400,400,Color::WHITE);
-	segitiga.setAnchor(p4);
-	Edge e(p1,p2);
+	Parachute parasut(400,150);
 	bool exit = false;
 
 	// the main program loop
 	ScreenInfoVar vinfo = screen->getVarInfo();
-	//int rotate = 30;
-	
-	while(!exit) {
+	int counter = 0;
+	while(!exit && counter<100) {
 		screen->drawBackground();
 		/*
 		int key = keyboard->getPressedKeyCode();
@@ -63,15 +56,12 @@ int main()
 			key = 0;
 		} else {
 			if(key == KEY_BACKSPACE)
-				exit = true;
-		}
-		segitiga.rotate(rotate);
-		*/
-		screen->draw(&segitiga, true);
-		//screen->draw(&e);
-		
+				exit=true;
+		}*/
+		parasut.move(0,2);
+		screen->draw(&parasut);
 		screen->update();
-
+		counter++;
 		// sleep
 		usleep(50);
 	}

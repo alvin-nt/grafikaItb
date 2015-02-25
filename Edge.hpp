@@ -11,6 +11,7 @@ namespace Graphics {
 	class Edge : public Shape {	
 		friend class Triangle;
 		friend class Rectangle;
+		friend class Parachute;
 	private:
 		Point p1, p2;
 		
