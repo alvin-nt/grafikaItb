@@ -1,4 +1,5 @@
 #include "Peta.hpp"
+#include <cstdio>
 #include <cmath>
 using namespace Graphics;
 Peta::Peta(int x,int y)
@@ -53,6 +54,7 @@ Peta::~Peta(){
 }
 
 void Peta::move(int dx, int dy){
+	
 	pesawat1.move(dx,dy);
 	pesawat2.move(dx,dy);
 	pesawat3.move(dx,dy);
@@ -61,6 +63,42 @@ void Peta::move(int dx, int dy){
 	pesawat6.move(dx,dy);
 	pesawat7.move(dx,dy);
 	pesawat8.move(dx,dy);
+	int x,y, d_x, d_y, xpusat, ypusat;
+	double MathPI = 3.1415 , rotation = 30;
+	if(!hide){
+		xpusat = (pesawat5.getX() + pesawat6.getX())/2;
+		ypusat = (pesawat6.getY() + pesawat7.getY())/2;
+		//baling-baling muter
+		x = pesawat5.getX() - xpusat;
+		y = pesawat5.getY() - ypusat;
+		d_x = x*cos(rotation*MathPI/180) - y*sin(rotation*MathPI/180) + xpusat;
+		d_y = y*cos(rotation*MathPI/180) + x*sin(rotation*MathPI/180) + ypusat;
+		pesawat5.setX(d_x);
+		pesawat5.setY(d_y);
+		//baling-baling muter
+		x = pesawat6.getX() - xpusat;
+		y = pesawat6.getY() - ypusat;
+		d_x = x*cos(rotation*MathPI/180) - y*sin(rotation*MathPI/180) + xpusat;
+		d_y = y*cos(rotation*MathPI/180) + x*sin(rotation*MathPI/180) + ypusat;
+		pesawat6.setX(d_x);
+		pesawat6.setY(d_y);
+		//baling-baling muter
+		x = pesawat7.getX() - xpusat;
+		y = pesawat7.getY() - ypusat;
+		d_x = x*cos(rotation*MathPI/180) - y*sin(rotation*MathPI/180) + xpusat;
+		d_y = y*cos(rotation*MathPI/180) + x*sin(rotation*MathPI/180) + ypusat;
+		pesawat7.setX(d_x);
+		pesawat7.setY(d_y);
+		//baling-baling muter
+		x = pesawat8.getX() - xpusat;
+		y = pesawat8.getY() - ypusat;
+		d_x = x*cos(rotation*MathPI/180) - y*sin(rotation*MathPI/180) + xpusat;
+		d_y = y*cos(rotation*MathPI/180) + x*sin(rotation*MathPI/180) + ypusat;
+		pesawat8.setX(d_x);
+		pesawat8.setY(d_y);
+	}
+	if((pesawat1.getX() < SCREEN_X_MIN) || (pesawat2.getX() > SCREEN_X_MAX) || (pesawat3.getY() > SCREEN_Y_MAX) || (pesawat1.getY() < SCREEN_Y_MIN) )
+		hide = true;
 }
 
 void Peta::setPoin(){
@@ -231,7 +269,12 @@ void Peta::setPoin(){
 }
 
 void Peta::draw() const{
-			
-			for(int i = 0; i <= 154; i++)
-				e[i].draw();
+			if(!hide){ // pesawat belum keluar map, lihat move(dx,dy)
+				for(int i = 0; i <= 154; i++)
+					e[i].draw();
+			}
+			else{
+					for(int i = 0; i <= 148; i++)
+					e[i].draw();
+			}
 }

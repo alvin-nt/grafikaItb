@@ -168,10 +168,6 @@ void Triangle::move(int dx, int dy) {
 	}
 }
 
-<<<<<<< Updated upstream
-void Triangle::scale(int scale) {
-	//TBD
-=======
 void Triangle::sortX(){
 	Point p;
 	if(p1.getX() < p2.getX()){
@@ -225,6 +221,5 @@ void Triangle::sortX(){
 }
 
 void Triangle::scale(int scale){
-	
->>>>>>> Stashed changes
+
 }

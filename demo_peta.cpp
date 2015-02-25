@@ -82,7 +82,7 @@ int main()
 			}
 		}
 		screen->drawBackground();
-		peta->move(1,0);
+		peta->move(20,0);
 		peta->setPoin();
 		screen->draw(peta);
 		screen->draw(vp);
