@@ -143,3 +143,7 @@ void Ellipse::move(int dx,int dy)
 void Ellipse::scale(int x){
 	
 }
+
+void Ellipse::scale(int scale) {
+	//TBD
+}

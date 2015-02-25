@@ -4,7 +4,7 @@
 #include "Edge.hpp"
 #include "Point.hpp"
 #include "Types.hpp"
-#include "Rectangle.hpp"
+#include "Triangle.hpp"
 
 #include <cstdlib>
 #include <signal.h>
@@ -33,62 +33,50 @@ int main()
 		printf("This program must be run as root.\n");
 		exit(3);
 	}
-	
+
 	// initialization
 	clearScreen();
 	signal(SIGINT, INTHandler); // hook interrupt (Ctrl-C) to INTHandler
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-//	screen->setMode(GRAPHICS);
-
+	screen->setMode(GRAPHICS);
+	Point p1(200,300,Color::WHITE);
+	Point p2(30,40,Color::WHITE);
+	Point p3(90,100,Color::WHITE);
+	Triangle segitiga(p1,p2,p3,10.0f);
+	Point p4(400,400,Color::WHITE);
+	segitiga.setAnchor(p4);
+	Edge e(p1,p2);
 	bool exit = false;
 
 	// the main program loop
-	
-	// initialize the rectangle
-	Rectangle *rect = new Rectangle(200, 200, Color::WHITE,
-									200, 600, Color::WHITE,
-									600, 600, Color::WHITE,
-									600, 200, Color::WHITE,10.0f);
-	
-	int movHorizontal = 5, movVertical = 5;
+	ScreenInfoVar vinfo = screen->getVarInfo();
+	//int rotate = 30;
 	
 	while(!exit) {
+		screen->drawBackground();
+		/*
 		int key = keyboard->getPressedKeyCode();
 
 		if(key == Keyboard::NO_INPUT) {
 			key = 0;
 		} else {
-			switch(key) {
-			case KEY_BACKSPACE:
+			if(key == KEY_BACKSPACE)
 				exit = true;
-				break;
-			case KEY_LEFT:
-				rect->move(0-movHorizontal, 0);
-				break;
-			case KEY_RIGHT:
-				rect->move(movHorizontal, 0);
-				break;
-			case KEY_UP:
-				rect->move(0, 0-movVertical);
-				break;
-			case KEY_DOWN:
-				rect->move(0, movVertical);
-				break;
-			}
 		}
-
-		screen->drawBackground();
-		screen->draw(rect);
+		segitiga.rotate(rotate);
+		*/
+		screen->draw(&segitiga, true);
+		//screen->draw(&e);
+		
 		screen->update();
 
 		// sleep
 		usleep(50);
 	}
-	delete rect;
 	cleanup();
-	
+
 	return 0;
 }
 
@@ -103,3 +91,4 @@ void cleanup() {
 	Screen::destroy();
 	delete keyboard;
 }
+

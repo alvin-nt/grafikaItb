@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
-DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_stackingLine
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball
 
 demo_all: $(DEMOS)
 
@@ -13,12 +13,6 @@ demo_movingLine : demo_movingLine.o Keyboard.o Rasterizer.o Edge.o Point.o Color
 	$(CC) $(CFLAGS) -o $@ $^
 
 demo_movingLine.o : demo_movingLine.cpp
-	$(CC) $(CFLAGS) -c -o $@ $<
-	
-demo_stackingLine : demo_stackingLine.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o
-	$(CC) $(CFLAGS) -o $@ $^
-
-demo_stackingLine.o : demo_stackingLine.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 demo_lines : demo_lines.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o
@@ -33,10 +27,34 @@ demo_rectangle : demo_rectangle.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o
 demo_rectangle.o : demo_rectangle.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 
+demo_triangle : demo_triangle.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Triangle.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+demo_triangle.o : demo_triangle.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+	
 demo_ellipse : demo_ellipse.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^	
 
 demo_ellipse.o : demo_ellipse.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+
+demo_parachute : demo_parachute.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Parachute.o
+	$(CC) $(CFLAGS) -o $@ $^	
+
+demo_parachute.o : demo_parachute.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+
+demo_ball : demo_ball.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Ball.o
+	$(CC) $(CFLAGS) -o $@ $^	
+
+demo_ball.o : demo_ball.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+	
+demo_cruiser : demo_cruiser.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+demo_cruiser.o : demo_cruiser.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
 # ---Dependencies---
@@ -87,5 +105,14 @@ Rectangle.o : Rectangle.cpp Rectangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.
 Ellipse.o : Ellipse.cpp Ellipse.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+Triangle.o : Triangle.cpp Triangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
+Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+Ball.o : Ball.cpp Ball.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
 clean :
 	rm -rf $(DEMOS) *.o

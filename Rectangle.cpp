@@ -146,3 +146,7 @@ void Rectangle::move(int dx, int dy) {
 		p4.move(dx, dy);
 	}
 }
+
+void Rectangle::scale(int scale) {
+	//TBD
+}
