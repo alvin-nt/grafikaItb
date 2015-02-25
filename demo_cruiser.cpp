@@ -53,6 +53,12 @@ int main()
 									525, 550, Color::WHITE, //upper right point
 									500, 600, Color::WHITE, //lower right point
 									5.0f);
+	Ellipse *turret = new Ellipse(375,550, Color::WHITE,1.0f,30.0f,5.0f);
+	Edge *gun = new Edge(375,550, Color::WHITE,
+						 350,525, Color::WHITE,
+						 5.0f);
+						 
+	Ellipse *bullet = new Ellipse(350,525, Color::WHITE, 1.0f, 5.0f, 5.0f);
 	
 	int movHorizontal = 5, movVertical = 5;
 	
@@ -68,26 +74,38 @@ int main()
 				break;
 			case KEY_LEFT:
 				body->move(0-movHorizontal, 0);
+				turret->move(0-movHorizontal, 0);
+				gun->move(0-movHorizontal, 0);
 				break;
 			case KEY_RIGHT:
 				body->move(movHorizontal, 0);
+				turret->move(movHorizontal, 0);
+				gun->move(movHorizontal, 0);
 				break;
 			case KEY_UP:
 				body->move(0, 0-movVertical);
+				turret->move(0, 0-movVertical);
+				gun->move(0, 0-movVertical);
 				break;
 			case KEY_DOWN:
 				body->move(0, movVertical);
+				turret->move(0, movVertical);
+				gun->move(0, movVertical);
 				break;
 			}
 		}
-
+		
+		bullet->move(0-movHorizontal,0-movVertical);
 		//body->move(0-movHorizontal, 0);
 		screen->drawBackground();
+		screen->draw(turret);
+		screen->draw(gun);
 		screen->draw(body);
+		screen->draw(bullet);
 		screen->update();
 
 		// sleep
-		usleep(50);
+		usleep(11500);
 	}
 	delete body;
 	cleanup();
