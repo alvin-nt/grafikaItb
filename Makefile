@@ -56,7 +56,13 @@ demo_cruiser : demo_cruiser.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Sha
 
 demo_cruiser.o : demo_cruiser.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
-	
+
+main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+main_kapalPesawat.o : main_kapalPesawat.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+
 # ---Dependencies---
 # Naming convention:
 #

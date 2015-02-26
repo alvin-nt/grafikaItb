@@ -12,12 +12,14 @@
 #include <unistd.h> // usleep
 #include <ctime>
 #include <iostream>
+#include <cmath>
 
 using namespace Graphics;
 
 using std::cout;
 using std::cerr;
 using std::endl;
+using std::abs;
 
 // handles ctrl-c
 // temporarily not used
@@ -41,7 +43,7 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-//	screen->setMode(GRAPHICS);
+	screen->setMode(GRAPHICS);
 
 	bool exit = false;
 
@@ -58,9 +60,10 @@ int main()
 						 350,525, Color::WHITE,
 						 5.0f);
 						 
-	Ellipse *bullet = new Ellipse(350,525, Color::WHITE, 1.0f, 5.0f, 5.0f,1.f);
+	Ellipse *bullet;
 	
 	int movHorizontal = 5, movVertical = 5;
+	bool bulletExists = false;
 	
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
@@ -73,35 +76,48 @@ int main()
 				exit = true;
 				break;
 			case KEY_LEFT:
-				body->move(0-movHorizontal, 0);
-				turret->move(0-movHorizontal, 0);
-				gun->move(0-movHorizontal, 0);
+				if(body->getPoint2().getX() > Drawable::SCREEN_X_MIN) {
+					body->move(0-movHorizontal, 0);
+					turret->move(0-movHorizontal, 0);
+					gun->move(0-movHorizontal, 0);
+				}
 				break;
 			case KEY_RIGHT:
-				body->move(movHorizontal, 0);
-				turret->move(movHorizontal, 0);
-				gun->move(movHorizontal, 0);
+				if(body->getPoint3().getX() < Drawable::SCREEN_X_MAX) {
+					body->move(movHorizontal, 0);
+					turret->move(movHorizontal, 0);
+					gun->move(movHorizontal, 0);
+				}
 				break;
-			case KEY_UP:
-				body->move(0, 0-movVertical);
-				turret->move(0, 0-movVertical);
-				gun->move(0, 0-movVertical);
-				break;
-			case KEY_DOWN:
-				body->move(0, movVertical);
-				turret->move(0, movVertical);
-				gun->move(0, movVertical);
+			case KEY_SPACE:
+				// fire bullet
+				if(!bulletExists) {
+					Point refPoint(gun->getPoint2());
+					
+					bullet = new Ellipse(refPoint.getX(), refPoint.getY(), Color::WHITE, 1.0f, 5.0f, 5.0f,1.f);
+					bulletExists = true;
+				}
 				break;
 			}
 		}
 		
-		bullet->move(0-movHorizontal,0-movVertical);
-		//body->move(0-movHorizontal, 0);
+		// draw order
 		screen->drawBackground();
 		screen->draw(turret);
 		screen->draw(gun);
 		screen->draw(body);
-		screen->draw(bullet);
+		
+		if(bulletExists && bullet != NULL) {
+			screen->draw(bullet);
+			Point check(bullet->getCenter());
+			
+			// try to move
+			bullet->move(0-abs(gun->getDeltaX()),0-abs(gun->getDeltaY()));
+			if(check == bullet->getCenter()) {
+				delete bullet;
+				bulletExists = false;
+			}
+		}
 		screen->update();
 
 		// sleep
