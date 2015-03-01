@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
-DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta
 
 demo_all: $(DEMOS)
 
@@ -55,6 +55,12 @@ demo_cruiser : demo_cruiser.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Sha
 	$(CC) $(CFLAGS) -o $@ $^
 
 demo_cruiser.o : demo_cruiser.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+	
+demo_peta : demo_peta.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Peta.o
+	$(CC) $(CFLAGS) -o $@ $^	
+
+demo_peta.o : demo_peta.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
 # ---Dependencies---
@@ -112,6 +118,9 @@ Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Ball.o : Ball.cpp Ball.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+Peta.o : Peta.cpp Peta.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean :

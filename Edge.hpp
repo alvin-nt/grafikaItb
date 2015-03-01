@@ -12,6 +12,7 @@ namespace Graphics {
 		friend class Triangle;
 		friend class Rectangle;
 		friend class Parachute;
+		friend class Peta;
 	private:
 		Point p1, p2;
 		
