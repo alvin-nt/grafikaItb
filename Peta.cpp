@@ -21,7 +21,26 @@ jawa9(x+347,y+341,Color::WHITE),jawa10(x+325,y+345,Color::WHITE),jawa11(x+334,y+
 jawa13(x+361,y+360,Color::WHITE),jawa14(x+375,y+360,Color::WHITE),jawa15(x+371,y+370,Color::WHITE),jawa16(x+361,y+365,Color::WHITE),
 jawa17(x+357,y+371,Color::WHITE),jawa18(x+330,y+365,Color::WHITE),jawa19(x+289,y+362,Color::WHITE),jawa20(x+259,y+351,Color::WHITE),
 jawa21(x+239,y+355,Color::WHITE),jawa22(x+234,y+349,Color::WHITE),jawa23(x+212,y+345,Color::WHITE),jawa24(x+215,y+341,Color::WHITE),
-jawa25(x+197,y+337,Color::WHITE)
+jawa25(x+197,y+337,Color::WHITE),
+ntt1(x+389,y+362,Color::WHITE),ntt2(x+409,y+364,Color::WHITE),ntt3(x+420,y+366,Color::WHITE),ntt4(x+411,y+362,Color::WHITE),
+ntt5(x+418,y+357,Color::WHITE),ntt6(x+437,y+363,Color::WHITE),ntt7(x+440,y+370,Color::WHITE),ntt8(x+420,y+375,Color::WHITE),
+ntt9(x+400,y+370,Color::WHITE),ntt10(x+381,y+369,Color::WHITE),ntt11(x+387,y+370,Color::WHITE),
+sulawesi1(x+470,y+192,Color::WHITE),sulawesi2(x+509,y+195,Color::WHITE),sulawesi3(x+526,y+197,Color::WHITE),sulawesi4(x+539,y+182,Color::WHITE),
+sulawesi5(x+548,y+186,Color::WHITE),sulawesi6(x+530,y+209,Color::WHITE),sulawesi7(x+463,y+209,Color::WHITE),sulawesi8(x+459,y+225,Color::WHITE),
+sulawesi9(x+466,y+234,Color::WHITE),sulawesi10(x+483,y+226,Color::WHITE),sulawesi11(x+511,y+224,Color::WHITE),sulawesi12(x+518,y+229,Color::WHITE),
+sulawesi13(x+517,y+241,Color::WHITE),sulawesi14(x+500,y+240,Color::WHITE),sulawesi15(x+486,y+252,Color::WHITE),sulawesi16(x+503,y+286,Color::WHITE),
+sulawesi17(x+512,y+307,Color::WHITE),sulawesi18(x+502,y+316,Color::WHITE),sulawesi19(x+492,y+304,Color::WHITE),sulawesi20(x+470,y+280,Color::WHITE),
+sulawesi21(x+473,y+263,Color::WHITE),sulawesi22(x+462,y+266,Color::WHITE),sulawesi23(x+465,y+311,Color::WHITE),sulawesi24(x+447,y+316,Color::WHITE),
+sulawesi25(x+441,y+309,Color::WHITE),sulawesi26(x+443,y+272,Color::WHITE),sulawesi27(x+433,y+276,Color::WHITE),sulawesi28(x+432,y+264,Color::WHITE),
+sulawesi29(x+443,y+237,Color::WHITE),sulawesi30(x+449,y+226,Color::WHITE),sulawesi31(x+450,y+210,Color::WHITE),
+papua1(x+636,y+226,Color::WHITE),papua2(x+650,y+231,Color::WHITE),papua3(x+671,y+217,Color::WHITE),papua4(x+700,y+224,Color::WHITE),
+papua5(x+706,y+261,Color::WHITE),papua6(x+732,y+270,Color::WHITE),papua7(x+742,y+255,Color::WHITE),papua8(x+753,y+242,Color::WHITE),
+papua9(x+770,y+239,Color::WHITE),papua10(x+824,y+260,Color::WHITE),papua11(x+822,y+376,Color::WHITE),papua12(x+802,y+362,Color::WHITE),
+papua13(x+763,y+368,Color::WHITE),papua14(x+770,y+348,Color::WHITE),papua15(x+782,y+343,Color::WHITE),papua16(x+766,y+309,Color::WHITE),
+papua17(x+726,y+293,Color::WHITE),papua18(x+695,y+279,Color::WHITE),papua19(x+683,y+292,Color::WHITE),papua20(x+675,y+286,Color::WHITE),
+papua21(x+676,y+273,Color::WHITE),papua22(x+662,y+266,Color::WHITE),papua23(x+665,y+258,Color::WHITE),papua24(x+683,y+257,Color::WHITE),
+papua25(x+658,y+251,Color::WHITE),papua26(x+659,y+242,Color::WHITE),papua27(x+636,y+235,Color::WHITE),
+papX1(x+634,y+212,Color::WHITE),papX2(x+653,y+216,Color::WHITE),papX3(x+644,y+223,Color::WHITE),papX4(x+632,y+214,Color::WHITE)
 {
 	weight = 0.5f;
 }
@@ -111,7 +130,83 @@ void Peta::draw() const{
 	Edge ejaw24(jawa24,jawa25,weight);
 	Edge ejaw25(jawa25,jawa1,weight);
 
+	Edge entt1(ntt1,ntt2,weight);
+	Edge entt2(ntt2,ntt3,weight);
+	Edge entt3(ntt3,ntt4,weight);
+	Edge entt4(ntt4,ntt5,weight);
+	Edge entt5(ntt5,ntt6,weight);
+	Edge entt6(ntt6,ntt7,weight);
+	Edge entt7(ntt7,ntt8,weight);
+	Edge entt8(ntt8,ntt9,weight);
+	Edge entt9(ntt9,ntt10,weight);
+	Edge entt10(ntt10,ntt11,weight);
+	Edge entt11(ntt11,ntt1,weight);
 	
+	Edge esul1(sulawesi1,sulawesi2,weight);
+	Edge esul2(sulawesi2,sulawesi3,weight);
+	Edge esul3(sulawesi3,sulawesi4,weight);
+	Edge esul4(sulawesi4,sulawesi5,weight);
+	Edge esul5(sulawesi5,sulawesi6,weight);
+	Edge esul6(sulawesi6,sulawesi7,weight);
+	Edge esul7(sulawesi7,sulawesi8,weight);
+	Edge esul8(sulawesi8,sulawesi9,weight);
+	Edge esul9(sulawesi9,sulawesi10,weight);
+	Edge esul10(sulawesi10,sulawesi11,weight);
+	Edge esul11(sulawesi11,sulawesi12,weight);
+	Edge esul12(sulawesi12,sulawesi13,weight);
+	Edge esul13(sulawesi13,sulawesi14,weight);
+	Edge esul14(sulawesi14,sulawesi15,weight);
+	Edge esul15(sulawesi15,sulawesi16,weight);
+	Edge esul16(sulawesi16,sulawesi17,weight);
+	Edge esul17(sulawesi17,sulawesi18,weight);
+	Edge esul18(sulawesi18,sulawesi19,weight);
+	Edge esul19(sulawesi19,sulawesi20,weight);
+	Edge esul20(sulawesi20,sulawesi21,weight);
+	Edge esul21(sulawesi21,sulawesi22,weight);
+	Edge esul22(sulawesi22,sulawesi23,weight);
+	Edge esul23(sulawesi23,sulawesi24,weight);
+	Edge esul24(sulawesi24,sulawesi25,weight);
+	Edge esul25(sulawesi25,sulawesi26,weight);
+	Edge esul26(sulawesi26,sulawesi27,weight);
+	Edge esul27(sulawesi27,sulawesi28,weight);
+	Edge esul28(sulawesi28,sulawesi29,weight);
+	Edge esul29(sulawesi29,sulawesi30,weight);
+	Edge esul30(sulawesi30,sulawesi31,weight);
+	Edge esul31(sulawesi31,sulawesi1,weight);
+
+	Edge epap1(papua1,papua2,weight);
+	Edge epap2(papua2,papua3,weight);
+	Edge epap3(papua3,papua4,weight);
+	Edge epap4(papua4,papua5,weight);
+	Edge epap5(papua5,papua6,weight);
+	Edge epap6(papua6,papua7,weight);
+	Edge epap7(papua7,papua8,weight);
+	Edge epap8(papua8,papua9,weight);
+	Edge epap9(papua9,papua10,weight);
+	Edge epap10(papua10,papua11,weight);
+	Edge epap11(papua11,papua12,weight);
+	Edge epap12(papua12,papua13,weight);
+	Edge epap13(papua13,papua14,weight);
+	Edge epap14(papua14,papua15,weight);
+	Edge epap15(papua15,papua16,weight);
+	Edge epap16(papua16,papua17,weight);
+	Edge epap17(papua17,papua18,weight);
+	Edge epap18(papua18,papua19,weight);
+	Edge epap19(papua19,papua20,weight);
+	Edge epap20(papua20,papua21,weight);
+	Edge epap21(papua21,papua22,weight);
+	Edge epap22(papua22,papua23,weight);
+	Edge epap23(papua23,papua24,weight);
+	Edge epap24(papua24,papua25,weight);
+	Edge epap25(papua25,papua26,weight);
+	Edge epap26(papua26,papua27,weight);
+	Edge epap27(papua27,papua1,weight);
+
+	Edge epapX1(papX1,papX2,weight);
+	Edge epapX2(papX2,papX3,weight);
+	Edge epapX3(papX3,papX4,weight);
+	Edge epapX4(papX4,papX1,weight);
+				
 	esum1.draw();
 	esum2.draw();
 	esum3.draw();
@@ -187,5 +282,81 @@ void Peta::draw() const{
 	ejaw23.draw();
 	ejaw24.draw();
 	ejaw25.draw();
+	
+	entt1.draw();
+	entt2.draw();
+	entt3.draw();
+	entt4.draw();
+	entt5.draw();
+	entt6.draw();
+	entt7.draw();
+	entt8.draw();
+	entt9.draw();
+	entt10.draw();
+	entt11.draw();
 
+	esul1.draw();
+	esul2.draw();
+	esul3.draw();
+	esul4.draw();
+	esul5.draw();
+	esul6.draw();
+	esul7.draw();
+	esul8.draw();
+	esul9.draw();
+	esul10.draw();
+	esul11.draw();
+	esul12.draw();
+	esul13.draw();
+	esul14.draw();
+	esul15.draw();
+	esul16.draw();
+	esul17.draw();
+	esul18.draw();
+	esul19.draw();
+	esul20.draw();
+	esul21.draw();
+	esul22.draw();
+	esul23.draw();
+	esul24.draw();
+	esul25.draw();
+	esul26.draw();
+	esul27.draw();
+	esul28.draw();
+	esul29.draw();
+	esul30.draw();
+	esul31.draw();
+	
+	epap1.draw();
+	epap2.draw();
+	epap3.draw();
+	epap4.draw();
+	epap5.draw();
+	epap6.draw();
+	epap7.draw();
+	epap8.draw();
+	epap9.draw();
+	epap10.draw();
+	epap11.draw();
+	epap12.draw();
+	epap13.draw();
+	epap14.draw();
+	epap15.draw();
+	epap16.draw();
+	epap17.draw();
+	epap18.draw();
+	epap19.draw();
+	epap20.draw();
+	epap21.draw();
+	epap22.draw();
+	epap23.draw();
+	epap24.draw();
+	epap25.draw();
+	epap26.draw();
+	epap27.draw();
+
+	epapX1.draw();
+	epapX2.draw();
+	epapX3.draw();
+	epapX4.draw();
 }
