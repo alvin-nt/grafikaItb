@@ -106,9 +106,13 @@ const ScreenInfoFix& Rasterizer::getFixInfo() const {
 }
 
 void Rasterizer::setPixel(int x, int y, Pixel pixel) {
-	long location = getDrawLocation(x, y);
+	if(x >= 0 && x <= (int) vinfo.xres &&
+		y >= 0 && y <= (int) vinfo.yres) 
+	{
+		long location = getDrawLocation(x, y);
 
-	*((Pixel*)(ptrBackbuffer + location)) = pixel;
+		*((Pixel*)(ptrBackbuffer + location)) = pixel;
+	}
 }
 
 void Rasterizer::setPixel(int x, int y, const Color& color) {

@@ -15,10 +15,7 @@ Ball::~Ball(){
 }
 
 void Ball::animate(){
-		//const static int SCREEN_X_MIN; // minimum screen width
-		//static int SCREEN_X_MAX; // maximum screen width
-		//const static int SCREEN_Y_MIN; // minimum screen height
-		//static int SCREEN_Y_MAX; // maximum screen height
+
 	if((pusat.getY()+r)>=maxY){
 		balik = !balik;
 		minY+=60;

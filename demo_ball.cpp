@@ -40,19 +40,19 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	printf("Screen Instance");
+	//printf("Screen Instance");
 	screen->setMode(GRAPHICS);
-	Ball ball(150,200,30);
-	printf("Parasut Instansiasi");
+	Ball *ball = new Ball(150,200,30);
+	//printf("Parasut Instansiasi");
 	bool exit = false;
 
 	// the main program loop
 	ScreenInfoVar vinfo = screen->getVarInfo();
 	int counter = 0;
 	while(!exit && counter<10000) {
-		printf("While");
+		//printf("While");
 		screen->drawBackground();
-		/*
+		
 		int key = keyboard->getPressedKeyCode();
 
 		if(key == Keyboard::NO_INPUT) {
@@ -60,15 +60,17 @@ int main()
 		} else {
 			if(key == KEY_BACKSPACE)
 				exit=true;
-		}*/
-		screen->draw(&ball);
-		ball.animate();
+		}
+		
+		screen->draw(ball);
+		ball->animate();
 		screen->update();
 		counter++;
 		// sleep
 		usleep(50);
 	}
 	cleanup();
+	delete ball;
 
 	return 0;
 }
