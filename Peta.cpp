@@ -40,7 +40,10 @@ papua13(x+763,y+368,Color::WHITE),papua14(x+770,y+348,Color::WHITE),papua15(x+78
 papua17(x+726,y+293,Color::WHITE),papua18(x+695,y+279,Color::WHITE),papua19(x+683,y+292,Color::WHITE),papua20(x+675,y+286,Color::WHITE),
 papua21(x+676,y+273,Color::WHITE),papua22(x+662,y+266,Color::WHITE),papua23(x+665,y+258,Color::WHITE),papua24(x+683,y+257,Color::WHITE),
 papua25(x+658,y+251,Color::WHITE),papua26(x+659,y+242,Color::WHITE),papua27(x+636,y+235,Color::WHITE),
-papX1(x+634,y+212,Color::WHITE),papX2(x+653,y+216,Color::WHITE),papX3(x+644,y+223,Color::WHITE),papX4(x+632,y+214,Color::WHITE)
+papX1(x+634,y+212,Color::WHITE),papX2(x+653,y+216,Color::WHITE),papX3(x+644,y+223,Color::WHITE),papX4(x+632,y+214,Color::WHITE),
+kapal1(x+264,y+295,Color::BLUE),kapal2(x+284,y+300,Color::BLUE),kapal3(x+300,y+300,Color::BLUE),kapal4(x+280,y+295,Color::BLUE),
+pesawat1(x+540,y+360,Color::BLUE),pesawat2(x+580,y+360,Color::BLUE),pesawat3(x+580,y+365,Color::BLUE),pesawat4(x+540,y+365,Color::BLUE),
+pesawat5(x+535,y+348,Color::RED),pesawat6(x+565,y+378,Color::RED),pesawat7(x+565,y+348,Color::RED),pesawat8(x+535,y+378,Color::RED)
 {
 	weight = 0.5f;
 }
@@ -206,7 +209,19 @@ void Peta::draw() const{
 	Edge epapX2(papX2,papX3,weight);
 	Edge epapX3(papX3,papX4,weight);
 	Edge epapX4(papX4,papX1,weight);
-				
+	
+	Edge ekapal1(kapal1,kapal2,weight);
+	Edge ekapal2(kapal2,kapal3,weight);
+	Edge ekapal3(kapal3,kapal4,weight);
+	Edge ekapal4(kapal4,kapal1,weight);
+
+	Edge epesawat1(pesawat1,pesawat2,weight);
+	Edge epesawat2(pesawat2,pesawat3,weight);
+	Edge epesawat3(pesawat3,pesawat4,weight);
+	Edge epesawat4(pesawat4,pesawat1,weight);
+	Edge epesawat5(pesawat5,pesawat6,weight);
+	Edge epesawat6(pesawat7,pesawat8,weight);
+			
 	esum1.draw();
 	esum2.draw();
 	esum3.draw();
@@ -359,4 +374,16 @@ void Peta::draw() const{
 	epapX2.draw();
 	epapX3.draw();
 	epapX4.draw();
+	
+	ekapal1.draw();
+	ekapal2.draw();
+	ekapal3.draw();
+	ekapal4.draw();
+	
+	epesawat1.draw();
+	epesawat2.draw();
+	epesawat3.draw();
+	epesawat4.draw();
+	epesawat5.draw();
+	epesawat6.draw();
 }

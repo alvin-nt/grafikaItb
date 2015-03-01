@@ -33,6 +33,8 @@ namespace Graphics {
 		Point papua9,papua10,papua11,papua12,papua13,papua14,papua15,papua16,papua17;
 		Point papua18,papua19,papua20,papua21,papua22,papua23,papua24,papua25,papua26;
 		Point papua27,papX1,papX2,papX3,papX4;
+		Point kapal1,kapal2,kapal3,kapal4;
+		Point pesawat1,pesawat2,pesawat3,pesawat4,pesawat5,pesawat6,pesawat7,pesawat8;
 		float weight;
 	public:
 		Peta(int x, int y);
