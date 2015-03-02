@@ -4,9 +4,8 @@
 #include "Edge.hpp"
 #include "Point.hpp"
 #include "Types.hpp"
-#include "Peta.hpp"
-#include "ViewPort.hpp"
-
+#include "Triangle.hpp"
+#include "Ball.hpp"
 #include <cstdlib>
 #include <signal.h>
 #include <unistd.h> // usleep
@@ -31,7 +30,7 @@ Rasterizer *screen;
 int main()
 {
 	if (getuid() != 0) {
-		cout<<"This program must be run as root."<<endl;
+		printf("This program must be run as root.\n");
 		exit(3);
 	}
 
@@ -41,58 +40,37 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	//screen->setMode(GRAPHICS);
-
+	//printf("Screen Instance");
+	screen->setMode(GRAPHICS);
+	Ball *ball = new Ball(150,200,30);
+	//printf("Parasut Instansiasi");
 	bool exit = false;
 
-	// initialize the ellipse
-	Peta *peta = new Peta(0,-60);
-	ViewPort *vp = new ViewPort(200,200,600,400,200,200,peta);
-	
-	int movHorizontal = 2, movVertical = 2;
-	while(!exit) {
+	// the main program loop
+	ScreenInfoVar vinfo = screen->getVarInfo();
+	int counter = 0;
+	while(!exit && counter<10000) {
+		//printf("While");
+		screen->drawBackground();
+		
 		int key = keyboard->getPressedKeyCode();
 
 		if(key == Keyboard::NO_INPUT) {
 			key = 0;
 		} else {
-			switch(key)
-			{
-				case KEY_BACKSPACE:
-					exit = true;
-					break;
-				case KEY_LEFT:
-					vp->move(0-movHorizontal, 0);
-					break;
-				case KEY_RIGHT:
-					vp->move(movHorizontal, 0);
-					break;
-				case KEY_UP:
-					vp->move(0, 0-movVertical);
-					break;
-				case KEY_DOWN:
-					vp->move(0, movVertical);
-					break;
-				case KEY_Z:
-					vp->zoomIn();
-					break;
-				case KEY_X:
-					vp->zoomOut();
-					break;
-			}
+			if(key == KEY_BACKSPACE)
+				exit=true;
 		}
-		screen->drawBackground();
-		peta->move(1,0);
-		peta->setPoin();
-		screen->draw(peta);
-		screen->draw(vp);
+		
+		screen->draw(ball);
+		ball->animate();
 		screen->update();
-
+		counter++;
 		// sleep
 		usleep(50);
 	}
-	delete peta;
 	cleanup();
+	delete ball;
 
 	return 0;
 }
@@ -108,3 +86,4 @@ void cleanup() {
 	Screen::destroy();
 	delete keyboard;
 }
+

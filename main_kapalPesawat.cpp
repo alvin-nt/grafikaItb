@@ -60,7 +60,7 @@ int main()
 						 350,525, Color::WHITE,
 						 5.0f);
 						 
-	Ellipse *bullet;
+	Ellipse *bullet = NULL;
 	
 	int movHorizontal = 5, movVertical = 5;
 	bool bulletExists = false;
@@ -112,7 +112,7 @@ int main()
 			Point check(bullet->getCenter());
 			
 			// try to move
-			bullet->move(0-abs(gun->getDeltaX()),0-abs(gun->getDeltaY()));
+			bullet->move(0-abs(gun->getDeltaX()) / 5 ,0-abs(gun->getDeltaY()) / 5);
 			if(check == bullet->getCenter()) {
 				delete bullet;
 				bulletExists = false;

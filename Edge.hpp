@@ -13,11 +13,13 @@ namespace Graphics {
 		friend class Rectangle;
 		friend class Parachute;
 		friend class Peta;
+		friend class ViewPort;
 	private:
 		Point p1, p2;
 		
 		float weight;
 	public:
+		Edge();
 		Edge(const Point& p1, const Point& p2, float weight = 1.0f);
 		Edge(int x1, int y1, const Color& c1,
 			int x2, int y2, const Color& c2, float weight);
@@ -57,6 +59,12 @@ namespace Graphics {
 		 * @param point the new point
 		 **/
 		void setPoint2(const Point&);
+		/**
+		 * Sets the first and second point of the edge
+		 * 
+		 * @param point the new point
+		 **/
+		void setPoint(const Point& p1, const Point& p2, float weight);
 		
 		/**
 		 * Gets the weight parameter of the edge

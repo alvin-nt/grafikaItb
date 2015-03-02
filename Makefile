@@ -57,7 +57,7 @@ demo_cruiser : demo_cruiser.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Sha
 demo_cruiser.o : demo_cruiser.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
-demo_peta : demo_peta.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Peta.o
+demo_peta : demo_peta.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Peta.o ViewPort.o Rectangle.o
 	$(CC) $(CFLAGS) -o $@ $^	
 
 demo_peta.o : demo_peta.cpp
@@ -127,6 +127,9 @@ Ball.o : Ball.cpp Ball.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Peta.o : Peta.cpp Peta.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
+ViewPort.o : ViewPort.cpp ViewPort.hpp Peta.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean :

@@ -5,13 +5,24 @@
 #include "Point.hpp"
 #include "Edge.hpp"
 #include "Color.hpp"
+#include <vector>
 
 namespace Graphics {
 	/**
 	 * Class that represents a line
 	 **/
 	class Peta : public Drawable {
-	private:
+	public:
+		/* 0 - 31 sumatera
+		 * 32 - 58 kalimantan
+		 * 59 - 83 jawa
+		 * 84 - 94 ntt
+		 * 95 - 125 sulawesi
+		 * 126 - 152 papua
+		 * 153 - 156 papX
+		 * 157 - 160 kapal
+		 * 161 - 166 pesawat */
+		Edge e[155];
 		Point sumatera1,sumatera2,sumatera3,sumatera4,sumatera5,sumatera6,sumatera7,sumatera8;
 		Point sumatera9,sumatera10,sumatera11,sumatera12,sumatera13,sumatera14,sumatera15,sumatera16;
 		Point sumatera17,sumatera18,sumatera19,sumatera20,sumatera21;
@@ -40,6 +51,7 @@ namespace Graphics {
 		Peta(int x, int y);
 		~Peta();
 		void move(int dx,int dy);
+		void setPoin();
 	
 	protected:
 		void draw() const;

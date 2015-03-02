@@ -7,6 +7,11 @@
 
 using namespace Graphics;
 
+Edge::Edge()
+{
+	anchor = getMidpoint();
+}
+
 Edge::Edge(const Point &p1, const Point &p2, float weight)
 	: p1(p1), p2(p2), weight(weight)
 {
@@ -61,6 +66,12 @@ const Point &Edge::getPoint2() const {
 
 void Edge::setPoint2(const Point& p2) {
 	this->p2 = p2;
+}
+
+void Edge::setPoint(const Point& p1,const Point& p2, float weight) {
+	this->p1 = p1;
+	this->p2 = p2;
+	this->weight = weight;
 }
 
 int Edge::getDeltaX() const {

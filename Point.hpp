@@ -9,6 +9,7 @@ namespace Graphics {
 	friend class Rasterizer;
 	friend class Parachute;
 	friend class Ball;
+	friend class ViewPort;
 	protected:
 		int x;
 		int y;
