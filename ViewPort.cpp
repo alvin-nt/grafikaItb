@@ -115,12 +115,12 @@ void ViewPort::setPeta(const Peta* peta)
 void ViewPort::clipAndDraw(const Point& p1, const Point& p2) const
 {
 	// check the outcode, and check whether both of them lies in the window/viewport
-	int outCode1 = getOutCode(p1.getX(), p1.getY());
-	int outCode2 = getOutCode(p2.getX(), p2.getY());
+	int outCode1 = getOutCode(round(p1.getX()/zoom), round(p1.getY()/zoom));
+	int outCode2 = getOutCode(round(p2.getX()/zoom), round(p2.getY()/zoom));
 	bool accept =  false;
 	
-	int x0 = p1.getX(), x1 = p2.getX();
-	int y0 = p1.getY(), y1 = p2.getY();
+	int x0 = round(p1.getX()/zoom), x1 = round(p2.getX()/zoom);
+	int y0 = round(p1.getY()/zoom), y1 = round(p2.getY()/zoom);
 	
 	while (true) {
 		if (!(outCode1 | outCode2)) { // Bitwise OR == 0 >> line inside the viewport
@@ -215,7 +215,7 @@ Point ViewPort::window2View(const Point& pw) const
 Point ViewPort::view2Window(const Point& pv) const
 {
 	Point pw;
-	pw.setX(round((pv.getX()-vwCenter.getX())/zoom)+wCenter.getX());
-	pw.setY(round((pv.getY()-vwCenter.getY())/zoom)+wCenter.getY());
+	pw.setX((pv.getX()-vwCenter.getX())+wCenter.getX());
+	pw.setY((pv.getY()-vwCenter.getY())+wCenter.getY());
 	return pw;
 }
