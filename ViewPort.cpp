@@ -6,34 +6,44 @@
 using namespace Graphics;
 
 ViewPort::ViewPort(int vwx, int vwy, int wx, int wy, int hSize, int vSize, const Peta* pt)
-	: vwCenter(vwx, vwy), wCenter(wx, wy), hSize(hSize), vSize(vSize), zoom(1), peta(pt)
+	: vwCenter(vwx, vwy), wCenter(wx, wy), hSize(hSize), vSize(vSize), peta(pt), zoom(1.f)
 {
-	
+	vwBox = new Rectangle(getMinViewX(), getMinViewY(), Color::WHITE,
+							getMinViewX(), getMaxViewY(), Color::WHITE,
+							getMaxViewX(), getMaxViewY(), Color::WHITE,
+							getMaxViewX(), getMinViewY(), Color::WHITE,
+							1.0f);
+	wBox = new Rectangle(wCenter.getX() - (hSize >> 1), wCenter.getY() - (vSize >> 1), Color::WHITE,
+						wCenter.getX() + (hSize >> 1), wCenter.getY() - (vSize >> 1), Color::WHITE,
+						wCenter.getX() + (hSize >> 1), wCenter.getY() + (vSize >> 1), Color::WHITE,
+						wCenter.getX() - (hSize >> 1), wCenter.getY() + (vSize >> 1), Color::WHITE,
+						1.0f);
 }
 
 ViewPort::~ViewPort()
 {
-	
+	delete vwBox;
+	delete wBox;
 }
 
 int ViewPort::getMinViewX() const
 {
-	return vwCenter.getX() - (hSize >> 1);
+	return vwCenter.getX() - ((int)((float)hSize * zoom) >> 1);
 }
 
 int ViewPort::getMaxViewX() const
 {
-	return vwCenter.getX() + (hSize >> 1);
+	return vwCenter.getX() + ((int)((float)hSize * zoom) >> 1);
 }
 		
 int ViewPort::getMinViewY() const
 {
-	return vwCenter.getY() - (vSize >> 1);
+	return vwCenter.getY() - ((int)((float)vSize * zoom) >> 1);
 }
 
 int ViewPort::getMaxViewY() const
 {
-	return vwCenter.getY() + (vSize >> 1);
+	return vwCenter.getY() + ((int)((float)vSize * zoom) >> 1);
 }
 		
 void ViewPort::setZoom(int zoom)
@@ -41,35 +51,52 @@ void ViewPort::setZoom(int zoom)
 	this->zoom = zoom;
 }
 
-void ViewPort::zoomIn()
+void ViewPort::zoomOut()
 {
-	if(zoom <= 4) {
-		zoom <<= 1;
+	if(zoom < 3.f) {
+		int newXMin = vwCenter.getX() - ((int)((float)hSize * (zoom + 0.1f)) >> 1);
+		int newXMax = vwCenter.getX() + ((int)((float)hSize * (zoom + 0.1f)) >> 1);
+		int newYMin = vwCenter.getY() - ((int)((float)vSize * (zoom + 0.1f)) >> 1);
+		int newYMax = vwCenter.getY() + ((int)((float)vSize * (zoom + 0.1f)) >> 1);
+		
+		if (newXMin >= SCREEN_X_MIN &&
+			newXMax <= SCREEN_X_MAX &&
+			newYMin >= SCREEN_Y_MIN &&
+			newYMax <= SCREEN_Y_MAX) 
+		{
+			zoom += 0.1f;
+			
+			vwBox->setPoint1(getMinViewX(), getMinViewY());
+			vwBox->setPoint2(getMinViewX(), getMaxViewY());
+			vwBox->setPoint3(getMaxViewX(), getMaxViewY());
+			vwBox->setPoint4(getMaxViewX(), getMinViewY());
+		}
 	}
 }
 
-void ViewPort::zoomOut()
+void ViewPort::zoomIn()
 {
-	if(zoom > 1) {
-		zoom >>= 1;
+	if(zoom > 1.f) {
+		zoom -= 0.1f;
+		
+		vwBox->setPoint1(getMinViewX(), getMinViewY());
+		vwBox->setPoint2(getMinViewX(), getMaxViewY());
+		vwBox->setPoint3(getMaxViewX(), getMaxViewY());
+		vwBox->setPoint4(getMaxViewX(), getMinViewY());
 	}
 }
 
 void ViewPort::draw() const
 {
-	// draw the window
-	Rectangle window(wCenter.getX() - (hSize >> 1), wCenter.getY() - (vSize >> 1), Color::WHITE,
-					wCenter.getX() + (hSize >> 1), wCenter.getY() - (vSize >> 1), Color::WHITE,
-					wCenter.getX() + (hSize >> 1), wCenter.getY() + (vSize >> 1), Color::WHITE,
-					wCenter.getX() - (hSize >> 1), wCenter.getY() + (vSize >> 1), Color::WHITE,
-					1.0f);
-	window.draw();
-	
 	// do sum clipping here
 	for(int i = 0; i < 155; i++) 
 	{
 		clipAndDraw(peta->e[i]);
 	}
+	
+	wBox->draw();
+	
+	vwBox->draw();
 }
 
 void ViewPort::move(int dx, int dy)
@@ -99,6 +126,8 @@ void ViewPort::move(int dx, int dy)
 	// move it!
 	if(move) {
 		vwCenter.move(dx, dy);
+		
+		vwBox->move(dx, dy);
 	}
 }
 
@@ -115,12 +144,12 @@ void ViewPort::setPeta(const Peta* peta)
 void ViewPort::clipAndDraw(const Point& p1, const Point& p2) const
 {
 	// check the outcode, and check whether both of them lies in the window/viewport
-	int outCode1 = getOutCode(round(p1.getX()/zoom), round(p1.getY()/zoom));
-	int outCode2 = getOutCode(round(p2.getX()/zoom), round(p2.getY()/zoom));
+	int outCode1 = getOutCode(p1.getX(), p1.getY());
+	int outCode2 = getOutCode(p2.getX(), p2.getY());
 	bool accept =  false;
 	
-	int x0 = round(p1.getX()/zoom), x1 = round(p2.getX()/zoom);
-	int y0 = round(p1.getY()/zoom), y1 = round(p2.getY()/zoom);
+	int x0 = p1.getX(), x1 = p2.getX();
+	int y0 = p1.getY(), y1 = p2.getY();
 	
 	while (true) {
 		if (!(outCode1 | outCode2)) { // Bitwise OR == 0 >> line inside the viewport
@@ -129,7 +158,7 @@ void ViewPort::clipAndDraw(const Point& p1, const Point& p2) const
 		} else if (outCode1 & outCode2) { // Bitwise AND != 0 >> line outside the viewport
 			break;
 		} else {
-			int x, y;
+			int x = 0, y = 0;
 			
 			// check one of the points, must be outside.
 			int outCodeOut = outCode1 ? outCode1 : outCode2;
@@ -164,9 +193,9 @@ void ViewPort::clipAndDraw(const Point& p1, const Point& p2) const
 	
 	if (accept) {
 		Point dr1(view2Window(Point(x0, y0)));
-		dr1.setColor(Color::WHITE);
+		dr1.setColor(p1.getColor());
 		Point dr2(view2Window(Point(x1, y1)));
-		dr2.setColor(Color::WHITE);
+		dr2.setColor(p2.getColor());
 		
 		Edge dre(dr1, dr2);
 		dre.draw();
@@ -207,15 +236,19 @@ int ViewPort::getOutCode(int x, int y) const
 Point ViewPort::window2View(const Point& pw) const
 {
 	Point pv;
-	pv.setX((pw.getX()-wCenter.getX())*zoom+vwCenter.getX());
-	pv.setY((pw.getY()-wCenter.getY())*zoom+vwCenter.getY());
+	
+	pv.setX((int)((float)(pw.getX() - wCenter.getX()) * zoom) + vwCenter.getX());
+	pv.setY((int)((float)(pw.getY() - wCenter.getY()) * zoom) + vwCenter.getY());
+	
 	return pv;
 }
 
 Point ViewPort::view2Window(const Point& pv) const
 {
 	Point pw;
-	pw.setX((pv.getX()-vwCenter.getX())+wCenter.getX());
-	pw.setY((pv.getY()-vwCenter.getY())+wCenter.getY());
+	
+	pw.setX((int)((float)(pv.getX()-vwCenter.getX()) / zoom) + wCenter.getX());
+	pw.setY((int)((float)(pv.getY()-vwCenter.getY()) / zoom) + wCenter.getY());
+	
 	return pw;
 }

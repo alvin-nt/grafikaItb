@@ -41,11 +41,10 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	//screen->setMode(GRAPHICS);
+	screen->setMode(GRAPHICS);
 
 	bool exit = false;
 
-	// initialize the ellipse
 	Peta *peta = new Peta(0,-60);
 	ViewPort *vp = new ViewPort(200,200,600,400,200,200,peta);
 	
@@ -74,16 +73,18 @@ int main()
 					vp->move(0, movVertical);
 					break;
 				case KEY_Z:
-					vp->zoomIn();
+					vp->zoomOut();
 					break;
 				case KEY_X:
-					vp->zoomOut();
+					vp->zoomIn();
 					break;
 			}
 		}
 		screen->drawBackground();
-		peta->move(20,0);
+		
+		peta->move(10,0);
 		peta->setPoin();
+		
 		screen->draw(peta);
 		screen->draw(vp);
 		screen->update();
@@ -92,6 +93,7 @@ int main()
 		usleep(50);
 	}
 	delete peta;
+	delete vp;
 	cleanup();
 
 	return 0;

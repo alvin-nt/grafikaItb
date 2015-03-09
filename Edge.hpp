@@ -46,6 +46,8 @@ namespace Graphics {
 		 **/
 		void setPoint1(const Point& point);
 		
+		void setPoint1(int x, int y);
+		
 		/**
 		 * Gets the second point of the edge
 		 * 
@@ -59,6 +61,8 @@ namespace Graphics {
 		 * @param point the new point
 		 **/
 		void setPoint2(const Point&);
+		
+		void setPoint2(int x, int y);
 		/**
 		 * Sets the first and second point of the edge
 		 * 

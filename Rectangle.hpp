@@ -11,7 +11,7 @@ namespace Graphics {
 	 **/
 	class Rectangle : public ShapeFillable {
 	private:
-		Point p1, p2, p3, p4;
+		Edge *e1, *e2, *e3, *e4;
 		
 		float weight;
 	public:
@@ -43,6 +43,8 @@ namespace Graphics {
 		 **/
 		void setPoint1(const Point& point);
 		
+		void setPoint1(int x, int y);
+		
 		/**
 		 * Gets the second point of the Rectangle
 		 * 
@@ -56,6 +58,8 @@ namespace Graphics {
 		 * @param point the new point
 		 **/
 		void setPoint2(const Point&);
+		
+		void setPoint2(int x, int y);
 		
 		/**
 		 * Gets the third point of the Rectangle
@@ -71,6 +75,8 @@ namespace Graphics {
 		 **/
 		void setPoint3(const Point&);
 		
+		void setPoint3(int x, int y);
+		
 		/**
 		 * Gets the fourth point of the Rectangle
 		 * 
@@ -84,6 +90,8 @@ namespace Graphics {
 		 * @param point the new point
 		 **/
 		void setPoint4(const Point&);
+		
+		void setPoint4(int x, int y);
 		
 		/**
 		 * Gets the weight parameter of the Rectangle
@@ -100,6 +108,7 @@ namespace Graphics {
 		void setWeight(float weight);
 		
 		double getLength() const;
+		
 		float getLengthFloat() const;
 		
 		void rotate(int degree);

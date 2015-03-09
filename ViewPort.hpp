@@ -5,6 +5,7 @@
 #include "Point.hpp"
 #include "Edge.hpp"
 #include "Peta.hpp"
+#include "Rectangle.hpp"
 
 namespace Graphics {
 	class ViewPort : public Drawable {
@@ -19,8 +20,9 @@ namespace Graphics {
 		Point vwCenter, wCenter;
 		int hSize, vSize;
 		const Peta *peta;
+		Rectangle *wBox, *vwBox;
 		
-		int zoom;
+		float zoom;
 	public:
 		ViewPort(int vwx, int vwy, int wx, int wy, int hSize, int vSize, const Peta* pt);
 		~ViewPort();

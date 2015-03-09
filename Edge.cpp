@@ -60,12 +60,22 @@ void Edge::setPoint1(const Point& p1) {
 	this->p1 = p1;
 }
 
+void Edge::setPoint1(int x, int y) {
+	p1.setX(x);
+	p1.setY(y);
+}
+
 const Point &Edge::getPoint2() const {
 	return p2;
 }
 
 void Edge::setPoint2(const Point& p2) {
 	this->p2 = p2;
+}
+
+void Edge::setPoint2(int x, int y) {
+	p2.setX(x);
+	p2.setY(y);
 }
 
 void Edge::setPoint(const Point& p1,const Point& p2, float weight) {
@@ -115,8 +125,7 @@ void Edge::swapPoints() {
 }
 
 Point Edge::getMidpoint() const {
-	// stub
-	return Point();
+	return Point((p1.getX() + p2.getX()) >> 1, (p1.getY() + p2.getY()) >> 1);
 }
 
 void Edge::draw() const {
