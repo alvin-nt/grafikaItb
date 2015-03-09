@@ -10,6 +10,7 @@ namespace Graphics {
 	 * Class that represents a line
 	 **/
 	class Rectangle : public ShapeFillable {
+	friend class Cube;
 	private:
 		Edge *e1, *e2, *e3, *e4;
 		
