@@ -4,6 +4,7 @@
 #include "ShapeFillable.hpp"
 #include "Point.hpp"
 #include "Edge.hpp"
+#include "Color.hpp"
 
 namespace Graphics {
 	/**
@@ -12,11 +13,13 @@ namespace Graphics {
 	class Rectangle : public ShapeFillable {
 	friend class Cube;
 	private:
-		Edge *e1, *e2, *e3, *e4;
+		// now using the edges element
+		// @see {ShapeFillable}
 		
 		float weight;
 	public:
-		Rectangle(const Point& p1, const Point& p2, const Point& p3, const Point& p4, float weight = 1.0f);
+		Rectangle(const Point& p1, const Point& p2, const Point& p3, const Point& p4, 
+					float weight = 1.0f, const Color& baseColor = Color::WHITE);
 		Rectangle(int x1, int y1, const Color& c1,
 			int x2, int y2, const Color& c2,
 			int x3, int y3, const Color& c3,
@@ -112,11 +115,7 @@ namespace Graphics {
 		
 		float getLengthFloat() const;
 		
-		void rotate(int degree);
-		
-		void move(int dx, int dy);
-		
-		void scale(int scale);
+		Point getMidpoint() const;
 	
 	protected:
 		void drawOutline() const;

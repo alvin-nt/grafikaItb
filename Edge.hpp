@@ -15,9 +15,11 @@ namespace Graphics {
 		friend class Peta;
 		friend class ViewPort;
 	private:
-		Point p1, p2;
+		Point p1, p2, anchor;
 		
 		float weight;
+		
+		Color color;
 	public:
 		Edge();
 		Edge(const Point& p1, const Point& p2, float weight = 1.0f);
@@ -132,33 +134,36 @@ namespace Graphics {
 		Point getMidpoint() const;
 		
 		/**
-		 * Rotates the line
-		 * 
-		 * @param degree the degree
-		 **/
-		void rotate(int degree);
-		
-		/**
-		 * Scales the line
-		 * 
-		 * @param ds the scale number
-		 **/
-		void scale(int ds);
-		
-		/**
 		 * Moves the line
 		 * 
 		 * @param dx movement in x coordinate
 		 * @param dy movement in y coordinate
 		 **/
 		void move(int dx, int dy);
+		
+		/**
+		 * Rotates the line
+		 * 
+		 * @param degree the degree
+		 **/
+		void rotate(float degree);
+		
+		/**
+		 * Scales the edge
+		 * 
+		 * @param ds the scale
+		 **/
+		void scale(float ds);
+		
+		void scale(float sx, float sy);
 	
+		static bool isMovable(const Edge& edge, int dx, int dy);
+	
+		static bool isScaleable(const Edge& edge, float sx, float sy);
+	
+		static bool isRotateable(const Edge& edge, float degree);
 	protected:
 		void draw() const;
-	/*
-	public :
-		void draw1();
-	*/
 	};
 
 	typedef Edge Line; // handy naming convention

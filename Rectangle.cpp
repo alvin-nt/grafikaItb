@@ -7,13 +7,19 @@
 
 using namespace Graphics;
 
-Rectangle::Rectangle(const Point& p1, const Point& p2, const Point& p3, const Point& p4, float weight)
+Rectangle::Rectangle(const Point& p1, const Point& p2, const Point& p3, const Point& p4, 
+					float weight, const Color& baseColor)
 	: weight(weight)
 {	
-	e1 = new Edge(p1, p2, weight);
-	e2 = new Edge(p2, p3, weight);
-	e3 = new Edge(p3, p4, weight);
-	e4 = new Edge(p4, p1, weight);
+	edges.reserve(4);
+	this->baseColor = baseColor;
+	// TODO: maybe some assertion here? to make sure that the quad really represents a true rectangle
+	// i.e., point 1 and point 2 are vertically equal, point 2 and 3 are horizontally equal, etc.
+	
+	edges.push_back(new Edge(p1, p2, weight));
+	edges.push_back(new Edge(p2, p3, weight));
+	edges.push_back(new Edge(p3, p4, weight));
+	edges.push_back(new Edge(p4, p1, weight));
 }
 
 Rectangle::Rectangle(int x1, int y1, const Color& c1,
@@ -22,34 +28,38 @@ Rectangle::Rectangle(int x1, int y1, const Color& c1,
 			int x4, int y4, const Color& c4, float weight)
 	: weight(weight)
 {
+	edges.reserve(4);
+	baseColor = c1;
 	Point p1(x1, y1, c1), p2(x2, y2, c2), p3(x3, y3, c3), p4(x4, y4, c4);
 	
-	e1 = new Edge(p1, p2, weight);
-	e2 = new Edge(p2, p3, weight);
-	e3 = new Edge(p3, p4, weight);
-	e4 = new Edge(p4, p1, weight);
+	edges.push_back(new Edge(p1, p2, weight));
+	edges.push_back(new Edge(p2, p3, weight));
+	edges.push_back(new Edge(p3, p4, weight));
+	edges.push_back(new Edge(p4, p1, weight));
 }
 
 Rectangle::Rectangle(const Rectangle &rectangle) {
+	for (int i = 0; i < 4; i++) {
+		edges.push_back(new Edge(Point(), Point()));
+	}
+	
 	*this = rectangle;
 }
 
 Rectangle::~Rectangle() {
-	delete e1;
-	delete e2;
-	delete e3;
-	delete e4;
+	// now handled by the shapeFillable
 }
 
 Rectangle& Rectangle::operator=(const Rectangle &rhs) {
 	if(this != &rhs) {
-		*e1 = *(rhs.e1);
-		*e2 = *(rhs.e2);
-		*e3 = *(rhs.e3);
-		*e4 = *(rhs.e4);
+		// call the parent class, to copy the value of the edges
+		ShapeFillable::operator=(rhs);
 		
+		// assign other params
+		baseColor = rhs.baseColor;
 		weight = rhs.weight;
 	}
+	
 	return *this;
 }
 
@@ -58,67 +68,68 @@ bool Graphics::operator!=(const Rectangle &lhs, const Rectangle &rhs) {
 }
 
 bool Graphics::operator==(const Rectangle &lhs, const Rectangle &rhs) {
-	return (*(lhs.e1) == *(rhs.e1) &&
-			*(lhs.e2) == *(rhs.e2) &&
-			*(lhs.e3) == *(rhs.e3) &&
-			*(lhs.e4) == *(rhs.e4) &&
+	return (*(lhs.edges[0]) == *(rhs.edges[0]) &&
+			*(lhs.edges[1]) == *(rhs.edges[1]) &&
+			*(lhs.edges[2]) == *(rhs.edges[2]) &&
+			*(lhs.edges[3]) == *(rhs.edges[3]) &&
+			lhs.baseColor == rhs.baseColor &&
 			lhs.weight == rhs.weight);
 }
 
 const Point &Rectangle::getPoint1() const {
-	return e1->getPoint1();
+	return edges[0]->getPoint1();
 }
 
 void Rectangle::setPoint1(const Point& p1) {
-	e1->setPoint1(p1);
-	e4->setPoint2(p1);
+	edges[0]->setPoint1(p1);
+	edges[3]->setPoint2(p1);
 }
 
 void Rectangle::setPoint1(int x, int y) {
-	e1->setPoint1(x, y);
-	e4->setPoint2(x, y);
+	edges[0]->setPoint1(x, y);
+	edges[3]->setPoint2(x, y);
 }
 
 const Point &Rectangle::getPoint2() const {
-	return e2->getPoint1();
+	return edges[1]->getPoint1();
 }
 
 void Rectangle::setPoint2(const Point& p2) {
-	e1->setPoint2(p2);
-	e2->setPoint1(p2);
+	edges[0]->setPoint2(p2);
+	edges[1]->setPoint1(p2);
 }
 
 void Rectangle::setPoint2(int x, int y) {
-	e1->setPoint2(x, y);
-	e2->setPoint1(x, y);
+	edges[0]->setPoint2(x, y);
+	edges[1]->setPoint1(x, y);
 }
 
 const Point &Rectangle::getPoint3() const {
-	return e3->getPoint1();
+	return edges[2]->getPoint1();
 }
 
 void Rectangle::setPoint3(const Point& p3) {
-	e2->setPoint2(p3);
-	e3->setPoint1(p3);
+	edges[1]->setPoint2(p3);
+	edges[2]->setPoint1(p3);
 }
 
 void Rectangle::setPoint3(int x, int y) {
-	e2->setPoint2(x, y);
-	e3->setPoint1(x, y);
+	edges[1]->setPoint2(x, y);
+	edges[2]->setPoint1(x, y);
 }
 
 const Point &Rectangle::getPoint4() const {
-	return e4->getPoint1();
+	return edges[3]->getPoint1();
 }
 
 void Rectangle::setPoint4(const Point& p4) {
-	e3->setPoint2(p4);
-	e4->setPoint1(p4);
+	edges[2]->setPoint2(p4);
+	edges[3]->setPoint1(p4);
 }
 
 void Rectangle::setPoint4(int x, int y) {
-	e3->setPoint2(x, y);
-	e4->setPoint1(x, y);
+	edges[2]->setPoint2(x, y);
+	edges[3]->setPoint1(x, y);
 }
 
 float Rectangle::getWeight() const {
@@ -130,22 +141,20 @@ void Rectangle::setWeight(float weight) {
 }
 
 double Rectangle::getLength() const {
-	return (e1->getLength() + e2->getLength() + e3->getLength() + e4->getLength());
+	return (edges[0]->getLength() + edges[1]->getLength() + 
+			edges[2]->getLength() + edges[3]->getLength());
 }
 
 float Rectangle::getLengthFloat() const {
-	return (e1->getLengthFloat() + e2->getLengthFloat() + e3->getLengthFloat() + e4->getLengthFloat());
-}
-
-void Rectangle::rotate(int degree) {
-	
+	return (edges[0]->getLengthFloat() + edges[1]->getLengthFloat() + 
+			edges[2]->getLengthFloat() + edges[3]->getLengthFloat());
 }
 
 void Rectangle::drawOutline() const {
-	e1->draw();
-	e2->draw();
-	e3->draw();
-	e4->draw();
+	edges[0]->draw();
+	edges[1]->draw();
+	edges[2]->draw();
+	edges[3]->draw();
 }
 
 void Rectangle::drawFill() const {
@@ -153,33 +162,9 @@ void Rectangle::drawFill() const {
 
 }
 
-void Rectangle::move(int dx, int dy) {
-	int resultX1 = e1->getPoint1().getX() + dx;
-	int resultY1 = e1->getPoint1().getY() + dy;
-	int resultX2 = e2->getPoint1().getX() + dx;
-	int resultY2 = e2->getPoint1().getY() + dy;
-	int resultX3 = e3->getPoint1().getX() + dx;
-	int resultY3 = e3->getPoint1().getY() + dy;
-	int resultX4 = e4->getPoint1().getX() + dx;
-	int resultY4 = e4->getPoint1().getY() + dy;
+Point Rectangle::getMidpoint() const {
+	int x = (edges[0]->getPoint1().getX() + edges[1]->getPoint1().getX()) >> 1;
+	int y = (edges[0]->getPoint1().getY() + edges[4]->getPoint1().getY()) >> 1;
 	
-	bool move =(resultX1 >= SCREEN_X_MIN && resultX1 <= SCREEN_X_MAX &&
-				resultY1 >= SCREEN_Y_MIN && resultY1 <= SCREEN_Y_MAX &&
-				resultX2 >= SCREEN_X_MIN && resultX2 <= SCREEN_X_MAX &&
-				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX &&
-				resultX3 >= SCREEN_X_MIN && resultX3 <= SCREEN_X_MAX &&
-				resultY3 >= SCREEN_Y_MIN && resultY3 <= SCREEN_Y_MAX &&
-				resultX4 >= SCREEN_X_MIN && resultX4 <= SCREEN_X_MAX &&
-				resultY4 >= SCREEN_Y_MIN && resultY4 <= SCREEN_Y_MAX);
-	
-	if(move) {
-		e1->move(dx, dy);
-		e2->move(dx, dy);
-		e3->move(dx, dy);
-		e4->move(dx, dy);
-	}
-}
-
-void Rectangle::scale(int scale) {
-	//TBD
+	return Point(x, y);
 }

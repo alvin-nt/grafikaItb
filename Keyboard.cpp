@@ -38,7 +38,25 @@ Keyboard::Keyboard(const char* device)
 {	
 	memset(event, 0, sizeof(event));
 	
-	initKeyboard();
+	if(!deviceName.empty()) {
+		fd = open(deviceName.c_str(), O_RDONLY | O_NONBLOCK);
+		if(fd == -1) {
+			perror("Cannot initialize keyboard device");
+			exit(1);
+		} else {
+			/**
+			 * 'Hijacks' the keyboard from the terminal
+			 * 
+			 * Disables CTRL-C. Therefore, you need to define an 'exit key'
+			 **/
+			if(ioctl(fd, EVIOCGRAB, true) == -1) {
+				perror("Cannot grab keyboard");
+			}
+		}
+	} else {
+		printf("Keyboard device undefined\n");
+		exit(1);
+	}
 }
 
 Keyboard::~Keyboard() {
@@ -66,26 +84,4 @@ int Keyboard::getPressedKeyCode() {
 	}
 	
 	return ret;
-}
-
-void Keyboard::initKeyboard() {
-	if(!deviceName.empty()) {
-		fd = open(deviceName.c_str(), O_RDONLY | O_NONBLOCK);
-		if(fd == -1) {
-			perror("Cannot initialize keyboard device");
-			exit(1);
-		} else {
-			/**
-			 * 'Hijacks' the keyboard from the terminal
-			 * 
-			 * Disables CTRL-C. Therefore, you need to define an 'exit key'
-			 **/
-			if(ioctl(fd, EVIOCGRAB, true) == -1) {
-				perror("Cannot grab keyboard");
-			}
-		}
-	} else {
-		printf("Keyboard device undefined\n");
-		exit(1);
-	}
 }

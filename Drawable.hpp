@@ -16,8 +16,11 @@ namespace Graphics {
 		static int SCREEN_X_MAX; // maximum screen width
 		const static int SCREEN_Y_MIN; // minimum screen height
 		static int SCREEN_Y_MAX; // maximum screen height
+		
 	protected:
+	
 		bool hide = false;
+		
 	public:
 		virtual ~Drawable() {
 			

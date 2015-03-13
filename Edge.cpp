@@ -8,21 +8,23 @@
 using namespace Graphics;
 
 Edge::Edge()
+	: p1(0, 0), p2(0, 0), anchor(getMidpoint()), color(p1.getColor())
 {
-	anchor = getMidpoint();
+
 }
 
 Edge::Edge(const Point &p1, const Point &p2, float weight)
-	: p1(p1), p2(p2), weight(weight)
+	: p1(p1), p2(p2), anchor(getMidpoint()), weight(weight), color(p1.getColor())
 {
-	anchor = getMidpoint();
+	
 }
 
 Edge::Edge(int x1, int y1, const Color& c1,
 			int x2, int y2, const Color& c2, float weight)
-	: p1(x1, y1, c1), p2(x2, y2, c2), weight(weight)
+	: p1(x1, y1, c1), p2(x2, y2, c2), anchor(getMidpoint()), 
+		weight(weight), color(c1)
 {
-	anchor = getMidpoint();
+	
 }
 
 Edge::Edge(const Edge &edge) {
@@ -35,10 +37,13 @@ Edge::~Edge() {
 
 Edge& Edge::operator=(const Edge &rhs) {
 	if(this != &rhs) {
+		Shape::operator=(rhs);
+		
 		p1 = rhs.p1;
 		p2 = rhs.p2;
 		weight = rhs.weight;
 	}
+	
 	return *this;
 }
 
@@ -192,28 +197,48 @@ void Edge::draw() const {
 	}
 }
 
-void Edge::rotate(int degree) {
-	// stub
+void Edge::rotate(float degree) {
+	if (isRotateable(*this, degree))
+	{		
+		Point::rotate(anchor, p1, degree);
+		Point::rotate(anchor, p2, degree);
+	}
 }
 
-void Edge::scale(int ds) {
-	// stub
+void Edge::scale(float ds) {
+	if(isScaleable(*this, ds, ds)) {
+		Point::scale(anchor, p1, ds, ds);
+		Point::scale(anchor, p2, ds, ds);
+	}
+}
+
+void Edge::scale(float sx, float sy) {
+	if(isScaleable(*this, sx, sy)) {
+		Point::scale(anchor, p1, sx, sy);
+		Point::scale(anchor, p2, sx, sy);
+	}
 }
 
 void Edge::move(int dx, int dy) {
-	int resultX1 = p1.getX() + dx;
-	int resultY1 = p1.getY() + dy;
-	int resultX2 = p2.getX() + dx;
-	int resultY2 = p2.getY() + dy;
-	
-	bool move =(resultX1 >= SCREEN_X_MIN && resultX1 <= SCREEN_X_MAX &&
-				resultY1 >= SCREEN_Y_MIN && resultY1 <= SCREEN_Y_MAX &&
-				resultX2 >= SCREEN_X_MIN && resultX2 <= SCREEN_X_MAX &&
-				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX);
-	
-	if(move) {
-		p1.move(dx, dy);
-		p2.move(dx, dy);
-		anchor.move(dx, dy);
+	if (isMovable(*this, dx, dy)) {
+		Point::move(anchor, dx, dy);
+		Point::move(p1, dx, dy);
+		Point::move(p2, dx, dy);
 	}
+}
+
+bool Edge::isMovable(const Edge& edge, int dx, int dy) {
+	return (Point::isMovable(edge.anchor, dx, dy) &&
+			Point::isMovable(edge.p1, dx, dy) &&
+			Point::isMovable(edge.p2, dx, dy));
+}
+	
+bool Edge::isScaleable(const Edge& edge, float sx, float sy) {
+	return (Point::isScaleable(edge.anchor, edge.p1, sx, sy) &&
+			Point::isScaleable(edge.anchor, edge.p2, sx, sy));
+}
+	
+bool Edge::isRotateable(const Edge& edge, float degree) {
+	return (Point::isRotateable(edge.anchor, edge.p1, degree) &&
+			Point::isRotateable(edge.anchor, edge.p2, degree));
 }

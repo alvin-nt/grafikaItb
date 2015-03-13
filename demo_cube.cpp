@@ -47,7 +47,7 @@ int main()
 
 	// the main program loop
 	
-	// initialize the rectangle
+	// initialize the cube
 	Point *p1 = new Point(200,200,Color::WHITE);
 	
 	Cube *cube = new Cube(*p1,60);
@@ -62,6 +62,8 @@ int main()
 		usleep(50);
 	}
 	cleanup();
+	delete cube;
+	delete p1;
 	
 	return 0;
 }

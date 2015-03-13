@@ -22,6 +22,18 @@ void Graphics::clearScreen() {
 	printf("\033[H\033[J");
 }
 
+Bucket::_Bucket(int ymax, int x, float dx)
+{
+	this->ymax = ymax;
+	this->x = x;
+	this->dx = dx;
+	next = NULL;
+}
+
+bool Bucket::operator() (const _Bucket& lhs, const _Bucket& rhs) {
+	return (lhs.ymax < rhs.ymax);
+}
+
 Rasterizer::Rasterizer()
 	: background(Color::BLACK)
 {
@@ -37,6 +49,10 @@ Rasterizer::Rasterizer()
 			perror("Cannot open terminal");
 			exit(1);
 		}
+		
+		// reserve enough edgeTable to fill entire screen length
+		edgeTable.reserve(vinfo.yres);
+		
 		instantiated = true;
 	} else {
 		printf("Double instantiation detected!\n");
@@ -66,6 +82,17 @@ Rasterizer::~Rasterizer() {
 	if(mode == GRAPHICS)
 		setMode(TEXT);
 	close(fdFramebuffer);
+	
+	// delete all remaining pointers to 'buckets'
+	for (auto it = edgeTable.begin(); it != edgeTable.end(); it++) {
+		Bucket* ptrBucket = (*it).next;
+		while (ptrBucket != NULL) {
+			Bucket* ptrPrevBucket = ptrBucket;
+			ptrBucket = ptrBucket->next;
+			
+			delete ptrPrevBucket;
+		}
+	}
 }
 
 void Rasterizer::setMode(Graphics::Mode mode) {
@@ -109,7 +136,7 @@ void Rasterizer::setPixel(int x, int y, Pixel pixel) {
 	if(x >= 0 && x <= (int) vinfo.xres &&
 		y >= 0 && y <= (int) vinfo.yres) 
 	{
-		long location = getDrawLocation(x, y);
+		long location = getDrawOffset(x, y);
 
 		*((Pixel*)(ptrBackbuffer + location)) = pixel;
 	}
@@ -126,6 +153,13 @@ void Rasterizer::draw(Drawable *shape) {
 void Rasterizer::draw(ShapeFillable *shape, bool fill) {
 	shape->setFill(fill);
 	
+	// add every shape's edge to the bucket
+	// before that, check whether the edge has been already added to the edgeTable
+	for(auto edge: shape->edges) {
+		
+	}
+	
+	// draw the outline
 	shape->draw();
 }
 
@@ -172,6 +206,7 @@ void Rasterizer::swapBuffers() {
 			// this is somewhat fatal, since the screen cannot be updated.
 			// need some work to make the screen still drawable, without crashing the program
 			// maybe revert to SINGLE map mode?
+			exit(11);
 		}
 
 		// update the pointer to the back buffer
@@ -192,14 +227,14 @@ void Rasterizer::swapBuffers() {
 		// nothing
 		break;
 	default:
-		printf("Oops: invalid map mode\n");
+		fprintf(stderr, "Oops: invalid map mode\n");
 		exit(10);
 	}
 }
 
 // TODO: refactor to getDrawOffset
-long Rasterizer::getDrawLocation(int x, int y) {
-	return (x + vinfo.xoffset) * (vinfo.bits_per_pixel / 8)
+long Rasterizer::getDrawOffset(int x, int y) {
+	return (x + vinfo.xoffset) * (vinfo.bits_per_pixel >> 3)
 		+ (y + vinfo.yoffset) * finfo.line_length;
 }
 
@@ -289,4 +324,11 @@ void Rasterizer::initFramebuffer() {
 		
 		printf("Framebuffer initialized as PAN mode\n");
 	}*/
+}
+
+void Rasterizer::drawScanLine()
+{
+	std::vector<Bucket> activeEdgeTable;
+	
+	int ymin = edgeTable[0].ymax;
 }

@@ -58,8 +58,6 @@ namespace Graphics {
 		 * @return key code when input is detected, else -1
 		 */
 		int getPressedKeyCode();
-	private:
-		void initKeyboard();
 	};
 }
 #endif /* KEYBOARD_H_ */ 

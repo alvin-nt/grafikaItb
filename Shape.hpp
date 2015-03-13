@@ -13,19 +13,21 @@ namespace Graphics {
 	public:
 		virtual ~Shape() = 0;
 		
+		Shape& operator=(const Shape&);
+		
 		/**
 		 * Rotates a shape
 		 * 
 		 * @param degree the degree of rotation
 		 */
-		virtual void rotate(int degree) = 0;
+		virtual void rotate(float degree) = 0;
 		
 		/**
 		 * Scales the shape
 		 * 
 		 * @param scale the scale factor
 		 **/
-		//virtual void scale(int scale) = 0;
+		virtual void scale(float scale) = 0;
 		
 		/**
 		 * get the anchor point

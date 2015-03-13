@@ -7,6 +7,7 @@
 #include "Color.hpp"
 
 #include <vector>
+#include <tuple>
 
 namespace Graphics {
 	enum Mode {TEXT, GRAPHICS};
@@ -15,6 +16,22 @@ namespace Graphics {
 	
 	class Drawable;
 	class ShapeFillable;
+	
+	/**
+	 *
+	 **/
+	typedef struct _Bucket {
+		int ymax;
+		int x;
+		float dx; // float or int? maybe need some rounding ._.
+		struct _Bucket *next; // pointer to next element
+		
+		_Bucket(int ymax, int x, float dx);
+		
+		// for std::sort
+		bool operator() (const struct _Bucket& lhs, 
+						const struct _Bucket& rhs);
+	} Bucket;
 	
 	/**
 	 * Class that represents the screen drawer
@@ -39,7 +56,7 @@ namespace Graphics {
 		
 		Mode mode;
 		
-		// background color for the terminal
+		// background color for the screen
 		Color background;
 		
 		ScreenInfoFix finfo;
@@ -50,8 +67,14 @@ namespace Graphics {
 		// mode of the mapping, used for determining to where the screen
 		// would be drawn
 		FbMapMode mapMode;
-	public:
 		
+	public:
+		// edge table, for scanline algorithm
+		// first elemenet: ymax (highest y-coordinate)
+		// second element: xmin (intersecting X)
+		// third element: 1/m (dx), or the increment used for stepping from one scanline to next
+		// fourth element: pointer to next tuple
+		std::vector<Bucket> edgeTable;
 	public:
 		Rasterizer();
 		~Rasterizer();
@@ -108,7 +131,7 @@ namespace Graphics {
 		 * 
 		 * @return framebuffer offset for coordinate(x, y)
 		 */
-		long getDrawLocation(int x, int y);
+		long getDrawOffset(int x, int y);
 		
 		/**
 		 * Draws a drawable object onto the screen
@@ -188,6 +211,8 @@ namespace Graphics {
 		void swapBuffers();
 		
 	private:
+		void drawScanLine();
+	
 		/**
 		 * Initializes the framebuffer
 		 **/

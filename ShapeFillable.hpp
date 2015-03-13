@@ -3,17 +3,29 @@
 
 #include "Point.hpp"
 #include "Shape.hpp"
+#include "Color.hpp"
+#include "Edge.hpp"
+#include <vector>
+
+using std::vector;
 
 namespace Graphics {
 	class ShapeFillable : public Shape {
+		friend class Rasterizer;
 	protected:
-		bool fill;
+		bool fill = false;
 		
+		// pointers to edges
+		vector<Edge*> edges;
+		
+		Color baseColor;
 	public:
 		virtual ~ShapeFillable() = 0;
 		
+		ShapeFillable& operator= (const ShapeFillable& rhs);
+		
 		/**
-		 * Wraps the call to draw(false)
+		 * Draws the shape to the screen
 		 */
 		virtual void draw() const;
 		
@@ -27,7 +39,19 @@ namespace Graphics {
 		
 		void setFill(bool fill);
 		
+		void setFillColor(const Color& color);
+		
+		const Color& getFillColor() const;
+		
 		bool getFill() const;
+		
+		void move(int dx, int dy);
+		
+		void rotate(float degree);
+		
+		void scale(float ds);
+		
+		void scale(float sx, float sy);
 	protected:
 		/**
 		 * Algorirthm to draw the filled shape
