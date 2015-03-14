@@ -12,6 +12,7 @@ namespace Graphics {
 	 **/
 	class Rectangle : public ShapeFillable {
 	friend class Cube;
+	friend class Cruiser;
 	private:
 		// now using the edges element
 		// @see {ShapeFillable}

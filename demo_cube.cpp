@@ -52,7 +52,33 @@ int main()
 	
 	Cube *cube = new Cube(*p1,60);
 	cube->setPov(3);
+	
+	int movHorizontal = 5, movVertical = 5;
 	while(!exit) {
+
+		int key = keyboard->getPressedKeyCode();
+
+		if(key == Keyboard::NO_INPUT) {
+			key = 0;
+		} else {
+			switch(key) {
+			case KEY_BACKSPACE:
+				exit = true;
+				break;
+			case KEY_LEFT:
+				cube->move(0-movHorizontal, 0);
+				break;
+			case KEY_RIGHT:
+				cube->move(movHorizontal, 0);
+				break;
+			case KEY_UP:
+				cube->move(0, 0-movVertical);
+				break;
+			case KEY_DOWN:
+				cube->move(0, movVertical);
+				break;
+			}
+		}
 
 		screen->drawBackground();
 		screen->draw(cube);

@@ -68,6 +68,12 @@ demo_peta : demo_peta.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o S
 
 demo_peta.o : demo_peta.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
+	
+demo_scene4: demo_scene4.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o
+	$(CC) $(CFLAGS) -o $@ $^
+	
+demo_scene4.o : demo_scene4.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
 
 main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
@@ -139,6 +145,9 @@ Peta.o : Peta.cpp Peta.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 ViewPort.o : ViewPort.cpp ViewPort.hpp Peta.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
+Cruiser.o : Cruiser.cpp Cruiser.hpp Ellipse.hpp Rectangle.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean :

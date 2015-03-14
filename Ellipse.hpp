@@ -9,6 +9,7 @@ namespace Graphics {
 	 * Class that represents a Ellipse
 	 **/
 	class Ellipse : public ShapeFillable {
+	friend class Cruiser;
 	private:
 		Point center;
 		float theta;
