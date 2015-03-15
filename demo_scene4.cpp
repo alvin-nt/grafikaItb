@@ -49,15 +49,16 @@ int main()
 	// the main program loop
 	
 	// initialize the cube1
+	int pov=3;
 	Point *p1 = new Point(400, 600,Color::WHITE);
 	
 	Cube *cube1 = new Cube(*p1,60);
-	cube1->setPov(3);
+	cube1->setPov(pov);
 	
 	Point *p2 = new Point(200, 600,Color::WHITE);
 	
 	Cube *cube2 = new Cube(*p2,100);
-	cube2->setPov(3);
+	cube2->setPov(pov);
 	
 	Edge *horizon = new Edge(Drawable::SCREEN_X_MIN, 550, Color::WHITE
 							,Drawable::SCREEN_X_MAX, 550, Color::WHITE, 1.0f);
@@ -81,6 +82,20 @@ int main()
 				break;
 			case KEY_RIGHT:
 					cruiser->move(movHorizontal);
+				break;
+			case KEY_Z:
+				if (pov > 0) {
+					pov--;
+					cube1->setPov(pov);
+					cube2->setPov(pov);
+				}
+				break;
+			case KEY_X:
+				if (pov < 4) {
+					pov++;
+					cube1->setPov(pov);
+					cube2->setPov(pov);
+				}
 				break;
 			}
 		}
