@@ -15,6 +15,7 @@ namespace Graphics {
 		friend class Peta;
 		friend class ViewPort;
 		friend class Cruiser;
+		friend class Helicopter;
 	private:
 		Point p1, p2, anchor;
 		

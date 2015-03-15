@@ -144,7 +144,7 @@ Triangle.o : Triangle.cpp Triangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp
 Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-Parachute.o : Helicopter.cpp Helicopter.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+Helicopter.o : Helicopter.cpp Helicopter.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Ball.o : Ball.cpp Ball.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
