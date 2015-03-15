@@ -87,7 +87,7 @@ main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o C
 main_kapalPesawat.o : main_kapalPesawat.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
-demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o
+demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o Peta.o ViewPort.o
 	$(CC) $(CFLAGS) -o $@ $^
 	
 demo_allScene.o : demo_allScene.cpp

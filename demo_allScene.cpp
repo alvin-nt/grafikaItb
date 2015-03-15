@@ -7,6 +7,8 @@
 #include "Rectangle.hpp"
 #include "Cube.hpp"
 #include "Cruiser.hpp"
+#include "Peta.hpp"
+#include "ViewPort.hpp"
 
 #include <cstdlib>
 #include <signal.h>
@@ -55,7 +57,64 @@ int main()
 		} else if (mode == 2) { /* Scene 2: Colorpicker */
 		mode = 3;
 		} else if (mode == 3) { /* Scene 3: Peta Indonesia */
-		mode = 4;
+
+			Peta *peta = new Peta(0,-60);
+			ViewPort *vp = new ViewPort(200,200,600,400,200,200,peta);
+			
+			int movHorizontal = 2, movVertical = 2;
+			while(!exit) {
+				int key = keyboard->getPressedKeyCode();
+
+				if(key == Keyboard::NO_INPUT) {
+					key = 0;
+				} else {
+					switch(key)
+					{
+						case KEY_BACKSPACE:
+							exit = true;
+							break;
+						case KEY_LEFT:
+							vp->move(0-movHorizontal, 0);
+							break;
+						case KEY_RIGHT:
+							vp->move(movHorizontal, 0);
+							break;
+						case KEY_UP:
+							vp->move(0, 0-movVertical);
+							break;
+						case KEY_DOWN:
+							vp->move(0, movVertical);
+							break;
+						case KEY_Z:
+							vp->zoomOut();
+							break;
+						case KEY_X:
+							vp->zoomIn();
+							break;
+						case KEY_ENTER:
+							exit = true;
+							mode = 4;
+							break;
+					}
+				}
+				screen->drawBackground();
+				
+				peta->move(10,0);
+				peta->setPoin();
+				
+				screen->draw(peta);
+				screen->draw(vp);
+				screen->update();
+
+				// sleep
+				usleep(50);
+			}
+			//TODO fix dtor
+			/* Causes Segfault, fuck clean code */
+			/*cleanup();
+			delete vp;
+			delete peta;*/
+		
 		} else if (mode == 4) { /* Scene 4: Kapal dan gedung "3D"*/
 				// initialize the pov
 				int pov=1;
@@ -153,6 +212,7 @@ int main()
 			printf("POI POI POI POI POI POI ~");
 			exitMain = true;
 		}
+		exit = false;
 		clearScreen();
 	}
 	return 0;
