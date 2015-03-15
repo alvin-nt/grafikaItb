@@ -130,6 +130,7 @@ int main()
 	delete cruiser;
 	delete p1;
 	delete p2;
+	delete p3;
 	delete horizon;
 	
 	return 0;
