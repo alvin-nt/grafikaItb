@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11
 
-DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter
 
 demo_all: $(DEMOS)
 
@@ -67,6 +67,12 @@ demo_peta : demo_peta.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o S
 	$(CC) $(CFLAGS) -o $@ $^	
 
 demo_peta.o : demo_peta.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+demo_helicopter : demo_helicopter.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Helicopter.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+demo_helicopter.o : demo_helicopter.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
 demo_scene4: demo_scene4.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o
@@ -136,6 +142,9 @@ Triangle.o : Triangle.cpp Triangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+Parachute.o : Helicopter.cpp Helicopter.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Ball.o : Ball.cpp Ball.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
