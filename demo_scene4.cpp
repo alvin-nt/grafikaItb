@@ -92,11 +92,14 @@ int main()
 					cruiser->move(movHorizontal);
 				break;
 			}
+			//This should change scene in real demo, not exit
 			if(cruiser->getUpperLeftPoint().getX() == Drawable::SCREEN_X_MIN) {
 				exit = true;
 			}
 		}
+		//Draw everything on screen
 		screen->drawBackground();
+		
 		if(cruiser->getXMidPoint() > Drawable::SCREEN_X_MAX/2) {
 			pov = 1;
 			cube1->setPov(pov);
@@ -116,6 +119,7 @@ int main()
 			screen->draw(cube2);
 			screen->draw(cube3);
 		}
+		
 		screen->draw(horizon);
 		screen->draw(cruiser);
 		screen->update();
