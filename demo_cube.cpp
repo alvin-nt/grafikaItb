@@ -49,11 +49,9 @@ int main()
 	
 	// initialize the cube
 	Point *p1 = new Point(200,200,Color::WHITE);
-	
 	Cube *cube = new Cube(*p1,60);
 	cube->setPov(3);
-	
-	int movHorizontal = 5, movVertical = 5;
+	int movHorizontal = 10, movVertical=10;
 	while(!exit) {
 
 		int key = keyboard->getPressedKeyCode();

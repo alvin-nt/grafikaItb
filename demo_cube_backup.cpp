@@ -5,6 +5,7 @@
 #include "Point.hpp"
 #include "Types.hpp"
 #include "Rectangle.hpp"
+#include "Cube.hpp"
 
 #include <cstdlib>
 #include <signal.h>
@@ -40,38 +41,21 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-//	screen->setMode(GRAPHICS);
+	screen->setMode(GRAPHICS);
 
 	bool exit = false;
 
 	// the main program loop
 	
-	// initialize the rectangle
-	Rectangle *rect = new Rectangle(50, 200, Color::BLUE,
-									50, 300, Color::BLUE,
-									250, 300,Color::BLUE,
-									250, 200,Color::BLUE,10.0f);
-									
-	Rectangle *rect1 = new Rectangle(300, 200, Color::RED,
-									300, 300, Color::RED,
-									500, 300, Color::RED,
-									500, 200, Color::RED,10.0f);
-									
-	Rectangle *rect2 = new Rectangle(550, 200, Color::GREEN,
-									550, 300, Color::GREEN,
-									750, 300, Color::GREEN,
-									750, 200, Color::GREEN,10.0f);
-									
-	Rectangle *outline = new Rectangle(40, 190, Color::WHITE,
-									40, 310, Color::WHITE,
-									260, 310, Color::WHITE,
-									260, 190, Color::WHITE,10.0f);
-	rect->setFillColor(Color::BLUE);
-	rect1->setFillColor(Color::RED);
-	rect2->setFillColor(Color::GREEN);			
-	int movHorizontal = 5, movVertical = 5;
+	// initialize the cube
+	Point *p1 = new Point(200,200,Color::WHITE);
 	
+	Cube *cube = new Cube(*p1,60);
+	cube->setPov(3);
+	
+	int movHorizontal = 5, movVertical = 5;
 	while(!exit) {
+
 		int key = keyboard->getPressedKeyCode();
 
 		if(key == Keyboard::NO_INPUT) {
@@ -82,30 +66,30 @@ int main()
 				exit = true;
 				break;
 			case KEY_LEFT:
-				outline->move(-250,0);
+				cube->move(0-movHorizontal, 0);
 				break;
 			case KEY_RIGHT:
-				outline->move(250,0);
+				cube->move(movHorizontal, 0);
 				break;
 			case KEY_UP:
+				cube->move(0, 0-movVertical);
 				break;
 			case KEY_DOWN:
+				cube->move(0, movVertical);
 				break;
 			}
 		}
 
 		screen->drawBackground();
-		screen->draw(rect,true);
-		screen->draw(rect2,true);
-		screen->draw(rect1,true);
-		screen->draw(outline);
+		screen->draw(cube);
 		screen->update();
 
 		// sleep
-		usleep(5000);
+		usleep(50);
 	}
-	delete rect;
 	cleanup();
+	delete cube;
+	delete p1;
 	
 	return 0;
 }

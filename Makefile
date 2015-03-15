@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall -O2 -std=c++11
+CFLAGS = -g -Wall -O2 -std=c++11 -m32
 
 DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter
 

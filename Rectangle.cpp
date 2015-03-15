@@ -159,7 +159,17 @@ void Rectangle::drawOutline() const {
 
 void Rectangle::drawFill() const {
 	//TBD
-
+	//SEMENTARA BUAT COLOR PICKER
+	drawOutline();
+	int x1 = edges[0]->getPoint1().getX();
+	int x2 = edges[3]->getPoint1().getX();
+	int y1 = edges[0]->getPoint1().getY();
+	int y2 = edges[1]->getPoint1().getY();
+	for(int i=y1;i<=y2;i++){
+		Edge e1(x1,i,baseColor,x2,i,baseColor,1.f);
+		e1.draw();
+	}
+	
 }
 
 Point Rectangle::getMidpoint() const {

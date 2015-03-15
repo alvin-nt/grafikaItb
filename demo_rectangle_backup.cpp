@@ -47,28 +47,11 @@ int main()
 	// the main program loop
 	
 	// initialize the rectangle
-	Rectangle *rect = new Rectangle(50, 200, Color::BLUE,
-									50, 300, Color::BLUE,
-									250, 300,Color::BLUE,
-									250, 200,Color::BLUE,10.0f);
-									
-	Rectangle *rect1 = new Rectangle(300, 200, Color::RED,
-									300, 300, Color::RED,
-									500, 300, Color::RED,
-									500, 200, Color::RED,10.0f);
-									
-	Rectangle *rect2 = new Rectangle(550, 200, Color::GREEN,
-									550, 300, Color::GREEN,
-									750, 300, Color::GREEN,
-									750, 200, Color::GREEN,10.0f);
-									
-	Rectangle *outline = new Rectangle(40, 190, Color::WHITE,
-									40, 310, Color::WHITE,
-									260, 310, Color::WHITE,
-									260, 190, Color::WHITE,10.0f);
-	rect->setFillColor(Color::BLUE);
-	rect1->setFillColor(Color::RED);
-	rect2->setFillColor(Color::GREEN);			
+	Rectangle *rect = new Rectangle(200, 200, Color::WHITE,
+									200, 600, Color::WHITE,
+									600, 600, Color::WHITE,
+									600, 200, Color::WHITE,10.0f);
+	
 	int movHorizontal = 5, movVertical = 5;
 	
 	while(!exit) {
@@ -82,27 +65,26 @@ int main()
 				exit = true;
 				break;
 			case KEY_LEFT:
-				outline->move(-250,0);
+				rect->move(0-movHorizontal, 0);
 				break;
 			case KEY_RIGHT:
-				outline->move(250,0);
+				rect->move(movHorizontal, 0);
 				break;
 			case KEY_UP:
+				rect->move(0, 0-movVertical);
 				break;
 			case KEY_DOWN:
+				rect->move(0, movVertical);
 				break;
 			}
 		}
 
 		screen->drawBackground();
-		screen->draw(rect,true);
-		screen->draw(rect2,true);
-		screen->draw(rect1,true);
-		screen->draw(outline);
+		screen->draw(rect);
 		screen->update();
 
 		// sleep
-		usleep(5000);
+		usleep(50);
 	}
 	delete rect;
 	cleanup();
