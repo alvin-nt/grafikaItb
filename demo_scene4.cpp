@@ -48,21 +48,29 @@ int main()
 
 	// the main program loop
 	
-	// initialize the cube1
-	int pov=3;
-	Point *p1 = new Point(400, 600,Color::WHITE);
+	// initialize the pov
+	int pov=1;
 	
+	//Gedung kiri
+	Point *p1 = new Point(200, 400,Color::WHITE);
 	Cube *cube1 = new Cube(*p1,60);
 	cube1->setPov(pov);
 	
-	Point *p2 = new Point(200, 600,Color::WHITE);
-	
-	Cube *cube2 = new Cube(*p2,100);
+	//Gedung tengah
+	Point *p2 = new Point(300, 400,Color::WHITE);
+	Cube *cube2 = new Cube(*p2,150);
 	cube2->setPov(pov);
 	
-	Edge *horizon = new Edge(Drawable::SCREEN_X_MIN, 550, Color::WHITE
-							,Drawable::SCREEN_X_MAX, 550, Color::WHITE, 1.0f);
+	//Gedung kanan
+	Point *p3 = new Point(450,400, Color::WHITE);
+	Cube *cube3 = new Cube(*p3,100);
+	cube3->setPov(pov);
 	
+	//Garis horizon
+	Edge *horizon = new Edge(Drawable::SCREEN_X_MIN, 400, Color::WHITE
+							,Drawable::SCREEN_X_MAX, 400, Color::WHITE, 1.0f);
+	
+	//As it says, the cruiser
 	Cruiser *cruiser = new Cruiser(550,550);
 	
 	int movHorizontal = 5, movVertical = 5;
@@ -83,26 +91,32 @@ int main()
 			case KEY_RIGHT:
 					cruiser->move(movHorizontal);
 				break;
-			case KEY_Z:
-				if (pov > 0) {
-					pov--;
-					cube1->setPov(pov);
-					cube2->setPov(pov);
-				}
-				break;
-			case KEY_X:
-				if (pov < 4) {
-					pov++;
-					cube1->setPov(pov);
-					cube2->setPov(pov);
-				}
-				break;
+			}
+			if(cruiser->getUpperLeftPoint().getX() == Drawable::SCREEN_X_MIN) {
+				exit = true;
 			}
 		}
 		screen->drawBackground();
+		if(cruiser->getXMidPoint() > Drawable::SCREEN_X_MAX/2) {
+			pov = 1;
+			cube1->setPov(pov);
+			cube2->setPov(pov);
+			cube3->setPov(pov);
+			/*Ini harusnya pake draw fill*/
+			screen->draw(cube3);
+			screen->draw(cube2);
+			screen->draw(cube1);
+		} else {
+			pov = 3;
+			cube1->setPov(pov);
+			cube2->setPov(pov);
+			cube3->setPov(pov);
+			/*Ini harusnya juga pake draw fill*/
+			screen->draw(cube1);
+			screen->draw(cube2);
+			screen->draw(cube3);
+		}
 		screen->draw(horizon);
-		screen->draw(cube1);
-		screen->draw(cube2);
 		screen->draw(cruiser);
 		screen->update();
 
@@ -112,6 +126,7 @@ int main()
 	cleanup();
 	delete cube1;
 	delete cube2;
+	delete cube3;
 	delete cruiser;
 	delete p1;
 	delete p2;

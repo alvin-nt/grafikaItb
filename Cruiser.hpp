@@ -29,6 +29,7 @@ namespace Graphics {
 		Point getUpperLeftPoint();
 		Point getUpperRightPoint();
 		Point getLowerRightPoint();
+		int getXMidPoint();
 	protected:
 		void drawOutline() const;
 		void drawFill() const;

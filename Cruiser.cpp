@@ -70,3 +70,6 @@ Point Cruiser::getUpperRightPoint() {
 Point Cruiser::getLowerRightPoint() {
 	return body->getPoint4();	
 }
+int Cruiser::getXMidPoint() {
+	return ((getUpperRightPoint().getX()-getUpperLeftPoint().getX())/2)+getUpperLeftPoint().getX();	
+}
