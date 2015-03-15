@@ -151,3 +151,4 @@ void cleanup() {
 	Screen::destroy();
 	delete keyboard;
 }
+
