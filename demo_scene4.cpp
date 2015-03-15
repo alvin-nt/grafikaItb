@@ -49,18 +49,22 @@ int main()
 	// the main program loop
 	
 	// initialize the cube1
-	Point *p1 = new Point(400, 400,Color::WHITE);
+	Point *p1 = new Point(400, 600,Color::WHITE);
 	
 	Cube *cube1 = new Cube(*p1,60);
 	cube1->setPov(3);
 	
-	Point *p2 = new Point(200, 400,Color::WHITE);
+	Point *p2 = new Point(200, 600,Color::WHITE);
 	
 	Cube *cube2 = new Cube(*p2,100);
 	cube2->setPov(3);
 	
-	Cruiser *cruiser = new Cruiser(300,600);
+	Edge *horizon = new Edge(Drawable::SCREEN_X_MIN, 550, Color::WHITE
+							,Drawable::SCREEN_X_MAX, 550, Color::WHITE, 1.0f);
 	
+	Cruiser *cruiser = new Cruiser(550,550);
+	
+	int movHorizontal = 5, movVertical = 5;
 	while(!exit) {
 
 		int key = keyboard->getPressedKeyCode();
@@ -72,10 +76,16 @@ int main()
 			case KEY_BACKSPACE:
 				exit = true;
 				break;
+			case KEY_LEFT:
+					cruiser->move(0-movHorizontal);
+				break;
+			case KEY_RIGHT:
+					cruiser->move(movHorizontal);
+				break;
 			}
 		}
-
 		screen->drawBackground();
+		screen->draw(horizon);
 		screen->draw(cube1);
 		screen->draw(cube2);
 		screen->draw(cruiser);
@@ -87,7 +97,10 @@ int main()
 	cleanup();
 	delete cube1;
 	delete cube2;
+	delete cruiser;
 	delete p1;
+	delete p2;
+	delete horizon;
 	
 	return 0;
 }

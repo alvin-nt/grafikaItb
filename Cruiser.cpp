@@ -10,11 +10,6 @@ using namespace Graphics;
 
 Cruiser::Cruiser(int x, int y) : xAwal(x), yAwal(y)
 {
-	/*body = new Rectangle(300, 600, Color::WHITE, //lower left point
-									225, 550, Color::WHITE, //upper left point
-									525, 550, Color::WHITE, //upper right point
-									500, 600, Color::WHITE, //lower right point
-									5.0f);*/
 	body = new Rectangle(xAwal, yAwal, Color::WHITE, //lower left point
 									xAwal-75, yAwal-50, Color::WHITE, //upper left point
 									xAwal+225, yAwal-50, Color::WHITE, //upper right point
@@ -46,6 +41,32 @@ void Cruiser::drawFill() const {
 
 }
 
-void Cruiser::move(int dx, int dy) {
+void Cruiser::move(int dx) {
 	//TBD
+	if (dx < 0) {
+		if(body->getPoint2().getX() > Drawable::SCREEN_X_MIN) {
+			body->move(dx, 0);
+			turret->move(dx, 0);
+			gun->move(dx, 0);
+		}
+	} else {
+		if(body->getPoint3().getX() < Drawable::SCREEN_X_MAX) {
+			body->move(dx, 0);
+			turret->move(dx, 0);
+			gun->move(dx, 0);
+		}
+	}
+}
+
+Point Cruiser::getLowerLeftPoint() {
+	return body->getPoint1();
+}
+Point Cruiser::getUpperLeftPoint() {
+	return body->getPoint2();	
+}
+Point Cruiser::getUpperRightPoint() {
+	return body->getPoint3();	
+}
+Point Cruiser::getLowerRightPoint() {
+	return body->getPoint4();	
 }

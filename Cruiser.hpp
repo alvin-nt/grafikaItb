@@ -24,7 +24,11 @@ namespace Graphics {
 		Cruiser(int x, int y);
 		~Cruiser();
 		void fire();
-		void move(int dx, int dy);
+		void move(int dx);
+		Point getLowerLeftPoint();
+		Point getUpperLeftPoint();
+		Point getUpperRightPoint();
+		Point getLowerRightPoint();
 	protected:
 		void drawOutline() const;
 		void drawFill() const;
