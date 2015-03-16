@@ -57,6 +57,26 @@ int main()
 	int mode = 1; //this indicate which scene is active
 	while(!exitMain) {
 		if(mode == 1) { /* Scene 1: Welcome Screen */
+					writetext *write = new writetext("to start\npress z",10,0.5,300,300);
+			write->ReadFromFile("dictionary.txt");
+			write->Allocatechar();
+			
+			while(!exit) {
+				int key = keyboard->getPressedKeyCode();
+
+				if(key == Keyboard::NO_INPUT) {
+					key = 0;
+				} else {
+					if(key == KEY_Z)
+						exit = true;
+				}
+				screen->drawBackground();
+				screen->draw(write);
+				screen->update();
+
+				// sleep
+				usleep(5000);
+			}
 		mode = 2;
 		} else if (mode == 2) { /* Scene 2: Colorpicker */
 		Color color = colorPicker();
@@ -112,7 +132,7 @@ int main()
 				screen->update();
 
 				// sleep
-				usleep(50);
+				usleep(5000);
 			}
 			//TODO fix dtor
 			/* Causes Segfault, fuck clean code */
@@ -200,7 +220,7 @@ int main()
 					screen->update();
 
 					// sleep
-					usleep(50);
+					usleep(5000);
 				}
 				//cleanup();
 				delete cube1;
@@ -292,7 +312,7 @@ int main()
 		screen->update();
 
 		// sleep
-		usleep(2500);
+		usleep(5000);
 	}
 	/*delete helicopter;
 	delete cruiser;
@@ -303,7 +323,7 @@ int main()
 	
 	mode = 6; //maju scene
 		} else if (mode == 6) { /* Scene 6: You WIN */
-			writetext *write = new writetext("you win!",10,0.5,300,300);
+			writetext *write = new writetext("victory!\n\nyou win!\ncongratulations",10,0.5,300,200);
 			write->ReadFromFile("dictionary.txt");
 			write->Allocatechar();
 			
@@ -322,7 +342,7 @@ int main()
 				screen->update();
 
 				// sleep
-				usleep(50);
+				usleep(5000);
 			}
 			//delete write;
 			cleanup();

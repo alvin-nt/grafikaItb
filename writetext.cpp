@@ -96,6 +96,17 @@ void writetext::draw() const{
 			}
 			counterx += 30;
 		}
+		
+		if(text[i] == 'c')
+		{
+			for(int j = 0;j<=vcharacter[8].size()-1;j++)
+			{
+				temp = (vcharacter.at(8)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
 		if(text[i] == 'y')
 		{
 			for(int j = 0;j<=vcharacter[11].size()-1;j++)
@@ -170,7 +181,92 @@ void writetext::draw() const{
 			}
 			counterx += 30;
 		}
+		if(text[i] == 'z')
+		{
+			for(int j = 0;j<=vcharacter[17].size()-1;j++)
+			{
+				temp = (vcharacter.at(17)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
+		if(text[i] == 'p')
+		{
+			for(int j = 0;j<=vcharacter[18].size()-1;j++)
+			{
+				temp = (vcharacter.at(18)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
 		
+		if(text[i] == 'h')
+		{
+			for(int j = 0;j<=vcharacter[19].size()-1;j++)
+			{
+				temp = (vcharacter.at(19)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
+		
+		if(text[i] == 'g')
+		{
+			for(int j = 0;j<=vcharacter[20].size()-1;j++)
+			{
+				temp = (vcharacter.at(20)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
+		
+		if(text[i] == 'l')
+		{
+			for(int j = 0;j<=vcharacter[21].size()-1;j++)
+			{
+				temp = (vcharacter.at(21)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
+		
+		if(text[i] == 'k')
+		{
+			for(int j = 0;j<=vcharacter[22].size()-1;j++)
+			{
+				temp = (vcharacter.at(22)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
+		
+		if(text[i] == 'v')
+		{
+			for(int j = 0;j<=vcharacter[23].size()-1;j++)
+			{
+				temp = (vcharacter.at(23)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
+		
+		if(text[i] == '.')
+		{
+			for(int j = 0;j<=vcharacter[24].size()-1;j++)
+			{
+				temp = (vcharacter.at(24)).at(j);
+				temp.move2(counterx,countery);
+				temp.draw();
+			}
+			counterx += 30;
+		}
 		if(text[i] == ' ')
 		{
 			counterx += 30;
