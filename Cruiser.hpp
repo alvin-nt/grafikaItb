@@ -21,7 +21,7 @@ namespace Graphics {
 		int yAwal;
 		
 	public:
-		Cruiser(int x, int y);
+		Cruiser(int x, int y, const Color& baseColor);
 		~Cruiser();
 		void fire();
 		void move(int dx);

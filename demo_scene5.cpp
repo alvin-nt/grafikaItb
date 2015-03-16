@@ -5,6 +5,9 @@
 #include "Point.hpp"
 #include "Types.hpp"
 #include "Helicopter.hpp"
+#include "Cruiser.hpp"
+#include "Ellipse.hpp"
+#include "Parachute.hpp"
 
 #include <cstdlib>
 #include <signal.h>
@@ -44,14 +47,25 @@ int main()
 	screen->setBackground(Color::WHITE);
 
 	bool exit = false;
+	bool fire = false;
 
 	// the main program loop
 	
 	// initialize the helicopter
-	Point p(500,500);
+	Point p(500,100);
 	Helicopter *helicopter = new Helicopter(p, 0, Color::BLACK, 1.0f,1);
 	
-	int movHorizontal = 5, movVertical = 5;
+	// initialize the rectangle
+	Cruiser *cruiser = new Cruiser(700,550,Color::BLACK);
+						 
+	Ellipse *bullet = NULL;
+	Parachute *para = NULL;
+	
+	int movHorizontalship = 10;
+	bool bulletExists = false;
+	int movHorizontalheli = 1;
+	int movHorizontalbullet = 8, movVerticalbullet = 10;
+	int phase = 0;
 	
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
@@ -63,30 +77,56 @@ int main()
 			case KEY_BACKSPACE:
 				exit = true;
 				break;
-			case KEY_LEFT:
-				helicopter->moveHelicopter(0-movHorizontal, 0);
-				break;
-			case KEY_RIGHT:
-				helicopter->moveHelicopter(movHorizontal, 0);
-				break;
-			case KEY_UP:
-				helicopter->moveHelicopter(0, 0-movVertical);
-				break;
-			case KEY_DOWN:
-				helicopter->moveHelicopter(0, movVertical);
-				break;
 			}
 		}
-
+		
 		screen->drawBackground();
-		screen->draw(helicopter);
-		screen->draw(helicopter->body);
+		if(phase==0){
+			helicopter->moveHelicopter(0-movHorizontalheli, 0);
+			screen->draw(helicopter);
+			screen->draw(helicopter->body);
+			screen->draw(cruiser);
+		}	
+		else if(phase==1){
+			
+			if(cruiser->getUpperLeftPoint().getX() > 10){
+				cruiser->move(0-movHorizontalship);
+				screen->draw(cruiser);
+			}
+			if(para->getHeight() < 600){
+				para->move(0,5);
+				screen->draw(para);
+			}
+		}
+		
+		if(!bulletExists && !fire) {
+					Point refPoint(cruiser->getXMidPoint()-10,cruiser->getUpperLeftPoint().getY()-20);
+					
+					bullet = new Ellipse(refPoint.getX(), refPoint.getY(), Color::WHITE, 1.0f, 5.0f, 5.0f,1.f);
+					bulletExists = true;
+					fire = true;
+				}
+		if(bulletExists && bullet != NULL) {
+			screen->draw(bullet);
+			Point check(bullet->getCenter());
+			
+			// try to move
+			bullet->move(0-movHorizontalbullet,0-movVerticalbullet);
+			if(helicopter->getMidpoint().getY()+20 > bullet->getCenter().getY()) {
+				delete bullet;
+				bulletExists = false;
+				phase = 1;
+				para = new Parachute(helicopter->getMidpoint().getX(),helicopter->getMidpoint().getY(),Color::BLACK);
+			}
+		}
 		screen->update();
 
 		// sleep
 		usleep(50);
 	}
 	delete helicopter;
+	delete cruiser;
+	delete para;
 	cleanup();
 
 	return 0;
@@ -195,3 +235,4 @@ void cleanup() {
 				delete p3;
 				delete horizon;
 				*/
+

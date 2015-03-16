@@ -5,21 +5,20 @@
 #include "Point.hpp"
 #include "Edge.hpp"
 #include "Color.hpp"
+#include "Rectangle.hpp"
 
 namespace Graphics {
 	/**
 	 * Class that represents a line
 	 **/
 	class Helicopter : public ShapeFillable {
-	//friend class Cube;
 	private:
-		// now using the edges element
-		// @see {ShapeFillable}
 		int angle;
 		int size;
 		Point midpoint;
-		float weight;
+		float weight;	
 	public:
+		Rectangle *body;
 		Helicopter(const Point& midpoint, int angle, const Color& baseColor = Color::WHITE, float weight = 1.0f, int size = 1) ;
 		Helicopter(const Helicopter&);
 		~Helicopter();

@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11 -m32
 
-DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter demo_scene4 demo_allScene
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter demo_scene4 demo_scene5 demo_allScene
 
 demo_all: $(DEMOS)
 
@@ -69,7 +69,7 @@ demo_peta : demo_peta.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o S
 demo_peta.o : demo_peta.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-demo_helicopter : demo_helicopter.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Helicopter.o
+demo_helicopter : demo_helicopter.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Helicopter.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 demo_helicopter.o : demo_helicopter.cpp
@@ -80,6 +80,12 @@ demo_scene4: demo_scene4.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.
 	
 demo_scene4.o : demo_scene4.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
+	
+demo_scene5: demo_scene5.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cruiser.o Ellipse.o Parachute.o Helicopter.o
+	$(CC) $(CFLAGS) -o $@ $^
+	
+demo_scene5.o : demo_scene5.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
 
 main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
@@ -87,7 +93,7 @@ main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o C
 main_kapalPesawat.o : main_kapalPesawat.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
-demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o Peta.o ViewPort.o
+demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o Peta.o ViewPort.o Helicopter.o Parachute.o
 	$(CC) $(CFLAGS) -o $@ $^
 	
 demo_allScene.o : demo_allScene.cpp
@@ -150,7 +156,7 @@ Triangle.o : Triangle.cpp Triangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp
 Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-Helicopter.o : Helicopter.cpp Helicopter.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+Helicopter.o : Helicopter.cpp Helicopter.hpp Rectangle.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Ball.o : Ball.cpp Ball.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
