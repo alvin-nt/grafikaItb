@@ -75,7 +75,7 @@ int main()
 				screen->update();
 
 				// sleep
-				usleep(5000);
+				usleep(50000);
 			}
 		mode = 2;
 		} else if (mode == 2) { /* Scene 2: Colorpicker */
@@ -95,9 +95,10 @@ int main()
 				} else {
 					switch(key)
 					{
-						case KEY_BACKSPACE:
-							exit = true;
-							break;
+						//case KEY_BACKSPACE:
+							//exit = true;
+							//mode = 7;
+							//break;
 						case KEY_LEFT:
 							vp->move(0-movHorizontal, 0);
 							break;
@@ -132,7 +133,7 @@ int main()
 				screen->update();
 
 				// sleep
-				usleep(5000);
+				usleep(50000);
 			}
 			//TODO fix dtor
 			/* Causes Segfault, fuck clean code */
@@ -175,10 +176,10 @@ int main()
 						key = 0;
 					} else {
 						switch(key) {
-						case KEY_BACKSPACE:
-							exit = true;
-							exitMain = true;
-							break;
+						//case KEY_BACKSPACE:
+							//exit = true;
+							//mode = 7;
+							//break;
 						case KEY_LEFT:
 								cruiser->move(0-movHorizontal);
 							break;
@@ -233,96 +234,98 @@ int main()
 				delete horizon;
 		} else if (mode == 5) { /* Scene 5: Perang heli vs kapal */
 			
-
-	screen->setBackground(Color::WHITE);
-	// initialize the helicopter
-	Point p(500,100);
-	Helicopter *helicopter = new Helicopter(p, 0, Color::BLACK, 1.0f,1);
-	
-	// initialize the rectangle
-	Cruiser *cruiser = new Cruiser(550,550,Color::BLACK);
-						 
-	Ellipse *bullet = NULL;
-	Parachute *para = NULL;
-	
-	int movHorizontalship = 10;
-	bool bulletExists = false;
-	int movHorizontalheli = 1;
-	int movHorizontalbullet = 8, movVerticalbullet = 10;
-	int phase = 0;
-	bool fire = false;
-	exit = false;
-	printf("fafafa");
-	while(!exit) {
-		int key = keyboard->getPressedKeyCode();
-		
-		if(key == Keyboard::NO_INPUT) {
-			key = 0;
-		} else {
-			switch(key) {
-			case KEY_BACKSPACE:
-				exit = true;
-				break;
-			}
-		}
-		
-		screen->drawBackground();
-		if(phase==0){
-			helicopter->moveHelicopter(0-movHorizontalheli, 0);
-			screen->draw(helicopter);
-			screen->draw(helicopter->body);
-			screen->draw(cruiser);
-		}	
-		else if(phase==1){
+			screen->setBackground(Color::WHITE);
+			// initialize the helicopter
+			Point p(300,100);
+			Helicopter *helicopter = new Helicopter(p, 0, Color::BLACK, 1.0f,1);
 			
-			if(cruiser->getUpperLeftPoint().getX() > 10){
-				cruiser->move(0-movHorizontalship);
-				screen->draw(cruiser);
-			}
-			if(para->getHeight() < 600){
-				para->move(0,5);
-				screen->draw(para);
-			}
-			else
-			{
-				exit = true;
-			}
-		}
-		
-		if(!bulletExists && !fire) {
-					Point refPoint(cruiser->getXMidPoint()-10,cruiser->getUpperLeftPoint().getY()-20);
-					
-					bullet = new Ellipse(refPoint.getX(), refPoint.getY(), Color::WHITE, 1.0f, 5.0f, 5.0f,1.f);
-					bulletExists = true;
-					fire = true;
+			// initialize the rectangle
+			Cruiser *cruiser = new Cruiser(550,550,Color::BLACK);
+								 
+			Ellipse *bullet = NULL;
+			Parachute *para = NULL;
+			
+			int movHorizontalship = 10;
+			bool bulletExists = false;
+			int movHorizontalheli = 1;
+			int movHorizontalbullet = 8, movVerticalbullet = 10;
+			int phase = 0;
+			bool fire = false;
+			exit = false;
+			printf("fafafa");
+			while(!exit) {
+				int key = keyboard->getPressedKeyCode();
+				
+				if(key == Keyboard::NO_INPUT) {
+					key = 0;
+				} else {
+					//switch(key) {
+					//case KEY_BACKSPACE:
+						//exit = true;
+						//exitMain = true;
+						//mode = 7;
+						//break;
+					//}
 				}
-		if(bulletExists && bullet != NULL) {
-			screen->draw(bullet);
-			Point check(bullet->getCenter());
-			
-			// try to move
-			bullet->move(0-movHorizontalbullet,0-movVerticalbullet);
-			if(helicopter->getMidpoint().getY()+20 > bullet->getCenter().getY()) {
-				delete bullet;
-				bulletExists = false;
-				phase = 1;
-				para = new Parachute(helicopter->getMidpoint().getX(),helicopter->getMidpoint().getY(),Color::BLACK);
+				
+				screen->drawBackground();
+				if(phase==0){
+					helicopter->moveHelicopter(0-movHorizontalheli, 0);
+					screen->draw(helicopter);
+					screen->draw(helicopter->body);
+					screen->draw(cruiser);
+				}	
+				else if(phase==1){
+					
+					if(cruiser->getUpperLeftPoint().getX() > 10){
+						cruiser->move(0-movHorizontalship);
+						screen->draw(cruiser);
+					}
+					if(para->getHeight() < 600){
+						para->move(0,5);
+						screen->draw(para);
+					}
+					else
+					{
+						exit = true;
+					}
+				}
+				
+				if(!bulletExists && !fire) {
+							Point refPoint(cruiser->getXMidPoint()-10,cruiser->getUpperLeftPoint().getY()-20);
+							
+							bullet = new Ellipse(refPoint.getX(), refPoint.getY(), Color::WHITE, 1.0f, 5.0f, 5.0f,1.f);
+							bulletExists = true;
+							fire = true;
+						}
+				if(bulletExists && bullet != NULL) {
+					screen->draw(bullet);
+					Point check(bullet->getCenter());
+					
+					// try to move
+					bullet->move(0-movHorizontalbullet,0-movVerticalbullet);
+					if(helicopter->getMidpoint().getY()+20 > bullet->getCenter().getY()) {
+						delete bullet;
+						bulletExists = false;
+						phase = 1;
+						para = new Parachute(helicopter->getMidpoint().getX(),helicopter->getMidpoint().getY(),Color::BLACK);
+					}
+				}
+				screen->update();
+
+				// sleep
+				usleep(50000);
 			}
-		}
-		screen->update();
+			/*delete helicopter;
+			delete cruiser;
+			delete para;
+			cleanup();*/
 
-		// sleep
-		usleep(5000);
-	}
-	/*delete helicopter;
-	delete cruiser;
-	delete para;
-	cleanup();*/
-
-	screen->setBackground(Color::BLACK);
-	
-	mode = 6; //maju scene
+			screen->setBackground(Color::BLACK);
+			
+			mode = 6; //maju scene
 		} else if (mode == 6) { /* Scene 6: You WIN */
+		
 			writetext *write = new writetext("victory!\n\nyou win!\ncongratulations",10,0.5,300,200);
 			write->ReadFromFile("dictionary.txt");
 			write->Allocatechar();
@@ -342,15 +345,18 @@ int main()
 				screen->update();
 
 				// sleep
-				usleep(5000);
+				usleep(50000);
 			}
 			//delete write;
 			cleanup();
 			mode++;
 			
+		} else {
+			break;
 		}
 		exit = false;
 		clearScreen();
+		usleep(100000);
 	}
 	return 0;
 }
