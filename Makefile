@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11 -m32
 
-DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter demo_scene4 demo_scene5 demo_allScene
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter demo_scene4 demo_scene5 demo_allScene demo_writetext
 
 demo_all: $(DEMOS)
 
@@ -87,6 +87,12 @@ demo_scene5: demo_scene5.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.
 demo_scene5.o : demo_scene5.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 
+demo_writetext : demo_writetext.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o writetext.o
+	$(CC) $(CFLAGS) -o $@ $^	
+
+demo_writetext.o : demo_writetext.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+
 main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -170,6 +176,9 @@ ViewPort.o : ViewPort.cpp ViewPort.hpp Peta.hpp Drawable.hpp Edge.hpp Point.hpp 
 	
 Cruiser.o : Cruiser.cpp Cruiser.hpp Ellipse.hpp Rectangle.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
+	
+writetext.o : writetext.cpp writetext.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean :
 	rm -rf $(DEMOS) *.o
