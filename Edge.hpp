@@ -3,14 +3,12 @@
 
 #include "Shape.hpp"
 #include "Point.hpp"
-#include "Rasterizer.hpp"
 
 namespace Graphics {
 	/**
 	 * Class that represents a line
 	 **/
 	class Edge : public Shape {	
-		friend class ShapeFillable;
 		friend class Triangle;
 		friend class Rectangle;
 		friend class Parachute;
@@ -20,13 +18,11 @@ namespace Graphics {
 		friend class Helicopter;
 		friend class writetext;
 	private:
-		Point p1, p2;
+		Point p1, p2, anchor;
 		
 		float weight;
 		
 		Color color;
-		
-		Bucket *pBucket;
 	public:
 		Edge();
 		Edge(const Point& p1, const Point& p2, float weight = 1.0f);
@@ -128,12 +124,6 @@ namespace Graphics {
 		 **/
 		float getLengthFloat() const;
 		
-		int getMinX() const;
-		int getMaxX() const;
-		
-		int getMinY() const;
-		int getMaxY() const;
-		
 		/**
 		 * Swaps the first and the second point
 		 **/
@@ -155,6 +145,15 @@ namespace Graphics {
 		void move(int dx, int dy);
 		
 		/**
+		 * Moves the line
+		 * 
+		 * @param dx movement in x coordinate
+		 * @param dy movement in y coordinate
+		 **/
+		void move2(int dx, int dy);
+		
+		
+		/**
 		 * Rotates the line
 		 * 
 		 * @param degree the degree
@@ -169,10 +168,6 @@ namespace Graphics {
 		void scale(float ds);
 		
 		void scale(float sx, float sy);
-		
-		void setBucket(Bucket* ptrBucket);
-		
-		void refreshBucket() const;
 	
 		static bool isMovable(const Edge& edge, int dx, int dy);
 	

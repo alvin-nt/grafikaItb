@@ -46,7 +46,6 @@ kapal1(x+264,y+295,Color::BLUE),kapal2(x+284,y+300,Color::BLUE),kapal3(x+300,y+3
 pesawat1(x+540,y+360,Color::BLUE),pesawat2(x+580,y+360,Color::BLUE),pesawat3(x+580,y+365,Color::BLUE),pesawat4(x+540,y+365,Color::BLUE),
 pesawat5(x+535,y+348,Color::RED),pesawat6(x+565,y+378,Color::RED),pesawat7(x+565,y+348,Color::RED),pesawat8(x+535,y+378,Color::RED)
 {
-	anchor = Point(x, y);
 	weight = 0.5f;
 }
 
@@ -103,30 +102,27 @@ void Peta::move(int dx, int dy){
 }
 
 void Peta::setPoin(){
-	// sumatera
-	edges.push_back(new Edge(sumatera1, sumatera2, weight));
-	edges.push_back(new Edge(sumatera2, sumatera3, weight));
-	edges.push_back(new Edge(sumatera3, sumatera4, weight));
-	edges.push_back(new Edge(sumatera4, sumatera5, weight));
-	edges.push_back(new Edge(sumatera5, sumatera6, weight));
-	edges.push_back(new Edge(sumatera6, sumatera7, weight));
-	edges.push_back(new Edge(sumatera7, sumatera8, weight));
-	edges.push_back(new Edge(sumatera8, sumatera9, weight));
-	edges.push_back(new Edge(sumatera9, sumatera10, weight));
-	edges.push_back(new Edge(sumatera10, sumatera11, weight));
-	edges.push_back(new Edge(sumatera11, sumatera12, weight));
-	edges.push_back(new Edge(sumatera12, sumatera13, weight));
-	edges.push_back(new Edge(sumatera13, sumatera14, weight));
-	edges.push_back(new Edge(sumatera14, sumatera15, weight));
-	edges.push_back(new Edge(sumatera15, sumatera16, weight));
-	edges.push_back(new Edge(sumatera16, sumatera17, weight));
-	edges.push_back(new Edge(sumatera17, sumatera18, weight));
-	edges.push_back(new Edge(sumatera18, sumatera19, weight));
-	edges.push_back(new Edge(sumatera19, sumatera20, weight));
-	edges.push_back(new Edge(sumatera20, sumatera21, weight));
-	edges.push_back(new Edge(sumatera21, sumatera1, weight));
-	
-	
+	e[0].setPoint(sumatera1,sumatera2,weight);
+	  e[1].setPoint(sumatera2,sumatera3,weight);
+	  e[2].setPoint(sumatera3,sumatera4,weight);
+	  e[3].setPoint(sumatera4,sumatera5,weight);
+	  e[4].setPoint(sumatera5,sumatera6,weight);
+	  e[5].setPoint(sumatera6,sumatera7,weight);
+	  e[6].setPoint(sumatera7,sumatera8,weight);
+	  e[7].setPoint(sumatera8,sumatera9,weight);
+	  e[8].setPoint(sumatera9,sumatera10,weight);
+	  e[9].setPoint(sumatera10,sumatera11,weight);
+	  e[10].setPoint(sumatera11,sumatera12,weight);
+	  e[11].setPoint(sumatera12,sumatera13,weight);
+	  e[12].setPoint(sumatera13,sumatera14,weight);
+	  e[13].setPoint(sumatera14,sumatera15,weight);
+	  e[14].setPoint(sumatera15,sumatera16,weight);
+	  e[15].setPoint(sumatera16,sumatera17,weight);
+	  e[16].setPoint(sumatera17,sumatera18,weight);
+	  e[17].setPoint(sumatera18,sumatera19,weight);
+	  e[18].setPoint(sumatera19,sumatera20,weight);
+	  e[19].setPoint(sumatera20,sumatera21,weight);
+	  e[20].setPoint(sumatera21,sumatera1,weight);
 	
 	  e[21].setPoint(kalimantan1,kalimantan2,weight);
 	  e[22].setPoint(kalimantan2,kalimantan3,weight);

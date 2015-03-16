@@ -8,22 +8,23 @@
 using namespace Graphics;
 
 Edge::Edge()
-	: p1(0, 0), p2(0, 0), weight(1.0f), color(p1.getColor())
+	: p1(0, 0), p2(0, 0), anchor(getMidpoint()), color(p1.getColor())
 {
-	anchor = getMidpoint();
+
 }
 
 Edge::Edge(const Point &p1, const Point &p2, float weight)
-	: p1(p1), p2(p2), weight(weight), color(p1.getColor()), pBucket(NULL)
+	: p1(p1), p2(p2), anchor(getMidpoint()), weight(weight), color(p1.getColor())
 {
-	anchor = getMidpoint();
+	
 }
 
 Edge::Edge(int x1, int y1, const Color& c1,
 			int x2, int y2, const Color& c2, float weight)
-	: p1(x1, y1, c1), p2(x2, y2, c2), weight(weight), color(c1), pBucket(NULL)
+	: p1(x1, y1, c1), p2(x2, y2, c2), anchor(getMidpoint()), 
+		weight(weight), color(c1)
 {
-	anchor = getMidpoint();
+	
 }
 
 Edge::Edge(const Edge &edge) {
@@ -40,13 +41,7 @@ Edge& Edge::operator=(const Edge &rhs) {
 		
 		p1 = rhs.p1;
 		p2 = rhs.p2;
-		color = rhs.color;
-		anchor = rhs.anchor;
 		weight = rhs.weight;
-		
-		if (pBucket != NULL) {
-			refreshBucket();
-		}
 	}
 	
 	return *this;
@@ -68,19 +63,11 @@ const Point &Edge::getPoint1() const {
 
 void Edge::setPoint1(const Point& p1) {
 	this->p1 = p1;
-	
-	if (pBucket != NULL) {
-		refreshBucket();
-	}
 }
 
 void Edge::setPoint1(int x, int y) {
 	p1.setX(x);
 	p1.setY(y);
-	
-	if (pBucket != NULL) {
-		refreshBucket();
-	}
 }
 
 const Point &Edge::getPoint2() const {
@@ -89,29 +76,17 @@ const Point &Edge::getPoint2() const {
 
 void Edge::setPoint2(const Point& p2) {
 	this->p2 = p2;
-	
-	if (pBucket != NULL) {
-		refreshBucket();
-	}
 }
 
 void Edge::setPoint2(int x, int y) {
 	p2.setX(x);
 	p2.setY(y);
-	
-	if (pBucket != NULL) {
-		refreshBucket();
-	}
 }
 
-void Edge::setPoint(const Point& p1, const Point& p2, float weight) {
+void Edge::setPoint(const Point& p1,const Point& p2, float weight) {
 	this->p1 = p1;
 	this->p2 = p2;
 	this->weight = weight;
-	
-	if (pBucket != NULL) {
-		refreshBucket();
-	}
 }
 
 int Edge::getDeltaX() const {
@@ -148,30 +123,10 @@ float Edge::getLengthFloat() const {
 	return sqrtf((float)(deltaX * deltaX) + (float)(deltaY * deltaY));
 }
 
-int Edge::getMinX() const {
-	return p1.getX() < p2.getX() ? p1.getX() : p2.getX();
-}
-
-int Edge::getMaxX() const {
-	return p1.getX() > p2.getX() ? p1.getX() : p2.getX();
-}
-		
-int Edge::getMinY() const {
-	return p1.getY() < p2.getY() ? p1.getY() : p2.getY();
-}
-
-int Edge::getMaxY() const {
-	return p1.getY() > p2.getY() ? p1.getY() : p2.getY();
-}
-
 void Edge::swapPoints() {
 	Point temp = p2;
 	p2 = p1;
 	p1 = temp;
-	
-	if (pBucket != NULL) {
-		refreshBucket();
-	}
 }
 
 Point Edge::getMidpoint() const {
@@ -247,10 +202,6 @@ void Edge::rotate(float degree) {
 	{		
 		Point::rotate(anchor, p1, degree);
 		Point::rotate(anchor, p2, degree);
-		
-		if (pBucket != NULL) {
-			refreshBucket();
-		}
 	}
 }
 
@@ -258,10 +209,6 @@ void Edge::scale(float ds) {
 	if(isScaleable(*this, ds, ds)) {
 		Point::scale(anchor, p1, ds, ds);
 		Point::scale(anchor, p2, ds, ds);
-		
-		if (pBucket != NULL) {
-			refreshBucket();
-		}
 	}
 }
 
@@ -269,10 +216,6 @@ void Edge::scale(float sx, float sy) {
 	if(isScaleable(*this, sx, sy)) {
 		Point::scale(anchor, p1, sx, sy);
 		Point::scale(anchor, p2, sx, sy);
-		
-		if (pBucket != NULL) {
-			refreshBucket();
-		}
 	}
 }
 
@@ -281,24 +224,25 @@ void Edge::move(int dx, int dy) {
 		Point::move(anchor, dx, dy);
 		Point::move(p1, dx, dy);
 		Point::move(p2, dx, dy);
-		
-		if (pBucket != NULL) {
-			refreshBucket();
-		}
 	}
 }
 
-void Edge::setBucket(Bucket* ptrBucket) {
-	pBucket = ptrBucket;
-}
-		
-void Edge::refreshBucket() const {
-	pBucket->ymin = getMinY();
-	pBucket->ymax = getMaxY();
-	pBucket->x = getMinX();
-	pBucket->dx = getDeltaX() == 0 ? 0.f : 1.f / (float) getDeltaX();	
+void Edge::move2(int dx, int dy) {
+	int resultX1 = p1.getX() + dx;
+	int resultY1 = p1.getY() + dy;
+	int resultX2 = p2.getX() + dx;
+	int resultY2 = p2.getY() + dy;
 	
-	Screen::instance()->sorted = false;
+	bool move =(resultX1 >= SCREEN_X_MIN && resultX1 <= SCREEN_X_MAX &&
+				resultY1 >= SCREEN_Y_MIN && resultY1 <= SCREEN_Y_MAX &&
+				resultX2 >= SCREEN_X_MIN && resultX2 <= SCREEN_X_MAX &&
+				resultY2 >= SCREEN_Y_MIN && resultY2 <= SCREEN_Y_MAX);
+	
+	if(move) {
+		p1.move(dx, dy);
+		p2.move(dx, dy);
+		anchor.move(dx, dy);
+	}
 }
 
 bool Edge::isMovable(const Edge& edge, int dx, int dy) {

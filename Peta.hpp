@@ -5,9 +5,7 @@
 #include "Point.hpp"
 #include "Edge.hpp"
 #include "Color.hpp"
-
 #include <vector>
-#include <iostream>
 
 namespace Graphics {
 	/**
@@ -24,6 +22,7 @@ namespace Graphics {
 		 * 153 - 156 papX
 		 * 157 - 160 kapal
 		 * 161 - 166 pesawat */
+		Edge e[155];
 		Point sumatera1,sumatera2,sumatera3,sumatera4,sumatera5,sumatera6,sumatera7,sumatera8;
 		Point sumatera9,sumatera10,sumatera11,sumatera12,sumatera13,sumatera14,sumatera15,sumatera16;
 		Point sumatera17,sumatera18,sumatera19,sumatera20,sumatera21;
@@ -52,10 +51,6 @@ namespace Graphics {
 		Peta(int x, int y);
 		~Peta();
 		void move(int dx,int dy);
-		
-		void readPeta(const char* filename);
-		void readPeta(std::istream& is);
-		
 		void setPoin();
 	
 	protected:

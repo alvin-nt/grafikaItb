@@ -30,7 +30,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[0].size()-1;j++)
 			{
 				temp = (vcharacter.at(0)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -40,7 +40,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[1].size()-1;j++)
 			{
 				temp = (vcharacter.at(1)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -50,7 +50,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[2].size()-1;j++)
 			{
 				temp = (vcharacter.at(2)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -61,7 +61,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[3].size()-1;j++)
 			{
 				temp = (vcharacter.at(3)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -71,7 +71,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[4].size()-1;j++)
 			{
 				temp = (vcharacter.at(4)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -81,7 +81,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[5].size()-1;j++)
 			{
 				temp = (vcharacter.at(5)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -91,7 +91,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[6].size()-1;j++)
 			{
 				temp = (vcharacter.at(6)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -101,7 +101,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[11].size()-1;j++)
 			{
 				temp = (vcharacter.at(11)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -112,7 +112,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[12].size()-1;j++)
 			{
 				temp = (vcharacter.at(12)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -123,7 +123,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[13].size()-1;j++)
 			{
 				temp = (vcharacter.at(13)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -134,7 +134,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[14].size()-1;j++)
 			{
 				temp = (vcharacter.at(14)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -145,7 +145,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[10].size()-1;j++)
 			{
 				temp = (vcharacter.at(10)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -155,7 +155,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[15].size()-1;j++)
 			{
 				temp = (vcharacter.at(15)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -165,7 +165,7 @@ void writetext::draw() const{
 			for(int j = 0;j<=vcharacter[16].size()-1;j++)
 			{
 				temp = (vcharacter.at(16)).at(j);
-				temp.move(counterx,countery);
+				temp.move2(counterx,countery);
 				temp.draw();
 			}
 			counterx += 30;
@@ -190,7 +190,7 @@ void writetext::draw() const{
 			((vcharacter.at(i)).at(j)).draw();
 			
 			//temp = (vcharacter.at(1)).at(j);
-			//temp.move(counterx,countery);
+			//temp.move2(counterx,countery);
 			//temp.draw();
 		}*/
 }
@@ -211,7 +211,7 @@ void writetext::Check() {
 		for(int j = 0;j<=vcharacter[i].size()-1;j++)
 		{
 			cout<<"Character "<<i<<endl;
-			((vcharacter.at(i)).at(j)).Print();
+			//((vcharacter.at(i)).at(j)).Print();
 		}
 	//}
 }

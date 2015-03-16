@@ -2,11 +2,8 @@
 #define COLOR_H_
 
 #include "Types.hpp"
-#include <iostream>
 
 namespace Graphics {
-	Pixel createMask(unsigned a, unsigned b);
-	
 	class Color {
 	public: // direct access to elements, for reducing funCall overhead
 		byte red;
@@ -21,8 +18,6 @@ namespace Graphics {
 		static const Color WHITE;
 		static const Color BLACK;
 		static const Color TRANSPARENT;
-		static const Color YELLOW;
-		static const Color ORANGE;
 	public:
 		Color(byte red = 0, byte green = 0, byte blue = 0, byte alpha = 0);
 		Color(Pixel pix);
@@ -43,10 +38,7 @@ namespace Graphics {
 		
 		static Pixel toPixel(const Color& color);
 		static Color fromPixel(Pixel pixel);
-		
-		friend std::ostream& operator<<(std::ostream&, const Color&);
 	};
-	
-	std::ostream& operator<<(std::ostream&, const Color&);}
+}
 
 #endif

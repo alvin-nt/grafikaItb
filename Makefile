@@ -93,16 +93,13 @@ demo_writetext : demo_writetext.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o
 demo_writetext.o : demo_writetext.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 
-demo_polygon : demo_polygon.cpp Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Polygon.o
-	$(CC) $(CFLAGS) -o $@ $^
-
 main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 main_kapalPesawat.o : main_kapalPesawat.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 	
-demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o Peta.o ViewPort.o Helicopter.o Parachute.o
+demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Cube.o Cruiser.o Ellipse.o Peta.o ViewPort.o Helicopter.o Parachute.o writetext.o
 	$(CC) $(CFLAGS) -o $@ $^
 	
 demo_allScene.o : demo_allScene.cpp
@@ -161,11 +158,6 @@ Ellipse.o : Ellipse.cpp Ellipse.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Po
 
 Triangle.o : Triangle.cpp Triangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
-
-Polygon.o : Polygon.cpp Polygon.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp Color.hpp
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-# Some molded shapes
 	
 Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -186,7 +178,7 @@ Cruiser.o : Cruiser.cpp Cruiser.hpp Ellipse.hpp Rectangle.hpp Edge.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 writetext.o : writetext.cpp writetext.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
-$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean :
 	rm -rf $(DEMOS) *.o

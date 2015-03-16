@@ -117,6 +117,10 @@ namespace Graphics {
 		float getLengthFloat() const;
 		
 		Point getMidpoint() const;
+	
+	protected:
+		void drawOutline() const;
+		void drawFill() const;
 	};
 
 }

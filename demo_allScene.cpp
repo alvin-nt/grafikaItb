@@ -11,7 +11,7 @@
 #include "ViewPort.hpp"
 #include "Helicopter.hpp"
 #include "Parachute.hpp"
-
+#include "writetext.hpp"
 #include <cstdlib>
 #include <signal.h>
 #include <unistd.h> // usleep
@@ -32,6 +32,8 @@ void cleanup();
 
 Keyboard *keyboard;
 Rasterizer *screen;
+
+Color colorPicker();
 
 int main()
 {
@@ -57,6 +59,7 @@ int main()
 		if(mode == 1) { /* Scene 1: Welcome Screen */
 		mode = 2;
 		} else if (mode == 2) { /* Scene 2: Colorpicker */
+		Color color = colorPicker();
 		mode = 3;
 		} else if (mode == 3) { /* Scene 3: Peta Indonesia */
 
@@ -217,7 +220,7 @@ int main()
 	Helicopter *helicopter = new Helicopter(p, 0, Color::BLACK, 1.0f,1);
 	
 	// initialize the rectangle
-	Cruiser *cruiser = new Cruiser(700,550,Color::BLACK);
+	Cruiser *cruiser = new Cruiser(550,550,Color::BLACK);
 						 
 	Ellipse *bullet = NULL;
 	Parachute *para = NULL;
@@ -289,16 +292,42 @@ int main()
 		screen->update();
 
 		// sleep
-		usleep(50);
+		usleep(2500);
 	}
-	delete helicopter;
+	/*delete helicopter;
 	delete cruiser;
 	delete para;
-	cleanup();
+	cleanup();*/
+
+	screen->setBackground(Color::BLACK);
+	
 	mode = 6; //maju scene
 		} else if (mode == 6) { /* Scene 6: You WIN */
-			printf("POI POI POI POI POI POI ~");
-			exitMain = true;
+			writetext *write = new writetext("you win!",10,0.5,300,300);
+			write->ReadFromFile("dictionary.txt");
+			write->Allocatechar();
+			
+			while(!exit) {
+				int key = keyboard->getPressedKeyCode();
+
+				if(key == Keyboard::NO_INPUT) {
+					key = 0;
+				} else {
+					if(key == KEY_BACKSPACE)
+						exit = true;
+						exitMain = true;
+				}
+				screen->drawBackground();
+				screen->draw(write);
+				screen->update();
+
+				// sleep
+				usleep(50);
+			}
+			//delete write;
+			cleanup();
+			mode++;
+			
 		}
 		exit = false;
 		clearScreen();
@@ -316,4 +345,88 @@ void cleanup() {
 	screen->setMode(TEXT);
 	Screen::destroy();
 	delete keyboard;
+}
+
+Color colorPicker(){
+	bool exit = false;
+	int pil=1;
+	// the main program loop
+	
+	// initialize the rectangle
+	Rectangle *rect1 = new Rectangle(50, 200, Color::BLUE,
+									50, 300, Color::BLUE,
+									250, 300,Color::BLUE,
+									250, 200,Color::BLUE,10.0f);
+									
+	Rectangle *rect2 = new Rectangle(300, 200, Color::RED,
+									300, 300, Color::RED,
+									500, 300, Color::RED,
+									500, 200, Color::RED,10.0f);
+									
+	Rectangle *rect3 = new Rectangle(550, 200, Color::GREEN,
+									550, 300, Color::GREEN,
+									750, 300, Color::GREEN,
+									750, 200, Color::GREEN,10.0f);
+									
+	Rectangle *outline = new Rectangle(40, 190, Color::WHITE,
+									40, 310, Color::WHITE,
+									260, 310, Color::WHITE,
+									260, 190, Color::WHITE,10.0f);
+	rect1->setFillColor(Color::BLUE);
+	rect2->setFillColor(Color::RED);
+	rect3->setFillColor(Color::GREEN);		
+	
+	while(!exit) {
+		int key = keyboard->getPressedKeyCode();
+
+		if(key == Keyboard::NO_INPUT) {
+			key = 0;
+		} else {
+			switch(key) {
+			case KEY_BACKSPACE:
+				exit = true;
+				break;
+			case KEY_LEFT:
+				outline->move(-250,0);
+				if(pil!=1)
+					pil--;
+				break;
+			case KEY_RIGHT:
+				outline->move(250,0);
+				if(pil!=3)
+					pil++;
+				break;
+			case KEY_UP:
+				break;
+			case KEY_DOWN:
+				break;
+			case KEY_ENTER:
+				exit = true;
+				break;
+			}
+		}
+
+		screen->drawBackground();
+		screen->draw(rect1,true);
+		screen->draw(rect3,true);
+		screen->draw(rect2,true);
+		screen->draw(outline);
+		screen->update();
+		printf("Hampir Selesai");
+		// sleep
+		usleep(500);
+	}
+	switch(pil){
+		case 1 :
+			return rect1->getFillColor();
+		break;
+		case 2 :
+			return rect2->getFillColor();
+		break;
+		case 3 :
+			return rect3->getFillColor();
+		break;
+	}
+	
+	
 }

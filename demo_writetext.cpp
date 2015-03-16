@@ -33,11 +33,8 @@ int main()
 		cout<<"This program must be run as root."<<endl;
 		exit(3);
 	}
-	writetext *write = new writetext("start?\nyou win!",10,0.5,100,100);
 	// initialization
-	write->ReadFromFile("dictionary.txt");
-	write->Allocatechar();
-	write->Check();
+	
 	clearScreen();
 	signal(SIGINT, INTHandler); // hook interrupt (Ctrl-C) to INTHandler
 
@@ -46,7 +43,10 @@ int main()
 	//screen->setMode(GRAPHICS);
 
 	bool exit = false;
-
+	writetext *write = new writetext("you win!",10,0.5,300,300);
+	write->ReadFromFile("dictionary.txt");
+	write->Allocatechar();
+	
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
 

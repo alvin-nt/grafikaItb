@@ -66,14 +66,6 @@ Color colorPicker(){
 	// the main program loop
 	
 	// initialize the rectangle
-<<<<<<< HEAD
-	Rectangle *rect = new Rectangle(200, 200, Color::WHITE,
-									200, 300, Color::WHITE,
-									300, 300, Color::WHITE,
-									300, 200, Color::WHITE,20.0f);
-	
-	int movHorizontal = 3, movVertical = 3;
-=======
 	Rectangle *rect1 = new Rectangle(50, 200, Color::BLUE,
 									50, 300, Color::BLUE,
 									250, 300,Color::BLUE,
@@ -96,7 +88,6 @@ Color colorPicker(){
 	rect1->setFillColor(Color::BLUE);
 	rect2->setFillColor(Color::RED);
 	rect3->setFillColor(Color::GREEN);		
->>>>>>> f990632c22c7a74dd670427b44bc1bcb7995866e
 	
 	while(!exit) {
 		int key = keyboard->getPressedKeyCode();
@@ -126,14 +117,10 @@ Color colorPicker(){
 		}
 
 		screen->drawBackground();
-<<<<<<< HEAD
-		screen->draw(rect, true);
-=======
 		screen->draw(rect1,true);
 		screen->draw(rect3,true);
 		screen->draw(rect2,true);
 		screen->draw(outline);
->>>>>>> f990632c22c7a74dd670427b44bc1bcb7995866e
 		screen->update();
 		printf("Hampir Selesai");
 		// sleep
@@ -151,21 +138,5 @@ Color colorPicker(){
 		break;
 	}
 	
-<<<<<<< HEAD
-	return 0;
-}
-
-void INTHandler(int dummy) {
-	cleanup();
-	cerr << "Interrupted: SIGINT invoked" << endl;
-	exit(1);
-}
-
-void cleanup() {
-	screen->setGraphicsMode(TEXT);
-	Screen::destroy();
-	delete keyboard;
-=======
 	
->>>>>>> f990632c22c7a74dd670427b44bc1bcb7995866e
 }
