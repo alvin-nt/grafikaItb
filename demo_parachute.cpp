@@ -42,7 +42,7 @@ int main()
 	screen = Screen::instance(); // singleton
 	printf("Screen Instance");
 	screen->setMode(GRAPHICS);
-	Parachute parasut(400,150);
+	Parachute parasut(400,150,Color::WHITE);
 	printf("Parasut Instansiasi");
 	bool exit = false;
 

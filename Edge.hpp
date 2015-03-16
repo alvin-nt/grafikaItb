@@ -16,6 +16,9 @@ namespace Graphics {
 		friend class Parachute;
 		friend class Peta;
 		friend class ViewPort;
+		friend class Cruiser;
+		friend class Helicopter;
+		friend class writetext;
 	private:
 		Point p1, p2;
 		

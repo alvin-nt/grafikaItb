@@ -18,13 +18,15 @@ namespace Graphics {
 		Point kakiKiri,kakiKanan;
 		Point kiriParasut, kananParasut;
 		float weight;
+		Color baseColor;
 	public:
-		Parachute(int x, int y);
+		Parachute(int x, int y, const Color& baseColor);
 		~Parachute();
 		void animate();
 		void rotate(int degree);
 		void scale(int scale);
 		void move(int dx, int dy);
+		int getHeight();
 	
 	protected:
 		void draw() const;

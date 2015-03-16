@@ -155,9 +155,31 @@ float Rectangle::getLengthFloat() const {
 			edges[2]->getLengthFloat() + edges[3]->getLengthFloat());
 }
 
+=======
+void Rectangle::drawOutline() const {
+	edges[0]->draw();
+	edges[1]->draw();
+	edges[2]->draw();
+	edges[3]->draw();
+}
+
+void Rectangle::drawFill() const {
+	//TBD
+	//SEMENTARA BUAT COLOR PICKER
+	drawOutline();
+	int x1 = edges[0]->getPoint1().getX();
+	int x2 = edges[3]->getPoint1().getX();
+	int y1 = edges[0]->getPoint1().getY();
+	int y2 = edges[1]->getPoint1().getY();
+	for(int i=y1;i<=y2;i++){
+		Edge e1(x1,i,baseColor,x2,i,baseColor,1.f);
+		e1.draw();
+	}
+}
+
 Point Rectangle::getMidpoint() const {
 	int x = (edges[0]->getPoint1().getX() + edges[1]->getPoint1().getX()) >> 1;
 	int y = (edges[0]->getPoint1().getY() + edges[4]->getPoint1().getY()) >> 1;
-	
+
 	return Point(x, y);
 }

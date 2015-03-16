@@ -10,6 +10,7 @@ namespace Graphics {
 	friend class Parachute;
 	friend class Ball;
 	friend class ViewPort;
+	friend class Helicopter;
 	protected:
 		int x;
 		int y;

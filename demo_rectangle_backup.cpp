@@ -5,7 +5,6 @@
 #include "Point.hpp"
 #include "Types.hpp"
 #include "Rectangle.hpp"
-#include "Cube.hpp"
 
 #include <cstdlib>
 #include <signal.h>
@@ -41,19 +40,21 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	screen->setMode(GRAPHICS);
+//	screen->setMode(GRAPHICS);
 
 	bool exit = false;
 
 	// the main program loop
 	
-	// initialize the cube
-	Point *p1 = new Point(200,200,Color::WHITE);
-	Cube *cube = new Cube(*p1,60);
-	cube->setPov(3);
-	int movHorizontal = 10, movVertical=10;
+	// initialize the rectangle
+	Rectangle *rect = new Rectangle(200, 200, Color::WHITE,
+									200, 600, Color::WHITE,
+									600, 600, Color::WHITE,
+									600, 200, Color::WHITE,10.0f);
+	
+	int movHorizontal = 5, movVertical = 5;
+	
 	while(!exit) {
-
 		int key = keyboard->getPressedKeyCode();
 
 		if(key == Keyboard::NO_INPUT) {
@@ -64,30 +65,29 @@ int main()
 				exit = true;
 				break;
 			case KEY_LEFT:
-				cube->move(0-movHorizontal, 0);
+				rect->move(0-movHorizontal, 0);
 				break;
 			case KEY_RIGHT:
-				cube->move(movHorizontal, 0);
+				rect->move(movHorizontal, 0);
 				break;
 			case KEY_UP:
-				cube->move(0, 0-movVertical);
+				rect->move(0, 0-movVertical);
 				break;
 			case KEY_DOWN:
-				cube->move(0, movVertical);
+				rect->move(0, movVertical);
 				break;
 			}
 		}
 
 		screen->drawBackground();
-		screen->draw(cube);
+		screen->draw(rect);
 		screen->update();
 
 		// sleep
 		usleep(50);
 	}
+	delete rect;
 	cleanup();
-	delete cube;
-	delete p1;
 	
 	return 0;
 }

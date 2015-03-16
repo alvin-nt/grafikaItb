@@ -82,6 +82,6 @@ int Keyboard::getPressedKeyCode() {
 	} else {
 		ret = -1;
 	}
-	
+	//printf("%d\n",ret);
 	return ret;
 }

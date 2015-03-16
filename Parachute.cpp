@@ -1,10 +1,10 @@
 #include "Parachute.hpp"
 #include <cmath>
 using namespace Graphics;
-Parachute::Parachute(int x, int y)
-:anchor(x,y,Color::WHITE),tanganKiri(x-30,y,Color::WHITE),tanganKanan(x+30,y,Color::WHITE),leherAtas(x,y-20,Color::WHITE),
-kepala1(x-20,y-20,Color::WHITE),kepala2(x+20,y-20,Color::WHITE),kepala3(x+20,y-40,Color::WHITE),kepala4(x-20,y-40,Color::WHITE),
-kakiKiri(x-20,y+30,Color::WHITE),kakiKanan(x+20,y+30,Color::WHITE),kiriParasut(x-60,y-70,Color::WHITE),kananParasut(x+60,y-70,Color::WHITE)
+Parachute::Parachute(int x, int y, const Color& baseColor)
+:anchor(x,y,baseColor),tanganKiri(x-30,y,baseColor),tanganKanan(x+30,y,baseColor),leherAtas(x,y-20,baseColor),
+kepala1(x-20,y-20,baseColor),kepala2(x+20,y-20,baseColor),kepala3(x+20,y-40,baseColor),kepala4(x-20,y-40,baseColor),
+kakiKiri(x-20,y+30,baseColor),kakiKanan(x+20,y+30,baseColor),kiriParasut(x-60,y-70,baseColor),kananParasut(x+60,y-70,baseColor)
 {
 	weight = 1.0f;
 }
@@ -39,7 +39,7 @@ void Parachute::move(int dx, int dy){
 	kananParasut.move(dx,dy);
 }
 void Parachute::drawArc(const int h, const int k, const int r) const{
-       Color color=Color::WHITE;
+       Color color=baseColor;
 
        int x=0;
        int y=r;
@@ -107,3 +107,6 @@ void Parachute::draw() const{
 	int pusY = kiriParasut.getY();
 	drawArc(pusX,pusY,60);
 }
+
+int Parachute::getHeight(){
+	return anchor.getY();}

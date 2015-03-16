@@ -4,15 +4,14 @@
 #include "Edge.hpp"
 #include "Point.hpp"
 #include "Types.hpp"
-#include "Rectangle.hpp"
-#include "Cube.hpp"
+#include "writetext.hpp"
 
 #include <cstdlib>
 #include <signal.h>
 #include <unistd.h> // usleep
 #include <ctime>
 #include <iostream>
-
+#include <string>
 using namespace Graphics;
 
 using std::cout;
@@ -31,64 +30,42 @@ Rasterizer *screen;
 int main()
 {
 	if (getuid() != 0) {
-		printf("This program must be run as root.\n");
+		cout<<"This program must be run as root."<<endl;
 		exit(3);
 	}
-	
+	writetext *write = new writetext("start?\nyou win!",10,0.5,100,100);
 	// initialization
+	write->ReadFromFile("dictionary.txt");
+	write->Allocatechar();
+	write->Check();
 	clearScreen();
 	signal(SIGINT, INTHandler); // hook interrupt (Ctrl-C) to INTHandler
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	screen->setMode(GRAPHICS);
+	//screen->setMode(GRAPHICS);
 
 	bool exit = false;
 
-	// the main program loop
-	
-	// initialize the cube
-	Point *p1 = new Point(200,200,Color::WHITE);
-	Cube *cube = new Cube(*p1,60);
-	cube->setPov(3);
-	int movHorizontal = 10, movVertical=10;
 	while(!exit) {
-
 		int key = keyboard->getPressedKeyCode();
 
 		if(key == Keyboard::NO_INPUT) {
 			key = 0;
 		} else {
-			switch(key) {
-			case KEY_BACKSPACE:
+			if(key == KEY_BACKSPACE)
 				exit = true;
-				break;
-			case KEY_LEFT:
-				cube->move(0-movHorizontal, 0);
-				break;
-			case KEY_RIGHT:
-				cube->move(movHorizontal, 0);
-				break;
-			case KEY_UP:
-				cube->move(0, 0-movVertical);
-				break;
-			case KEY_DOWN:
-				cube->move(0, movVertical);
-				break;
-			}
 		}
-
 		screen->drawBackground();
-		screen->draw(cube);
+		screen->draw(write);
 		screen->update();
 
 		// sleep
 		usleep(50);
 	}
+	delete write;
 	cleanup();
-	delete cube;
-	delete p1;
-	
+
 	return 0;
 }
 
