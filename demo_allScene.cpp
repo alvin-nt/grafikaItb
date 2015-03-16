@@ -57,6 +57,9 @@ int main()
 	int mode = 1; //this indicate which scene is active
 	while(!exitMain) {
 		if(mode == 1) { /* Scene 1: Welcome Screen */
+			writetext *write1 = new writetext("khong huang",10,0.5,300,100);
+			write1->ReadFromFile("dictionary.txt");
+			write1->Allocatechar();
 					writetext *write = new writetext("to start\npress z",10,0.5,300,300);
 			write->ReadFromFile("dictionary.txt");
 			write->Allocatechar();
@@ -72,6 +75,7 @@ int main()
 				}
 				screen->drawBackground();
 				screen->draw(write);
+				screen->draw(write1);
 				screen->update();
 
 				// sleep
