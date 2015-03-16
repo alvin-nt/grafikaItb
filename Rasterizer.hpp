@@ -7,31 +7,36 @@
 #include "Color.hpp"
 
 #include <vector>
+#include <list>
 #include <tuple>
 
 namespace Graphics {
-	enum Mode {TEXT, GRAPHICS};
+	enum GraphicsMode {TEXT, GRAPHICS};
 	
 	void clearScreen();
 	
 	class Drawable;
 	class ShapeFillable;
+	class Edge;
 	
 	/**
-	 *
+	 * Stores the edge, for filling type hahaha :v
 	 **/
-	typedef struct _Bucket {
-		int ymax;
-		int x;
-		float dx; // float or int? maybe need some rounding ._.
-		struct _Bucket *next; // pointer to next element
+	struct Bucket {
+		int ymin, ymax;
+		float x; // to follow dx, we need to fix this
+		float dx;
+		unsigned zIndex; // 0 - UINT_MAX.. you don't need negatives, do you?
+		ShapeFillable *polygon; // self-reference to the polygon
 		
-		_Bucket(int ymax, int x, float dx);
+		Bucket(int ymin, int ymax, float x, float dx, 
+				unsigned zIndex, ShapeFillable* polygon);
+		Bucket(Edge& edge);
+		Bucket(const Bucket&);
 		
-		// for std::sort
-		bool operator() (const struct _Bucket& lhs, 
-						const struct _Bucket& rhs);
-	} Bucket;
+		// single assignment, without child elements involved
+		Bucket& operator=(const Bucket&);
+	};
 	
 	/**
 	 * Class that represents the screen drawer
@@ -54,7 +59,7 @@ namespace Graphics {
 		byte *ptrFramebuffer;
 		byte *ptrBackbuffer;
 		
-		Mode mode;
+		GraphicsMode mode;
 		
 		// background color for the screen
 		Color background;
@@ -68,13 +73,32 @@ namespace Graphics {
 		// would be drawn
 		FbMapMode mapMode;
 		
+		// variables for checking quadrants
+		static const byte QUADRANT_ALL;
+		static const byte QUADRANT_1;
+		static const byte QUADRANT_2;
+		static const byte QUADRANT_3;
+		static const byte QUADRANT_4;
+		
+		static const byte QUADRANT_VERTICAL;
+		static const byte QUADRANT_MONOTONIC_INCREASE;
+		static const byte QUADRANT_MONOTONIC_DECREASE;
 	public:
 		// edge table, for scanline algorithm
 		// first elemenet: ymax (highest y-coordinate)
 		// second element: xmin (intersecting X)
 		// third element: 1/m (dx), or the increment used for stepping from one scanline to next
-		// fourth element: pointer to next tuple
-		std::vector<Bucket> edgeTable;
+		// fourth element: baseColor of the polygon
+		// fifth element: z-index, for rendering priority
+		// sixth element: pointer to next bucket
+		std::vector<std::list<Bucket>> edgeTable;
+		
+		std::vector<unsigned> ymin;
+		unsigned yminJumps = 0;
+		
+		bool sorted = false;
+		
+		static unsigned zIndexNum;
 	public:
 		Rasterizer();
 		~Rasterizer();
@@ -84,14 +108,14 @@ namespace Graphics {
 		 * 
 		 * @param mode the terminal mode, defined in {@link Graphics::Mode}
 		 */
-		void setMode(Mode mode);
+		void setGraphicsMode(GraphicsMode mode);
 		
 		/**
 		 * Gets the current terminal mode
 		 * 
-		 * @return {@link Graphics::mode}
+		 * @return {@link Graphics::GraphicsMode}
 		 */
-		Mode getMode() const;
+		GraphicsMode getGraphicsMode() const;
 		
 		/**
 		 * Sets the background color of the screen
@@ -153,6 +177,8 @@ namespace Graphics {
 		 **/
 		void drawBackground();
 		
+		Pixel getPixel(int x, int y);
+		
 		/**
 		 * Put a color in the (x, y) coordinate
 		 * 
@@ -207,17 +233,53 @@ namespace Graphics {
 		 */
 		const byte *getFramebuffer() const;
 		
-	protected:
+	private:
 		void swapBuffers();
 		
-	private:
-		void drawScanLine();
+		void fillScreen();
 	
 		/**
 		 * Initializes the framebuffer
 		 **/
 		void initFramebuffer();
 		
+		// for the Scanline and Z-Buffer
+		/**
+		 * Gets the 'relative quadrant' of the {@link Bucket}
+		 * 
+		 * Called when there's a critical point.
+		 * 
+		 * The 'relative quadrant' numbering is as follows:
+		 * 
+		 *            |
+		 *            |
+		 *      4     |     1
+		 *            |  
+		 * (-dx)      |(+dx, including 0)
+		 * (ymax != y)|(ymax != y)
+		 * -----------+-----------
+		 *            |
+		 *            |
+		 *      3     |     2
+		 *            |  
+		 * (-dx)      |(+dx, including 0)
+		 * (ymax == y)|(ymax == y)
+		 * 
+		 * @param bucket the bucket being checked
+		 * @param y the current scanline position
+		 * 
+		 * @return number that represents the quadrant
+		 */
+		byte getRelativeQuadrant(const std::list<Bucket>::iterator& it, int y) const;
+		
+		void checkAndAddDuplicates(std::list<Bucket>& activeEdgeTable, int y);
+		
+		void fillLine(const std::list<Bucket>& activeEdgeTable, int y);
+		
+		void update(std::list<Bucket>& activeEdgeTable,
+					std::list<Bucket>::iterator& it, int y);
+		
+		void fillLine(const std::vector<std::tuple<int, int, Color>>& zBuffer, int y);;
 	};
 
 	typedef Singleton<Rasterizer> Screen; // call Screen when needed

@@ -1,5 +1,5 @@
-CC = g++
-CFLAGS = -g -Wall -O2 -std=c++11
+CC = g++-4.9
+CFLAGS = -g -Wall -O2 -m32 -std=c++11
 
 DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube
 
@@ -69,6 +69,9 @@ demo_peta : demo_peta.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o S
 demo_peta.o : demo_peta.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 
+demo_polygon : demo_polygon.cpp Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Polygon.o
+	$(CC) $(CFLAGS) -o $@ $^
+
 main_kapalPesawat : main_kapalPesawat.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -128,6 +131,11 @@ Ellipse.o : Ellipse.cpp Ellipse.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Po
 
 Triangle.o : Triangle.cpp Triangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+Polygon.o : Polygon.cpp Polygon.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Some molded shapes
 	
 Parachute.o : Parachute.cpp Parachute.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<

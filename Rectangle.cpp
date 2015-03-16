@@ -20,6 +20,8 @@ Rectangle::Rectangle(const Point& p1, const Point& p2, const Point& p3, const Po
 	edges.push_back(new Edge(p2, p3, weight));
 	edges.push_back(new Edge(p3, p4, weight));
 	edges.push_back(new Edge(p4, p1, weight));
+	
+	anchor = Point((p1.getX() + p2.getX()) >> 1, (p1.getY() + p2.getY()) >> 1);
 }
 
 Rectangle::Rectangle(int x1, int y1, const Color& c1,
@@ -36,9 +38,12 @@ Rectangle::Rectangle(int x1, int y1, const Color& c1,
 	edges.push_back(new Edge(p2, p3, weight));
 	edges.push_back(new Edge(p3, p4, weight));
 	edges.push_back(new Edge(p4, p1, weight));
+	
+	anchor = Point((p1.getX() + p2.getX()) >> 1, (p1.getY() + p2.getY()) >> 1);
 }
 
 Rectangle::Rectangle(const Rectangle &rectangle) {
+	edges.reserve(4);
 	for (int i = 0; i < 4; i++) {
 		edges.push_back(new Edge(Point(), Point()));
 	}
@@ -148,18 +153,6 @@ double Rectangle::getLength() const {
 float Rectangle::getLengthFloat() const {
 	return (edges[0]->getLengthFloat() + edges[1]->getLengthFloat() + 
 			edges[2]->getLengthFloat() + edges[3]->getLengthFloat());
-}
-
-void Rectangle::drawOutline() const {
-	edges[0]->draw();
-	edges[1]->draw();
-	edges[2]->draw();
-	edges[3]->draw();
-}
-
-void Rectangle::drawFill() const {
-	//TBD
-
 }
 
 Point Rectangle::getMidpoint() const {

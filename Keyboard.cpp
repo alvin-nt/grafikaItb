@@ -49,9 +49,9 @@ Keyboard::Keyboard(const char* device)
 			 * 
 			 * Disables CTRL-C. Therefore, you need to define an 'exit key'
 			 **/
-			if(ioctl(fd, EVIOCGRAB, true) == -1) {
+			/*if(ioctl(fd, EVIOCGRAB, true) == -1) {
 				perror("Cannot grab keyboard");
-			}
+			}*/
 		}
 	} else {
 		printf("Keyboard device undefined\n");
@@ -60,9 +60,9 @@ Keyboard::Keyboard(const char* device)
 }
 
 Keyboard::~Keyboard() {
-	if(ioctl(fd, EVIOCGRAB, false) == -1) {
+	/*if(ioctl(fd, EVIOCGRAB, false) == -1) {
 		perror("Cannot release keyboard");
-	}
+	}*/
 	close(fd);
 }
 

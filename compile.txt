@@ -1,0 +1,2 @@
+g++ -g -Wall -O2 -std=c++11 -c -o Rasterizer.o Rasterizer.cpp
+make: *** No rule to make target `2'.  Stop.

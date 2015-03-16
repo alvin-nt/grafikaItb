@@ -12,8 +12,9 @@ using std::vector;
 namespace Graphics {
 	class ShapeFillable : public Shape {
 		friend class Rasterizer;
-	protected:
+	public:
 		bool fill = false;
+		bool added = false;
 		
 		// pointers to edges
 		vector<Edge*> edges;
@@ -64,6 +65,8 @@ namespace Graphics {
 		 */
 		virtual void drawOutline() const;
 	};
+	
+	void floodFill(int x, int y, const Color& newColor, const Color& oldColor);
 }
 
 #endif

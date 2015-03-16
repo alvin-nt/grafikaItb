@@ -2,13 +2,26 @@
 
 #include "Rasterizer.hpp"
 
+#include <iomanip>
+
 namespace Graphics {
+	Pixel createMask(unsigned a, unsigned b) {
+		unsigned r = 0;
+		for (unsigned i = a; i <= b; i++) {
+			r |= 1 << i;
+		}
+		
+		return r;
+	}
+	
 	const Color Color::RED = { 0xff, 0x00, 0x00, 0x00 };
 	const Color Color::GREEN = { 0x00, 0xff, 0x00, 0x00 };
 	const Color Color::BLUE = { 0x00, 0x00, 0xff, 0x00 };
 	const Color Color::WHITE = { 0xff, 0xff, 0xff, 0x00 };
 	const Color Color::BLACK = { 0x00, 0x00, 0x00, 0x00 };
 	const Color Color::TRANSPARENT = { 0x00, 0x00, 0x00, 0xff };
+	const Color Color::YELLOW = { 0xff, 0xff, 0x00, 0x00 };
+	const Color Color::ORANGE = { 0xff, 0xd7, 0x00, 0x00 };
 
 	Color::Color(byte red, byte green, byte blue, byte alpha)
 		: red(red), green(green), blue(blue), alpha(alpha)
@@ -33,7 +46,6 @@ namespace Graphics {
 		
 		return *this;
 	}
-
 
 
 	bool operator!=(const Color& lhs, const Color& rhs) {
@@ -97,21 +109,33 @@ namespace Graphics {
 		Color color;
 		
 		ScreenInfoVar vinfo = Screen::instance()->getVarInfo();
-		
-		Pixel mask, seed = (1 << 8);
+		Pixel mask;
 
-		mask = (seed << vinfo.red.offset);
-		color.red = (byte)((pixel >> vinfo.red.offset) & mask);
+		mask = createMask(vinfo.red.offset, vinfo.red.offset + 8);
+		color.red = (byte)((pixel & mask) >> vinfo.red.offset);
 
-		mask = (seed << vinfo.green.offset);
-		color.green = (byte)((pixel >> vinfo.green.offset) & mask);
+		mask = createMask(vinfo.green.offset, vinfo.green.offset + 8);
+		color.green = (byte)((pixel & mask) >> vinfo.green.offset);
 
-		mask = (seed << vinfo.blue.offset);
-		color.blue = (byte)((pixel >> vinfo.blue.offset) & mask);
+		mask = createMask(vinfo.blue.offset, vinfo.blue.offset + 8);
+		color.blue = (byte)((pixel & mask) >> vinfo.blue.offset);
 
-		mask = (seed << vinfo.transp.offset);
-		color.alpha = (byte)((pixel >> vinfo.transp.offset) & mask);
+		mask = createMask(vinfo.transp.offset, vinfo.transp.offset + 8);
+		color.alpha = (byte)((pixel & mask) >> vinfo.transp.offset);
 		
 		return color;
+	}
+	
+	std::ostream& operator<<(std::ostream& out, const Color& color) {
+		ScreenInfoVar vinfo = Screen::instance()->getVarInfo();
+		
+		out << "#" << std::hex 
+					<< ((int)(color.red << vinfo.red.offset) |
+					   (int)(color.blue << vinfo.blue.offset) |
+					   (int)(color.green << vinfo.green.offset) |
+					   (int)(color.alpha << vinfo.transp.offset))
+					<< std::dec;
+
+		return out;
 	}
 }

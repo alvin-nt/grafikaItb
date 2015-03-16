@@ -41,7 +41,7 @@ int main()
 
 	keyboard = new Keyboard();
 	screen = Screen::instance(); // singleton
-	screen->setMode(GRAPHICS);
+	//screen->setGraphicsMode(GRAPHICS);
 
 	bool exit = false;
 
@@ -106,7 +106,7 @@ void INTHandler(int dummy) {
 }
 
 void cleanup() {
-	screen->setMode(TEXT);
+	screen->setGraphicsMode(TEXT);
 	Screen::destroy();
 	delete keyboard;
 }
