@@ -105,7 +105,7 @@ demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Sh
 demo_allScene.o : demo_allScene.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 
-demo_paint: demo_paint.o Toolbox.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
+demo_paint: demo_paint.o Cursor.o Toolbox.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
 	$(CC) $(CFLAGS) -o $@ $^
 	
 demo_paint.o : demo_paint.cpp
@@ -187,6 +187,9 @@ writetext.o : writetext.cpp writetext.hpp Drawable.hpp Edge.hpp Point.hpp Color.
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Toolbox.o : Toolbox.cpp Toolbox.hpp Rectangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
+Cursor.o : Cursor.cpp Cursor.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean :

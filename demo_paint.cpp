@@ -6,6 +6,7 @@
 #include "Types.hpp"
 #include "Rectangle.hpp"
 #include "Toolbox.hpp"
+#include "Cursor.hpp"
 #include <cstdlib>
 #include <signal.h>
 #include <unistd.h> // usleep
@@ -28,6 +29,7 @@ Keyboard *keyboard = new Keyboard();
 Rasterizer *screen;
 int mode;
 Toolbox *toolbox = new Toolbox();
+Cursor *cursor = new Cursor(0,0);
 
 int main()
 {
@@ -42,6 +44,7 @@ int main()
 
 	screen = Screen::instance(); // singleton
 	screen->setMode(GRAPHICS);
+	screen->setBackground(Color::WHITE);
 	Toolbox *toolbox = new Toolbox();
         //while((c = Gpm_Getc(stdin)) != EOF)
          //       printf("%c", c);
@@ -57,17 +60,11 @@ int main()
 	
 	while(!exit) {
 
-		int key = keyboard->getPressedKeyCode();		
-
-		if(key == Keyboard::NO_INPUT) {
-			key = 0;
-		} else {
-			if(key == KEY_BACKSPACE)
-				exit = true;
-		}
+		
 		
 		screen->drawBackground();
 		screen->draw(toolbox);
+		screen->draw(cursor);
 		screen->update();
 		fread(b,sizeof(char),3,fmouse);
 		lb=(b[0]&1)>0;
@@ -80,6 +77,30 @@ int main()
 		xd=b[1];
 		yd=b[2];
 		
+		if(mode==1) //cursor
+		{
+			cursor->move(xd,-yd);
+		}
+		else if(mode==2) //rectangle
+		{
+		
+		}
+		else if(mode==3) //ellipse
+		{
+			
+		}
+		else if(mode==4) //line
+		{
+			
+		}
+		int key = keyboard->getPressedKeyCode();		
+
+		if(key == Keyboard::NO_INPUT) {
+			key = 0;
+		} else {
+			if(key == KEY_BACKSPACE)
+				exit = true;
+		}
 		// sleep
 		usleep(500);
 	}

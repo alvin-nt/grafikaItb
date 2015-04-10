@@ -6,10 +6,10 @@
 using namespace Graphics;
 
 Toolbox::Toolbox(){
-	rect[0] = new Rectangle(1, 301, Color::WHITE,
-			40, 301, Color::WHITE,
-			40, 340, Color::WHITE,
-			1, 340, Color::WHITE, 0.5f);
+	rect[0] = new Rectangle(1, 301, Color::BLACK,
+			40, 301, Color::BLACK,
+			40, 340, Color::BLACK,
+			1, 340, Color::BLACK, 0.5f);
 	rect[1] = new Rectangle(41, 301, Color::RED,
 			80, 301, Color::RED,
 			80, 340, Color::RED,

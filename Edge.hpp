@@ -18,6 +18,7 @@ namespace Graphics {
 		friend class Helicopter;
 		friend class writetext;
 		friend class Toolbox;
+		friend class Cursor;
 	private:
 		Point p1, p2, anchor;
 		
