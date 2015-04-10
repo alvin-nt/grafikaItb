@@ -76,14 +76,14 @@ int main()
 		yo=(b[0]&128)>0;
 		xd=b[1];
 		yd=b[2];
-		
+		cursor->move(xd,-yd);
 		if(mode==1) //cursor
 		{
-			cursor->move(xd,-yd);
+			
 		}
 		else if(mode==2) //rectangle
 		{
-		
+			
 		}
 		else if(mode==3) //ellipse
 		{
