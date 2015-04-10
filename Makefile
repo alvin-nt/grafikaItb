@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -O2 -std=c++11 -m32
 
-DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter demo_scene4 demo_scene5 demo_allScene demo_writetext
+DEMOS = demo_lines demo_movingLine demo_rectangle demo_ellipse demo_triangle demo_cruiser demo_parachute demo_ball demo_peta demo_cube demo_helicopter demo_scene4 demo_scene5 demo_allScene demo_writetext demo_paint
 
 demo_all: $(DEMOS)
 
@@ -105,6 +105,12 @@ demo_allScene: demo_allScene.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Sh
 demo_allScene.o : demo_allScene.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<	
 
+demo_paint: demo_paint.o Toolbox.o Keyboard.o Rasterizer.o Edge.o Point.o Color.o Shape.o ShapeFillable.o Drawable.o Rectangle.o Ellipse.o
+	$(CC) $(CFLAGS) -o $@ $^
+	
+demo_paint.o : demo_paint.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<	
+
 # ---Dependencies---
 # Naming convention:
 #
@@ -178,6 +184,9 @@ Cruiser.o : Cruiser.cpp Cruiser.hpp Ellipse.hpp Rectangle.hpp Edge.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 writetext.o : writetext.cpp writetext.hpp Drawable.hpp Edge.hpp Point.hpp Color.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+Toolbox.o : Toolbox.cpp Toolbox.hpp Rectangle.hpp ShapeFillable.hpp Edge.hpp Rasterizer.hpp Point.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean :

@@ -1,5 +1,4 @@
 #include "Rectangle.hpp"
-
 #include "Rasterizer.hpp"
 
 #include <cmath>
